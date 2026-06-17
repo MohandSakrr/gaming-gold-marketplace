@@ -1,0 +1,62 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "6w1_RvEmnQ7T7Mh_o2fNx"
+uri = "file://artifacts/gaming-marketplace/public/images/hero.png"
+type = "image"
+title = "Hero cinematic gaming console"
+
+[[generated]]
+id = "w_yWJXrJ0XpXa0y4_alpR"
+uri = "file://artifacts/gaming-marketplace/public/images/thumb-mmo.png"
+type = "image"
+title = "MMORPG game thumbnail"
+
+[[generated]]
+id = "QTDhWHfaTKAa8iMXZw_Eo"
+uri = "file://artifacts/gaming-marketplace/public/images/thumb-fps.png"
+type = "image"
+title = "FPS game thumbnail"
+
+[[generated]]
+id = "AO8N0Vx-fo1hrqNVkavWp"
+uri = "file://artifacts/gaming-marketplace/public/images/thumb-br.png"
+type = "image"
+title = "Battle Royale game thumbnail"
+
+[[generated]]
+id = "7BlZxSogbIfprLZqtzxt_"
+uri = "file://artifacts/gaming-marketplace/public/images/thumb-moba.png"
+type = "image"
+title = "MOBA game thumbnail"
+
+[[generated]]
+id = "kmcIHAaQ2bBTAg-v5QO3F"
+uri = "file://artifacts/gaming-marketplace/public/images/thumb-rpg.png"
+type = "image"
+title = "RPG game thumbnail"
+
+[[generated]]
+id = "vXbv7UIw1GP9r4lGkLH4u"
+uri = "file://artifacts/gaming-marketplace/public/images/thumb-sports.png"
+type = "image"
+title = "Sports game thumbnail"
+
+[[generated]]
+id = "8zBcUOorUCUB9vvOffST2"
+uri = "file://artifacts/gaming-marketplace/public/images/cat-fps.png"
+type = "image"
+title = "FPS category background"
+
+[[generated]]
+id = "rEWvXn_pe3VIWyP2mMQEe"
+uri = "file://artifacts/gaming-marketplace/public/images/cat-mmo.png"
+type = "image"
+title = "MMORPG category background"
+
+[[generated]]
+id = "j1JA2qPCCj5RSoZUcaJ2I"
+uri = "file://artifacts/gaming-marketplace/public/images/cat-br.png"
+type = "image"
+title = "Battle Royale category background"

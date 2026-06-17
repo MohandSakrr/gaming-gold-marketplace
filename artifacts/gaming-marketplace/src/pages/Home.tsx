@@ -1,0 +1,423 @@
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { Search, Star, Crown, ChevronRight, LogIn, ShoppingCart } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+
+const MOCK_OFFERS = [
+  { id: 1, game: "Elden Ring", type: "Max Level Account", price: "249.99", rating: "4.9", thumb: "/images/thumb-rpg.png" },
+  { id: 2, game: "Valorant", type: "Immortal Rank Boost", price: "89.00", rating: "5.0", thumb: "/images/thumb-fps.png" },
+  { id: 3, game: "WoW", type: "100K Gold", price: "12.99", rating: "4.8", thumb: "/images/thumb-mmo.png" },
+  { id: 4, game: "Apex Legends", type: "Predator Account", price: "150.00", rating: "4.7", thumb: "/images/thumb-br.png" },
+  { id: 5, game: "League of Legends", type: "Diamond Smurf", price: "45.00", rating: "4.9", thumb: "/images/thumb-moba.png" },
+  { id: 6, game: "FC 24", type: "1M Coins", price: "22.50", rating: "4.6", thumb: "/images/thumb-sports.png" },
+  { id: 7, game: "CS2", type: "Faceit Lvl 10 Boost", price: "110.00", rating: "5.0", thumb: "/images/thumb-fps.png" },
+  { id: 8, game: "Final Fantasy XIV", type: "Mythic Mount", price: "75.00", rating: "4.8", thumb: "/images/thumb-mmo.png" },
+  { id: 9, game: "Fortnite", type: "Master Rank Carry", price: "55.00", rating: "4.9", thumb: "/images/thumb-br.png" },
+  { id: 10, game: "Dota 2", type: "Grandmaster Coaching", price: "30.00", rating: "5.0", thumb: "/images/thumb-moba.png" },
+  { id: 11, game: "Rocket League", type: "Credits 10k", price: "15.99", rating: "4.7", thumb: "/images/thumb-sports.png" },
+  { id: 12, game: "Genshin Impact", type: "Savage Raid Clear", price: "40.00", rating: "4.8", thumb: "/images/thumb-mmo.png" },
+];
+
+export default function Home() {
+  const { scrollY } = useScroll();
+  const heroY = useTransform(scrollY, [0, 500], [0, 150]);
+  const heroOpacity = useTransform(scrollY, [0, 300], [1, 0]);
+
+  // Live offers state
+  const [offers, setOffers] = useState(MOCK_OFFERS.slice(0, 5));
+  const [offerIndex, setOfferIndex] = useState(5);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setOffers(prev => {
+        const nextIndex = (offerIndex + 1) % MOCK_OFFERS.length;
+        setOfferIndex(nextIndex);
+        const newOffer = { ...MOCK_OFFERS[nextIndex], id: Date.now() }; // unique ID for animation
+        return [newOffer, ...prev.slice(0, 4)];
+      });
+    }, 2500);
+    return () => clearInterval(interval);
+  }, [offerIndex]);
+
+  return (
+    <div className="min-h-screen bg-background text-foreground overflow-hidden selection:bg-primary/30">
+      
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
+        <div className="container mx-auto px-6 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 relative">
+              <svg viewBox="0 0 100 100" className="w-full h-full text-primary fill-current">
+                <polygon points="50 5 95 27.5 95 72.5 50 95 5 72.5 5 27.5" />
+                <polygon points="50 20 80 37 80 63 50 80 20 63 20 37" className="fill-background" />
+                <polygon points="50 35 65 45 65 55 50 65 35 55 35 45" />
+              </svg>
+            </div>
+            <span className="font-heading font-bold text-xl tracking-tight text-white">
+              Nexus<span className="text-primary">Market</span>
+            </span>
+          </div>
+
+          <div className="hidden lg:flex items-center gap-8 font-medium text-sm text-card-foreground">
+            <a href="#" className="hover:text-primary transition-colors">Home</a>
+            <a href="#" className="hover:text-primary transition-colors">Market</a>
+            <a href="#" className="hover:text-primary transition-colors">Top Up</a>
+            <a href="#" className="hover:text-primary transition-colors">Accounts</a>
+            <a href="#" className="hover:text-primary transition-colors">Boosting</a>
+            <a href="#" className="hover:text-primary transition-colors">Esports</a>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <div className="relative hidden md:block">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <Input 
+                placeholder="Search games, items..." 
+                className="w-64 bg-card/50 border-border/50 pl-10 h-10 rounded-full focus-visible:ring-primary focus-visible:border-primary transition-all"
+              />
+            </div>
+            <Button variant="outline" className="border-primary text-primary hover:bg-primary/10 rounded-full h-10 px-6 font-semibold glow-gold">
+              Log In
+            </Button>
+            <Button className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full h-10 px-6 font-semibold glow-gold">
+              Shop Now
+            </Button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="relative h-[85vh] min-h-[600px] flex items-center justify-center pt-20 overflow-hidden">
+        <motion.div 
+          className="absolute inset-0 z-0"
+          style={{ y: heroY, opacity: heroOpacity }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background z-10" />
+          <img 
+            src="/images/hero.png" 
+            alt="Cinematic Gaming Interface" 
+            className="w-full h-full object-cover opacity-60 mix-blend-screen"
+            onError={(e) => { e.currentTarget.style.display = 'none' }}
+          />
+          <div className="absolute inset-0 bg-blue-900/10 mix-blend-overlay" />
+        </motion.div>
+
+        <div className="container relative z-20 px-6 text-center max-w-4xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight mb-6 font-heading">
+              The World's #1 <br/>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-yellow-200 to-primary">
+                Gaming Marketplace
+              </span>
+            </h1>
+            <p className="text-lg md:text-xl text-card-foreground mb-10 font-medium">
+              Trusted by 12M+ players worldwide · 500K+ listings · Instant delivery.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Button className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full h-14 px-8 text-lg font-bold glow-gold w-full sm:w-auto">
+                Shop Now
+              </Button>
+              <Button variant="outline" className="border-border text-white hover:bg-white/5 rounded-full h-14 px-8 text-lg font-bold w-full sm:w-auto backdrop-blur-sm">
+                Browse Categories
+              </Button>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Services Row */}
+      <section className="py-12 border-y border-border/30 bg-card/30 backdrop-blur-sm relative z-20 -mt-10">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-4 md:grid-cols-8 gap-4">
+            {[
+              { label: "Top Up", path: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" },
+              { label: "Accounts", path: "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" },
+              { label: "Boosting", path: "M13 2L3 14h9l-1 8 10-12h-9l1-8z" },
+              { label: "Items", path: "M20 7.4V16.6C20 17.6 19.3 18.5 18.4 18.8L12 21.2C11.4 21.4 10.6 21.4 10 21.2L3.6 18.8C2.7 18.5 2 17.6 2 16.6V7.4C2 6.4 2.7 5.5 3.6 5.2L10 2.8C10.6 2.6 11.4 2.6 12 2.8L18.4 5.2C19.3 5.5 20 6.4 20 7.4Z M12 22V12 M20 7.4L12 12 M2 7.4L12 12" },
+              { label: "Coaching", path: "M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" },
+              { label: "Gift Cards", path: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z M3.27 6.96L12 12.01l8.73-5.05 M12 22.08V12" },
+              { label: "Esports", path: "M6 16.326A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 .5 8.973 M6 16.326a4.5 4.5 0 0 0 .5-8.973h1.79 M15.71 8a7 7 0 0 0-9.71 0" },
+              { label: "Power Level", path: "M12 20v-6M6 20V10M18 20V4" }
+            ].map((service, i) => (
+              <motion.div 
+                key={service.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05 }}
+                className="flex flex-col items-center justify-center p-4 rounded-xl bg-card border border-border/50 hover:border-primary/50 hover:bg-card/80 transition-all cursor-pointer group"
+              >
+                <svg viewBox="0 0 24 24" className="w-8 h-8 mb-3 stroke-primary stroke-[1.5] fill-none group-hover:scale-110 transition-transform duration-300" strokeLinecap="round" strokeLinejoin="round">
+                  <path d={service.path} />
+                </svg>
+                <span className="text-xs font-semibold text-card-foreground group-hover:text-white transition-colors">{service.label}</span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Live Offers Feed */}
+      <section className="py-20 relative z-20">
+        <div className="container mx-auto px-6 mb-8 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-3 h-3 rounded-full bg-red-500 animate-pulse" />
+            <h2 className="text-2xl font-bold font-heading text-white">Live Offers</h2>
+          </div>
+          <Button variant="link" className="text-primary hover:text-primary/80 group">
+            View All <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+          </Button>
+        </div>
+
+        <div className="w-full overflow-hidden">
+          <div className="flex px-6 h-[180px]">
+            <AnimatePresence mode="popLayout" initial={false}>
+              {offers.map((offer) => (
+                <motion.div
+                  key={offer.id}
+                  layout
+                  initial={{ opacity: 0, x: -280, filter: "blur(4px)" }}
+                  animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, x: 280, filter: "blur(4px)" }}
+                  transition={{ 
+                    type: "spring", 
+                    stiffness: 300, 
+                    damping: 30,
+                    opacity: { duration: 0.2 }
+                  }}
+                  className="shrink-0 w-[260px] mr-4"
+                >
+                  <div className="h-full bg-card rounded-xl border border-border p-4 flex flex-col justify-between hover:border-primary/50 hover:shadow-[0_0_15px_rgba(213,173,104,0.1)] transition-all cursor-pointer">
+                    <div className="flex items-start gap-3">
+                      <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 border border-border">
+                        <img src={offer.thumb} alt={offer.game} className="w-full h-full object-cover" />
+                        <div className="absolute top-0 left-0 bg-background/80 backdrop-blur-[2px] px-1.5 py-0.5 rounded-br-lg flex items-center gap-1">
+                          <div className="w-1.5 h-1.5 rounded-full bg-primary pulse-indicator" />
+                          <span className="text-[8px] font-bold text-primary tracking-wider">LIVE</span>
+                        </div>
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-bold text-white leading-tight line-clamp-1">{offer.game}</h4>
+                        <p className="text-xs text-muted-foreground mt-1 line-clamp-1">{offer.type}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center justify-between mt-4">
+                      <div>
+                        <p className="text-lg font-bold text-primary font-heading">${offer.price}</p>
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <Star className="w-3 h-3 fill-primary text-primary" />
+                          <span className="text-xs font-medium text-card-foreground">{offer.rating}</span>
+                        </div>
+                      </div>
+                      <Button size="sm" variant="outline" className="border-primary/50 text-primary hover:bg-primary hover:text-primary-foreground h-8 text-xs glow-gold">
+                        Buy Now
+                      </Button>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Categories Grid */}
+      <section className="py-20 bg-card/10">
+        <div className="container mx-auto px-6">
+          <h2 className="text-3xl font-bold font-heading text-white mb-10">Featured Categories</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { name: "FPS Games", count: "12,450", img: "/images/cat-fps.png" },
+              { name: "MMORPGs", count: "8,920", img: "/images/cat-mmo.png" },
+              { name: "Battle Royale", count: "15,300", img: "/images/cat-br.png" },
+              { name: "Fighting Games", count: "4,100", img: "/images/cat-fight.png" },
+              { name: "Sports Games", count: "9,850", img: "/images/cat-sports.png" },
+              { name: "Strategy Games", count: "3,200", img: "/images/cat-strategy.png" },
+            ].map((cat, i) => (
+              <motion.div
+                key={cat.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="group relative h-48 rounded-2xl overflow-hidden border border-border cursor-pointer"
+              >
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent z-10" />
+                <img src={cat.img} alt={cat.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                <div className="absolute inset-0 z-20 p-6 flex flex-col justify-end">
+                  <h3 className="text-2xl font-bold text-white font-heading mb-2">{cat.name}</h3>
+                  <div className="inline-block px-3 py-1 bg-primary/20 border border-primary/30 rounded-full text-xs font-semibold text-primary self-start backdrop-blur-sm">
+                    {cat.count} listings
+                  </div>
+                </div>
+                <div className="absolute inset-0 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none glow-gold" />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Trust / Stats Bar */}
+      <section className="py-16 bg-card border-y border-border/50">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-border/50">
+            {[
+              { val: "12M+", label: "Active Players" },
+              { val: "500K+", label: "Listings" },
+              { val: "99.2%", label: "Positive Reviews" },
+              { val: "< 5min", label: "Avg. Delivery" },
+            ].map((stat, i) => (
+              <motion.div 
+                key={stat.label}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="text-center px-4"
+              >
+                <div className="text-4xl md:text-5xl font-bold font-heading text-primary mb-2 drop-shadow-[0_0_10px_rgba(213,173,104,0.3)]">
+                  {stat.val}
+                </div>
+                <div className="text-sm font-medium text-card-foreground uppercase tracking-wider">
+                  {stat.label}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Top Sellers Leaderboard */}
+      <section className="py-20">
+        <div className="container mx-auto px-6 max-w-5xl">
+          <h2 className="text-3xl font-bold font-heading text-white mb-10 text-center">Top Verified Sellers This Week</h2>
+          <div className="bg-card rounded-2xl border border-border overflow-hidden">
+            <div className="grid grid-cols-[auto_1fr_auto_auto] gap-4 p-4 border-b border-border/50 bg-background/50 text-xs font-bold text-muted-foreground uppercase tracking-wider">
+              <div className="w-12 text-center">Rank</div>
+              <div>Seller</div>
+              <div className="hidden sm:block text-right w-24">Sales</div>
+              <div className="w-24 text-right pr-4">Action</div>
+            </div>
+            <div className="divide-y divide-border/30">
+              {[
+                { name: "ShadowStriker", spec: "Valorant Specialist", sales: "1,204", rating: "5.0", avatar: "/images/avatar-1.png" },
+                { name: "ElvenMerchant", spec: "WoW Gold Farmer", sales: "982", rating: "4.9", avatar: "/images/avatar-2.png" },
+                { name: "TacticalGear", spec: "CS2 Items", sales: "845", rating: "4.8", avatar: "/images/avatar-3.png" },
+                { name: "NinjaBoosts", spec: "Apex Predator Carries", sales: "721", rating: "5.0", avatar: "/images/avatar-4.png" },
+                { name: "KingSlayer", spec: "Elden Ring Accounts", sales: "650", rating: "4.9", avatar: "/images/avatar-5.png" },
+              ].map((seller, i) => (
+                <motion.div 
+                  key={seller.name}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="grid grid-cols-[auto_1fr_auto_auto] gap-4 p-4 items-center hover:bg-white/5 transition-colors group"
+                >
+                  <div className="w-12 flex justify-center items-center">
+                    {i === 0 ? (
+                      <Crown className="w-6 h-6 text-primary drop-shadow-[0_0_8px_rgba(213,173,104,0.5)]" />
+                    ) : (
+                      <span className="text-lg font-bold font-heading text-muted-foreground">{i + 1}</span>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-full border-2 border-border group-hover:border-primary/50 transition-colors overflow-hidden">
+                      {/* Fallback to generic icon if image is missing */}
+                      <img src={seller.avatar} alt={seller.name} className="w-full h-full object-cover bg-background" />
+                    </div>
+                    <div>
+                      <div className="font-bold text-white flex items-center gap-2">
+                        {seller.name}
+                        <div className="flex items-center gap-1 bg-primary/10 px-1.5 py-0.5 rounded text-[10px] text-primary">
+                          <Star className="w-3 h-3 fill-primary" /> {seller.rating}
+                        </div>
+                      </div>
+                      <div className="text-xs text-muted-foreground mt-1">{seller.spec}</div>
+                    </div>
+                  </div>
+                  <div className="hidden sm:block text-right w-24 font-medium text-card-foreground">
+                    {seller.sales}
+                  </div>
+                  <div className="w-24 text-right">
+                    <Button size="sm" variant="ghost" className="text-primary hover:text-primary hover:bg-primary/10 w-full justify-center">
+                      View Shop
+                    </Button>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-background border-t border-border pt-16 pb-8">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
+            <div className="col-span-2">
+              <div className="flex items-center gap-2 mb-6">
+                <div className="w-6 h-6 relative">
+                  <svg viewBox="0 0 100 100" className="w-full h-full text-primary fill-current">
+                    <polygon points="50 5 95 27.5 95 72.5 50 95 5 72.5 5 27.5" />
+                    <polygon points="50 20 80 37 80 63 50 80 20 63 20 37" className="fill-background" />
+                    <polygon points="50 35 65 45 65 55 50 65 35 55 35 45" />
+                  </svg>
+                </div>
+                <span className="font-heading font-bold text-xl tracking-tight text-white">
+                  Nexus<span className="text-primary">Market</span>
+                </span>
+              </div>
+              <p className="text-muted-foreground text-sm max-w-sm mb-6">
+                The premium destination for secure, fast, and reliable game asset trading. Elevate your gaming experience today.
+              </p>
+            </div>
+            <div>
+              <h4 className="font-bold text-white mb-4">Platform</h4>
+              <ul className="space-y-3 text-sm text-muted-foreground">
+                <li><a href="#" className="hover:text-primary transition-colors">About Us</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Careers</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Press</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">API</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold text-white mb-4">Support</h4>
+              <ul className="space-y-3 text-sm text-muted-foreground">
+                <li><a href="#" className="hover:text-primary transition-colors">Help Center</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Trust & Safety</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Selling Guide</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Contact Us</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold text-white mb-4">Legal</h4>
+              <ul className="space-y-3 text-sm text-muted-foreground">
+                <li><a href="#" className="hover:text-primary transition-colors">Terms of Service</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Privacy Policy</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Security</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Cookies</a></li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-border/50 gap-4">
+            <p className="text-xs text-muted-foreground">
+              © 2026 NexusMarket Inc. All rights reserved. Trade responsibly.
+            </p>
+            <div className="flex gap-4">
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Twitter/X</a>
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Discord</a>
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">YouTube</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
