@@ -170,15 +170,15 @@ export default function Home() {
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
         <div className="w-full px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 relative">
+          <div className="flex items-center gap-3">
+            <div className="w-11 h-11 relative">
               <svg viewBox="0 0 100 100" className="w-full h-full text-primary fill-current">
                 <polygon points="50 5 95 27.5 95 72.5 50 95 5 72.5 5 27.5" />
                 <polygon points="50 20 80 37 80 63 50 80 20 63 20 37" className="fill-background" />
                 <polygon points="50 35 65 45 65 55 50 65 35 55 35 45" />
               </svg>
             </div>
-            <span className="font-heading font-bold text-xl tracking-tight text-white">
+            <span className="font-heading font-bold text-2xl tracking-tight text-white">
               Ra<span className="text-primary">Rumble</span>
             </span>
           </div>
@@ -319,7 +319,7 @@ export default function Home() {
           </div>
 
           <div className="flex items-center gap-3 shrink-0">
-            <button className="h-10 px-6 font-semibold text-sm rounded-xl transition-opacity hover:opacity-90" style={{ background: "#D5AD68", color: "#1a1100" }}>
+            <button className="h-12 px-8 font-bold text-base rounded-xl transition-opacity hover:opacity-90" style={{ background: "#D5AD68", color: "#1a1100" }}>
               Log in
             </button>
           </div>
