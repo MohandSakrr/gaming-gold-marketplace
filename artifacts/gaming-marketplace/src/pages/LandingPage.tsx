@@ -205,7 +205,7 @@ export default function Home() {
   }, [offerIndex]);
 
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-hidden selection:bg-primary/30">
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden selection:bg-primary/30">
       
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-background border-b border-border/50">
