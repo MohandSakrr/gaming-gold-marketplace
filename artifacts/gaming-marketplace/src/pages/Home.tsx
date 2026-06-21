@@ -168,28 +168,27 @@ export default function Home() {
     <div className="min-h-screen bg-background text-foreground overflow-hidden selection:bg-primary/30">
       
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50" style={{ background: "#111118", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-        <div className="mx-auto px-6 h-14 flex items-center gap-6" style={{ maxWidth: "100%" }}>
-          {/* Logo */}
-          <div className="flex items-center gap-2.5 shrink-0">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "#D5AD68" }}>
-              <svg viewBox="0 0 100 100" className="w-5 h-5 fill-black">
+      <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
+        <div className="container mx-auto px-6 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 relative">
+              <svg viewBox="0 0 100 100" className="w-full h-full text-primary fill-current">
                 <polygon points="50 5 95 27.5 95 72.5 50 95 5 72.5 5 27.5" />
-                <polygon points="50 20 80 37 80 63 50 80 20 63 20 37" fill="#D5AD68" />
-                <polygon points="50 35 65 45 65 55 50 65 35 55 35 45" fill="black" />
+                <polygon points="50 20 80 37 80 63 50 80 20 63 20 37" className="fill-background" />
+                <polygon points="50 35 65 45 65 55 50 65 35 55 35 45" />
               </svg>
             </div>
-            <span className="font-bold text-[18px] tracking-tight text-white">
-              Ra<span style={{ color: "#D5AD68" }}>Rumble</span>
+            <span className="font-heading font-bold text-xl tracking-tight text-white">
+              Ra<span className="text-primary">Rumble</span>
             </span>
           </div>
 
           {/* Search bar */}
-          <div className="flex-1 relative" ref={searchRef}>
-            <div className="relative flex items-center h-10 rounded-lg overflow-visible" style={{ background: "#2a2a35", border: "1px solid rgba(255,255,255,0.08)" }} ref={dropdownRef}>
+          <div className="flex-1 max-w-4xl mx-8 relative" ref={searchRef}>
+            <div className="relative flex items-center h-11 bg-[#1a1a2e] border border-border/50 rounded-full overflow-visible" ref={dropdownRef}>
               {searchLoading
-                ? <Loader2 className="absolute left-3.5 w-4 h-4 text-white/40 animate-spin pointer-events-none" />
-                : <Search className="absolute left-3.5 w-4 h-4 pointer-events-none" style={{ color: "rgba(255,255,255,0.35)" }} />
+                ? <Loader2 className="absolute left-4 w-4 h-4 text-primary animate-spin pointer-events-none" />
+                : <Search className="absolute left-4 w-4 h-4 text-muted-foreground pointer-events-none" />
               }
               <input
                 type="text"
@@ -197,31 +196,26 @@ export default function Home() {
                 onChange={e => setSearchQuery(e.target.value)}
                 onFocus={() => { setSearchFocused(true); setDropdownOpen(false); }}
                 placeholder="Search games, keywords, sellers..."
-                className="flex-1 bg-transparent pl-10 pr-2 h-full text-[14px] text-white outline-none"
-                style={{ color: "white" }}
+                className="flex-1 bg-transparent pl-10 pr-2 h-full text-sm text-white placeholder:text-muted-foreground outline-none"
               />
               {searchQuery && (
-                <button onClick={() => { setSearchQuery(""); setSuggestions([]); }} className="p-1 mr-1 transition-colors" style={{ color: "rgba(255,255,255,0.4)" }}>
+                <button onClick={() => { setSearchQuery(""); setSuggestions([]); }} className="p-1 mr-1 text-muted-foreground hover:text-white transition-colors">
                   <X className="w-3.5 h-3.5" />
                 </button>
               )}
               {/* Divider */}
-              <div className="w-px h-5 shrink-0" style={{ background: "rgba(255,255,255,0.1)" }} />
+              <div className="w-px h-6 bg-border/50 shrink-0" />
               {/* Category trigger */}
               <button
                 onClick={() => { setDropdownOpen(o => !o); setSearchFocused(false); }}
-                className="flex items-center gap-1.5 px-4 h-full text-[13px] font-medium whitespace-nowrap transition-colors hover:text-white"
-                style={{ color: "rgba(255,255,255,0.65)" }}
+                className="flex items-center gap-2 px-4 h-full text-sm font-medium text-card-foreground hover:text-white transition-colors whitespace-nowrap"
               >
                 {selectedService}
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
+                <ChevronDown className={`w-4 h-4 transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
               </button>
               {/* Search button */}
-              <button className="h-full px-4 rounded-r-lg flex items-center justify-center transition-colors" style={{ background: "#D5AD68" }}
-                onMouseEnter={e => (e.currentTarget.style.background = "#c49a55")}
-                onMouseLeave={e => (e.currentTarget.style.background = "#D5AD68")}
-              >
-                <Search className="w-4 h-4 text-black" />
+              <button className="h-full px-4 bg-primary hover:bg-primary/90 transition-colors rounded-r-full flex items-center justify-center">
+                <Search className="w-4 h-4 text-primary-foreground" />
               </button>
 
               {/* Category dropdown */}
@@ -325,14 +319,9 @@ export default function Home() {
           </div>
 
           <div className="flex items-center gap-3 shrink-0">
-            <button
-              className="h-9 px-5 rounded-lg text-[14px] font-bold transition-colors"
-              style={{ background: "#D5AD68", color: "#111118" }}
-              onMouseEnter={e => (e.currentTarget.style.background = "#c49a55")}
-              onMouseLeave={e => (e.currentTarget.style.background = "#D5AD68")}
-            >
-              Log in
-            </button>
+            <Button variant="outline" className="border-primary text-primary hover:bg-primary/10 rounded-full h-10 px-6 font-semibold glow-gold">
+              Log In
+            </Button>
           </div>
         </div>
       </nav>
