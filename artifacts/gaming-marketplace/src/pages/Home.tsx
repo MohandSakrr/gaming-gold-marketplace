@@ -337,7 +337,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-20" style={{ height: "680px", background: "#020818" }}>
+      <section className="relative overflow-hidden pt-20" style={{ height: "500px", background: "#020818" }}>
         {/* Full-width background image */}
         <div className="absolute inset-0 z-0">
           <img
