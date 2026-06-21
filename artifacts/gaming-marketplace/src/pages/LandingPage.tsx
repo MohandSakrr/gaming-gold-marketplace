@@ -785,116 +785,168 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer style={{ background: darkMode ? "#0a0a12" : "#1a1a2e", borderTop: "1px solid rgba(213,173,104,0.15)" }}>
-        {/* Payment methods bar */}
-        <div className="px-8 py-4 flex items-center justify-between" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)", maxWidth: "1200px", margin: "0 auto" }}>
-          <div className="flex items-center gap-3 flex-wrap">
-            {[
-              { label: "VISA", bg: "#1a1f71", color: "#fff", font: "bold" },
-              { label: "MC", bg: "#eb001b", color: "#fff", font: "bold" },
-              { label: "AMEX", bg: "#2e77bc", color: "#fff", font: "bold" },
-              { label: "BTC", bg: "#f7931a", color: "#fff", font: "bold" },
-              { label: "ETH", bg: "#627eea", color: "#fff", font: "bold" },
-              { label: "GPay", bg: "#fff", color: "#222", font: "600" },
-              { label: "Pay", bg: "#000", color: "#fff", font: "600" },
-            ].map(p => (
-              <div key={p.label} className="px-3 h-7 flex items-center justify-center rounded text-[11px] font-bold" style={{ background: p.bg, color: p.color, minWidth: "44px" }}>
-                {p.label}
-              </div>
-            ))}
-            <span className="text-xs font-semibold" style={{ color: "rgba(255,255,255,0.4)" }}>+8 more</span>
-          </div>
-          <div className="flex items-center gap-2 text-xs font-medium" style={{ color: "rgba(255,255,255,0.5)" }}>
-            <svg viewBox="0 0 24 24" className="w-4 h-4 fill-none stroke-current stroke-[1.5]"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l2 2"/></svg>
-            English | USD - $
+      <footer style={{ background: darkMode ? "linear-gradient(180deg, #07071a 0%, #020818 100%)" : "linear-gradient(180deg, #1e1e30 0%, #12122a 100%)", position: "relative", overflow: "hidden" }}>
+        {/* Decorative gold glow top */}
+        <div style={{ position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)", width: "600px", height: "1px", background: "linear-gradient(90deg, transparent, #D5AD68, transparent)" }} />
+        <div style={{ position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)", width: "300px", height: "60px", background: "radial-gradient(ellipse at top, rgba(213,173,104,0.08) 0%, transparent 70%)", pointerEvents: "none" }} />
+
+        {/* Newsletter CTA strip */}
+        <div style={{ background: "linear-gradient(135deg, rgba(213,173,104,0.07) 0%, rgba(213,173,104,0.03) 100%)", borderBottom: "1px solid rgba(213,173,104,0.1)" }}>
+          <div className="flex flex-col md:flex-row items-center justify-between gap-5 px-8 py-8" style={{ maxWidth: "1200px", margin: "0 auto" }}>
+            <div>
+              <p className="text-base font-bold text-white mb-1">Get notified about the best deals</p>
+              <p className="text-sm" style={{ color: "rgba(255,255,255,0.45)" }}>Join 500K+ traders who never miss a hot offer.</p>
+            </div>
+            <div className="flex items-center gap-3 w-full md:w-auto">
+              <input
+                type="email"
+                placeholder="your@email.com"
+                className="flex-1 md:w-72 h-11 px-4 rounded-xl text-sm outline-none text-white"
+                style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(213,173,104,0.25)", color: "#fff" }}
+              />
+              <button className="h-11 px-6 rounded-xl text-sm font-bold shrink-0 transition-opacity hover:opacity-90" style={{ background: "linear-gradient(135deg, #D5AD68, #b8923d)", color: "#0a0a12" }}>
+                Subscribe
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Main footer grid */}
-        <div className="px-8 py-14" style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-10">
-            {/* Brand column */}
-            <div className="md:col-span-1">
+        {/* Main content */}
+        <div className="px-8 pt-14 pb-10" style={{ maxWidth: "1200px", margin: "0 auto" }}>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
+
+            {/* Brand block — 3 cols */}
+            <div className="md:col-span-3">
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-9 h-9 relative">
-                  <svg viewBox="0 0 100 100" className="w-full h-full fill-current" style={{ color: "#D5AD68" }}>
+                <div className="w-10 h-10 relative" style={{ filter: "drop-shadow(0 0 10px rgba(213,173,104,0.4))" }}>
+                  <svg viewBox="0 0 100 100" className="w-full h-full" style={{ fill: "#D5AD68" }}>
                     <polygon points="50 5 95 27.5 95 72.5 50 95 5 72.5 5 27.5" />
-                    <polygon points="50 20 80 37 80 63 50 80 20 63 20 37" style={{ fill: darkMode ? "#0a0a12" : "#1a1a2e" }} />
-                    <polygon points="50 35 65 45 65 55 50 65 35 55 35 45" />
+                    <polygon points="50 20 80 37 80 63 50 80 20 63 20 37" style={{ fill: darkMode ? "#07071a" : "#1e1e30" }} />
+                    <polygon points="50 35 65 45 65 55 50 65 35 55 35 45" style={{ fill: "#D5AD68" }} />
                   </svg>
                 </div>
-                <span className="font-heading font-bold text-xl tracking-tight text-white">
+                <span className="font-heading font-bold text-2xl tracking-tight text-white">
                   Ra<span style={{ color: "#D5AD68" }}>Rumble</span>
                 </span>
               </div>
-              <p className="text-sm mb-6" style={{ color: "rgba(255,255,255,0.45)", lineHeight: "1.6" }}>
-                Join us today to level up your gaming experience!
+              <p className="text-sm mb-6" style={{ color: "rgba(255,255,255,0.4)", lineHeight: "1.75" }}>
+                The premium destination for secure, fast, and reliable game asset trading. Trusted by millions of players worldwide.
               </p>
-              {/* Social icons */}
-              <div className="flex items-center gap-3">
+
+              {/* Trust badges */}
+              <div className="flex items-center gap-2 mb-6 flex-wrap">
                 {[
-                  { label: "Reddit", path: "M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-3.11-8.83c-.384.345-.537.852-.406 1.327.13.475.5.849.97.993.47.144.98.02 1.334-.325.61-.556 1.524-.556 2.134 0 .354.346.864.47 1.334.325.47-.144.84-.518.97-.993.13-.475-.022-.982-.406-1.327-.994-.905-2.53-.905-3.93 0zm.77-3.17a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5zm4.68 0a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5z" },
-                  { label: "TikTok", path: "M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z" },
-                  { label: "X", path: "M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" },
-                  { label: "Facebook", path: "M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" },
-                  { label: "Instagram", path: "M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zM17.5 6.5h.01M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2z" },
-                  { label: "YouTube", path: "M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z" },
+                  { icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z", label: "Secure" },
+                  { icon: "M13 10V3L4 14h7v7l9-11h-7z", label: "Instant" },
+                  { icon: "M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z", label: "12M+ Users" },
+                ].map(b => (
+                  <div key={b.label} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: "rgba(213,173,104,0.08)", border: "1px solid rgba(213,173,104,0.15)" }}>
+                    <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-none stroke-[1.8]" style={{ color: "#D5AD68" }}><path strokeLinecap="round" strokeLinejoin="round" d={b.icon} /></svg>
+                    <span className="text-[11px] font-semibold" style={{ color: "#D5AD68" }}>{b.label}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Social row */}
+              <div className="flex items-center gap-2">
+                {[
+                  { label: "X / Twitter", path: "M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" },
+                  { label: "Discord", path: "M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.03.052a19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z" },
+                  { label: "YouTube", path: "M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z" },
+                  { label: "Reddit", path: "M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-3.11-8.83c-.384.345-.537.852-.406 1.327.13.475.5.849.97.993.47.144.98.02 1.334-.325.61-.556 1.524-.556 2.134 0 .354.346.864.47 1.334.325.47-.144.84-.518.97-.993.13-.475-.022-.982-.406-1.327-.994-.905-2.53-.905-3.93 0zm.77-3.17a.75.75 0 100 1.5.75.75 0 000-1.5zm4.68 0a.75.75 0 100 1.5.75.75 0 000-1.5z" },
+                  { label: "TikTok", path: "M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z" },
                 ].map(s => (
-                  <a key={s.label} href="#" className="w-8 h-8 flex items-center justify-center rounded-lg transition-colors" style={{ background: "rgba(255,255,255,0.07)" }} onMouseEnter={e=>(e.currentTarget.style.background="rgba(213,173,104,0.15)")} onMouseLeave={e=>(e.currentTarget.style.background="rgba(255,255,255,0.07)")}>
-                    <svg viewBox="0 0 24 24" className="w-4 h-4 fill-none stroke-current stroke-[1.5]" style={{ color: "rgba(255,255,255,0.6)" }}><path d={s.path} /></svg>
+                  <a key={s.label} href="#" title={s.label}
+                    className="w-9 h-9 flex items-center justify-center rounded-xl transition-all"
+                    style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(213,173,104,0.15)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(213,173,104,0.35)"; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.05)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.08)"; }}
+                  >
+                    <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current" style={{ color: "rgba(255,255,255,0.55)" }}><path d={s.path} /></svg>
                   </a>
                 ))}
               </div>
             </div>
 
-            {/* Link columns */}
-            {[
-              {
-                title: "Platform",
-                links: ["Help Center", "Contact Us", "About Us", "Bug Bounty", "Blog", "Become a Partner", "Become an Affiliate", "Become a Seller"],
-              },
-              {
-                title: "Marketplace",
-                links: ["Account Warranty", "TradeShield (Buying)", "TradeShield (Selling)", "Withdrawals", "Account Seller Rules"],
-              },
-              {
-                title: "Legal",
-                links: ["Seller Rules", "Changing Username", "Fees", "Refund Policy", "Privacy Policy", "Terms of Service", "DMCA"],
-              },
-              {
-                title: "Services",
-                links: ["Currency Trading", "Account Sales", "Top Up Services", "Item Exchange", "Boosting Services", "Gift Cards"],
-              },
-            ].map(col => (
-              <div key={col.title}>
-                <h4 className="text-sm font-bold mb-5 uppercase tracking-widest" style={{ color: "#D5AD68" }}>{col.title}</h4>
-                <ul className="space-y-3">
-                  {col.links.map(link => (
-                    <li key={link}>
-                      <a href="#" className="text-sm transition-colors" style={{ color: "rgba(255,255,255,0.5)" }}
-                        onMouseEnter={e=>(e.currentTarget.style.color="#D5AD68")}
-                        onMouseLeave={e=>(e.currentTarget.style.color="rgba(255,255,255,0.5)")}
-                      >{link}</a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+            {/* Spacer */}
+            <div className="hidden md:block md:col-span-1" />
+
+            {/* Link columns — 8 cols split into 4 */}
+            <div className="md:col-span-8 grid grid-cols-2 md:grid-cols-4 gap-8">
+              {[
+                {
+                  title: "Platform",
+                  links: ["Help Center", "Contact Us", "About Us", "Bug Bounty", "Blog", "Become a Partner", "Become an Affiliate", "Become a Seller"],
+                },
+                {
+                  title: "Marketplace",
+                  links: ["Account Warranty", "TradeShield Buying", "TradeShield Selling", "Withdrawals", "Seller Rules", "Account Seller Rules"],
+                },
+                {
+                  title: "Legal",
+                  links: ["Terms of Service", "Privacy Policy", "Refund Policy", "Fees", "DMCA", "Cookie Policy", "DSA"],
+                },
+                {
+                  title: "Services",
+                  links: ["Currency Trading", "Account Sales", "Top Up Services", "Item Exchange", "Boosting", "Gift Cards"],
+                },
+              ].map(col => (
+                <div key={col.title}>
+                  <h4 className="text-[11px] font-bold mb-5 uppercase tracking-[0.12em]" style={{ color: "#D5AD68" }}>{col.title}</h4>
+                  <ul className="space-y-2.5">
+                    {col.links.map(link => (
+                      <li key={link}>
+                        <a href="#" className="text-[13px] transition-all flex items-center gap-1.5 group"
+                          style={{ color: "rgba(255,255,255,0.42)" }}
+                          onMouseEnter={e => (e.currentTarget.style.color = "rgba(255,255,255,0.9)")}
+                          onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.42)")}
+                        >
+                          <span className="w-1 h-1 rounded-full shrink-0 transition-colors" style={{ background: "rgba(213,173,104,0)" }} />
+                          {link}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="px-8 py-5 flex flex-col md:flex-row items-center justify-between gap-3" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", maxWidth: "1200px", margin: "0 auto" }}>
-          <p className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>
-            © 2026. The RaRumble website is operated by RaRumble FZCO.
-          </p>
-          <div className="flex items-center gap-6">
-            {["Terms of Service", "Privacy Policy", "DMCA", "DSA"].map(l => (
-              <a key={l} href="#" className="text-xs transition-colors" style={{ color: "rgba(255,255,255,0.35)" }}
-                onMouseEnter={e=>(e.currentTarget.style.color="#D5AD68")}
-                onMouseLeave={e=>(e.currentTarget.style.color="rgba(255,255,255,0.35)")}
-              >{l}</a>
-            ))}
+        {/* Payment methods + bottom bar */}
+        <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+          <div className="px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-5" style={{ maxWidth: "1200px", margin: "0 auto" }}>
+            {/* Left: payment icons */}
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-[11px] font-semibold uppercase tracking-wider mr-2" style={{ color: "rgba(255,255,255,0.3)" }}>We accept</span>
+              {[
+                { label: "VISA", bg: "#1a1f71", color: "#fff" },
+                { label: "MC", bg: "#eb001b", color: "#fff" },
+                { label: "AMEX", bg: "#2e77bc", color: "#fff" },
+                { label: "BTC", bg: "#f7931a", color: "#fff" },
+                { label: "ETH", bg: "#627eea", color: "#fff" },
+                { label: "GPay", bg: "#fff", color: "#333" },
+                { label: "Pay", bg: "#111", color: "#fff" },
+              ].map(p => (
+                <div key={p.label} className="px-2.5 h-6 flex items-center justify-center rounded text-[10px] font-bold" style={{ background: p.bg, color: p.color, minWidth: "38px" }}>
+                  {p.label}
+                </div>
+              ))}
+              <span className="text-[11px]" style={{ color: "rgba(255,255,255,0.3)" }}>+8 more</span>
+            </div>
+
+            {/* Right: copyright + legal links */}
+            <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
+              <p className="text-[11px]" style={{ color: "rgba(255,255,255,0.25)" }}>© 2026 RaRumble · All rights reserved</p>
+              <div className="flex items-center gap-4">
+                {["Terms", "Privacy", "DMCA", "Cookies"].map(l => (
+                  <a key={l} href="#" className="text-[11px] transition-colors" style={{ color: "rgba(255,255,255,0.3)" }}
+                    onMouseEnter={e => (e.currentTarget.style.color = "#D5AD68")}
+                    onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.3)")}
+                  >{l}</a>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </footer>
