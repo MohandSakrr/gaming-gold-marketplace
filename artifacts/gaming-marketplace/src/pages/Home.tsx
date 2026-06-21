@@ -319,7 +319,7 @@ export default function Home() {
           </div>
 
           <div className="flex items-center gap-3 shrink-0">
-            <button className="h-12 px-8 font-bold text-base rounded-xl transition-opacity hover:opacity-90" style={{ background: "#D5AD68", color: "#1a1100" }}>
+            <button className="h-10 px-6 font-semibold text-sm rounded-xl transition-opacity hover:opacity-90" style={{ background: "#D5AD68", color: "#1a1100" }}>
               Log in
             </button>
           </div>
