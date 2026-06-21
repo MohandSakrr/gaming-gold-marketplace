@@ -175,8 +175,13 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = (searchFocused || !!activeCat) ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    const locked = searchFocused || !!activeCat;
+    document.body.style.overflow = locked ? "hidden" : "";
+    document.documentElement.style.overflow = locked ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    };
   }, [searchFocused, activeCat]);
 
   useEffect(() => {
