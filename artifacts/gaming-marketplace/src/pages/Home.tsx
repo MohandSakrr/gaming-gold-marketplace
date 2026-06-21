@@ -195,8 +195,7 @@ export default function Home() {
               ref={dropdownRef}
               style={{
                 border: searchFocused ? "2px solid #D5AD68" : "1px solid rgba(255,255,255,0.15)",
-                borderRadius: searchFocused ? "12px 12px 0 0" : "999px",
-                borderBottom: searchFocused ? "none" : undefined,
+                borderRadius: "999px",
               }}
             >
               {/* Search icon left (only when not focused) */}
@@ -265,7 +264,7 @@ export default function Home() {
 
             {/* Search results panel */}
             {searchFocused && !dropdownOpen && (
-              <div className="absolute top-full left-0 right-0 z-50" style={{ background: "#1a1a2e", border: "2px solid #D5AD68", borderTop: "1px solid rgba(255,255,255,0.06)", borderRadius: "0 0 12px 12px" }}>
+              <div className="absolute top-full left-0 right-0 z-50 mt-2" style={{ background: "#1a1a2e", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "12px" }}>
                 {searchQuery && suggestions.length > 0 ? (
                   suggestions.slice(0, 7).map((item, i) => (
                     <button key={i}
