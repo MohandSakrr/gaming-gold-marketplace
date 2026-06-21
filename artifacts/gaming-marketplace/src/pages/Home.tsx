@@ -252,75 +252,65 @@ export default function Home() {
 
             {/* Search results panel */}
             {searchFocused && !dropdownOpen && (
-              <div className="absolute top-full left-0 right-0 z-50 overflow-hidden" style={{ background: "#1a1a2e", border: "2px solid #D5AD68", borderTop: "1px solid rgba(255,255,255,0.08)", borderRadius: "0 0 12px 12px" }}>
+              <div className="absolute top-full left-0 right-0 z-50" style={{ background: "#1a1a2e", border: "2px solid #D5AD68", borderTop: "1px solid rgba(255,255,255,0.06)", borderRadius: "0 0 12px 12px" }}>
                 {searchQuery && suggestions.length > 0 ? (
-                  <div className="py-3">
-                    <p className="text-[11px] text-white/35 font-bold uppercase tracking-widest px-5 pb-1">
-                      {selectedService === "All Categories" ? "Search results" : `${selectedService} results`}
-                    </p>
-                    {suggestions.map((item, i) => (
-                      <button
-                        key={i}
-                        onClick={() => { setSearchQuery(item.label); setSearchFocused(false); setRecentSearches(r => [item.label, ...r.filter(x => x !== item.label)].slice(0, 5)); }}
-                        className="w-full flex items-center gap-4 px-5 py-4 transition-colors group"
-                        style={{ borderBottom: i < suggestions.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none" }}
-                        onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.04)")}
-                        onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
-                      >
-                        <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 font-bold text-sm" style={{ background: CATEGORY_COLORS[item.category] + "25", color: CATEGORY_COLORS[item.category] }}>
-                          {item.category.slice(0, 2).toUpperCase()}
-                        </div>
-                        <span className="text-[15px] text-white/85 group-hover:text-white flex-1 text-left font-medium">{item.label}</span>
-                        <span className="text-[12px] text-white/30">{item.category}</span>
-                      </button>
-                    ))}
-                  </div>
+                  suggestions.slice(0, 7).map((item, i) => (
+                    <button key={i}
+                      onClick={() => { setSearchQuery(item.label); setSearchFocused(false); setRecentSearches(r => [item.label, ...r.filter(x => x !== item.label)].slice(0, 5)); }}
+                      className="w-full flex items-center gap-3 px-5 py-3 transition-colors group"
+                      style={{ borderBottom: i < Math.min(suggestions.length,7)-1 ? "1px solid rgba(255,255,255,0.05)" : "none" }}
+                      onMouseEnter={e=>(e.currentTarget.style.background="rgba(255,255,255,0.04)")}
+                      onMouseLeave={e=>(e.currentTarget.style.background="transparent")}
+                    >
+                      <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 font-bold text-[10px]" style={{ background: CATEGORY_COLORS[item.category]+"25", color: CATEGORY_COLORS[item.category] }}>
+                        {item.category.slice(0,2).toUpperCase()}
+                      </div>
+                      <span className="text-[14px] text-white/85 group-hover:text-white font-medium">{item.label}</span>
+                    </button>
+                  ))
                 ) : searchQuery && !searchLoading ? (
-                  <p className="text-sm text-white/40 text-center py-8">No results found for "<span className="text-white/60">{searchQuery}</span>"</p>
+                  <p className="text-sm text-white/40 text-center py-5">No results for "<span className="text-white/60">{searchQuery}</span>"</p>
                 ) : (
-                  <div className="py-3">
+                  <>
                     {recentSearches.length > 0 && (
-                      <div className="mb-1">
-                        <div className="flex items-center justify-between px-5 py-2">
+                      <>
+                        <div className="flex items-center justify-between px-5 pt-3 pb-1">
                           <p className="text-[11px] text-white/35 font-bold uppercase tracking-widest">Recently searched</p>
-                          <button onClick={() => setRecentSearches([])} className="text-[12px] text-white/40 hover:text-white transition-colors">Clear all</button>
+                          <button onClick={() => setRecentSearches([])} className="text-[11px] text-white/35 hover:text-white transition-colors">Clear all</button>
                         </div>
-                        {recentSearches.map((r, i) => (
-                          <button
-                            key={i}
-                            onClick={() => setSearchQuery(r)}
-                            className="w-full flex items-center gap-4 px-5 py-3 transition-colors group"
-                            onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.04)")}
-                            onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+                        {recentSearches.slice(0, 3).map((r, i) => (
+                          <button key={i} onClick={() => setSearchQuery(r)}
+                            className="w-full flex items-center gap-3 px-5 py-3 transition-colors group"
+                            onMouseEnter={e=>(e.currentTarget.style.background="rgba(255,255,255,0.04)")}
+                            onMouseLeave={e=>(e.currentTarget.style.background="transparent")}
                           >
-                            <Clock className="w-4 h-4 text-white/25 shrink-0" />
-                            <span className="text-[15px] text-white/65 group-hover:text-white font-medium">{r}</span>
+                            <Clock className="w-4 h-4 shrink-0" style={{ color: "rgba(255,255,255,0.25)" }} />
+                            <span className="text-[14px] text-white/60 group-hover:text-white font-medium">{r}</span>
                           </button>
                         ))}
-                        <div className="mx-5 my-2" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }} />
-                      </div>
+                        <div className="mx-5" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }} />
+                      </>
                     )}
-                    <p className="text-[11px] text-white/35 font-bold uppercase tracking-widest px-5 py-2">Popular categories</p>
+                    <p className="text-[11px] text-white/35 font-bold uppercase tracking-widest px-5 pt-3 pb-1">Popular categories</p>
                     {POPULAR_CATEGORIES
                       .filter(p => selectedService === "All Categories" || p.category === selectedService)
+                      .slice(0, 7)
                       .map((item, i, arr) => (
-                        <button
-                          key={i}
+                        <button key={i}
                           onClick={() => { setSearchQuery(item.label); setRecentSearches(r => [item.label, ...r.filter(x => x !== item.label)].slice(0, 5)); }}
-                          className="w-full flex items-center gap-4 px-5 py-3 transition-colors group"
-                          style={{ borderBottom: i < arr.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none" }}
-                          onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.04)")}
-                          onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+                          className="w-full flex items-center gap-3 px-5 py-3 transition-colors group"
+                          style={{ borderBottom: i < arr.length-1 ? "1px solid rgba(255,255,255,0.05)" : "none" }}
+                          onMouseEnter={e=>(e.currentTarget.style.background="rgba(255,255,255,0.04)")}
+                          onMouseLeave={e=>(e.currentTarget.style.background="transparent")}
                         >
-                          <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 font-bold text-sm" style={{ background: item.color + "25", color: item.color }}>
-                            {item.category.slice(0, 2).toUpperCase()}
+                          <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 font-bold text-[10px]" style={{ background: item.color+"25", color: item.color }}>
+                            {item.category.slice(0,2).toUpperCase()}
                           </div>
-                          <span className="text-[15px] text-white/80 group-hover:text-white flex-1 text-left font-medium">{item.label}</span>
-                          <span className="text-[12px] text-white/30">{item.category}</span>
+                          <span className="text-[14px] text-white/80 group-hover:text-white font-medium">{item.label}</span>
                         </button>
                       ))
                     }
-                  </div>
+                  </>
                 )}
               </div>
             )}
