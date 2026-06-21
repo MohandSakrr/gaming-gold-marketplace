@@ -380,33 +380,91 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services Row */}
-      <section className="py-12 border-y border-border/30 bg-card/30 backdrop-blur-sm relative z-20 -mt-10">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-4 md:grid-cols-8 gap-4">
+      {/* Categories Bar */}
+      <section className="relative z-20 -mt-6">
+        <div className="mx-auto px-8" style={{ maxWidth: "1100px" }}>
+          <div
+            className="flex items-center justify-between gap-2 px-6 py-4"
+            style={{
+              background: "rgba(15,15,30,0.92)",
+              border: "1px solid rgba(213,173,104,0.18)",
+              borderRadius: "16px",
+              backdropFilter: "blur(12px)",
+              boxShadow: "0 4px 32px rgba(0,0,0,0.5)",
+            }}
+          >
             {[
-              { label: "Top Up", path: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" },
-              { label: "Accounts", path: "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" },
-              { label: "Boosting", path: "M13 2L3 14h9l-1 8 10-12h-9l1-8z" },
-              { label: "Items", path: "M20 7.4V16.6C20 17.6 19.3 18.5 18.4 18.8L12 21.2C11.4 21.4 10.6 21.4 10 21.2L3.6 18.8C2.7 18.5 2 17.6 2 16.6V7.4C2 6.4 2.7 5.5 3.6 5.2L10 2.8C10.6 2.6 11.4 2.6 12 2.8L18.4 5.2C19.3 5.5 20 6.4 20 7.4Z M12 22V12 M20 7.4L12 12 M2 7.4L12 12" },
-              { label: "Coaching", path: "M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" },
-              { label: "Gift Cards", path: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z M3.27 6.96L12 12.01l8.73-5.05 M12 22.08V12" },
-              { label: "Esports", path: "M6 16.326A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 .5 8.973 M6 16.326a4.5 4.5 0 0 0 .5-8.973h1.79 M15.71 8a7 7 0 0 0-9.71 0" },
-              { label: "Power Level", path: "M12 20v-6M6 20V10M18 20V4" }
-            ].map((service, i) => (
-              <motion.div 
-                key={service.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
-                className="flex flex-col items-center justify-center p-4 rounded-xl bg-card border border-border/50 hover:border-primary/50 hover:bg-card/80 transition-all cursor-pointer group"
+              {
+                label: "Currency",
+                color: "#f59e0b",
+                bg: "linear-gradient(135deg,#f59e0b,#f97316)",
+                icon: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",
+              },
+              {
+                label: "Accounts",
+                color: "#3b82f6",
+                bg: "linear-gradient(135deg,#3b82f6,#06b6d4)",
+                icon: "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z",
+              },
+              {
+                label: "Top Up",
+                color: "#10b981",
+                bg: "linear-gradient(135deg,#10b981,#14b8a6)",
+                icon: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",
+              },
+              {
+                label: "Items",
+                color: "#a855f7",
+                bg: "linear-gradient(135deg,#a855f7,#ec4899)",
+                icon: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z",
+              },
+              {
+                label: "Boosting",
+                color: "#ef4444",
+                bg: "linear-gradient(135deg,#ef4444,#f97316)",
+                icon: "M13 2L3 14h9l-1 8 10-12h-9l1-8z",
+              },
+              {
+                label: "Gift Cards",
+                color: "#ec4899",
+                bg: "linear-gradient(135deg,#ec4899,#f43f5e)",
+                icon: "M20 12v10H4V12M22 7H2v5h20V7zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z",
+              },
+            ].map((cat, i) => (
+              <motion.button
+                key={cat.label}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.06 }}
+                className="flex flex-col items-center gap-2 px-5 py-2 rounded-xl group transition-all hover:bg-white/5 cursor-pointer"
+                style={{ flex: 1 }}
               >
-                <svg viewBox="0 0 24 24" className="w-8 h-8 mb-3 stroke-primary stroke-[1.5] fill-none group-hover:scale-110 transition-transform duration-300" strokeLinecap="round" strokeLinejoin="round">
-                  <path d={service.path} />
-                </svg>
-                <span className="text-xs font-semibold text-card-foreground group-hover:text-white transition-colors">{service.label}</span>
-              </motion.div>
+                <div
+                  className="flex items-center justify-center rounded-xl group-hover:scale-105 transition-transform duration-200"
+                  style={{
+                    background: cat.bg,
+                    width: "52px",
+                    height: "52px",
+                    boxShadow: `0 4px 14px ${cat.color}55`,
+                  }}
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    style={{ width: "24px", height: "24px" }}
+                    className="fill-none stroke-white stroke-[1.8]"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d={cat.icon} />
+                  </svg>
+                </div>
+                <span
+                  className="text-[13px] font-semibold transition-colors group-hover:text-white"
+                  style={{ color: "rgba(255,255,255,0.7)" }}
+                >
+                  {cat.label}
+                </span>
+              </motion.button>
             ))}
           </div>
         </div>
