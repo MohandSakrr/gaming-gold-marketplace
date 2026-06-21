@@ -150,6 +150,7 @@ export default function Home() {
 
   const [activeCat, setActiveCat] = useState<string | null>(null);
   const [catSearch, setCatSearch] = useState("");
+  const [catOpenUp, setCatOpenUp] = useState(false);
   const catBarRef = useRef<HTMLDivElement>(null);
   const catBarInnerRef = useRef<HTMLDivElement>(null);
   const catDropdownRef = useRef<HTMLDivElement>(null);
@@ -442,7 +443,7 @@ export default function Home() {
             style={{
               background: "rgba(10,10,22,0.97)",
               border: "1px solid rgba(213,173,104,0.35)",
-              borderRadius: activeCat ? "16px 16px 0 0" : "16px",
+              borderRadius: activeCat ? (catOpenUp ? "0 0 16px 16px" : "16px 16px 0 0") : "16px",
               backdropFilter: "blur(12px)",
               boxShadow: "0 4px 32px rgba(0,0,0,0.6)",
             }}
@@ -461,7 +462,14 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.06 }}
                 onClick={() => {
-                  setActiveCat(activeCat === cat.label ? null : cat.label);
+                  const next = activeCat === cat.label ? null : cat.label;
+                  if (next && catBarInnerRef.current) {
+                    const rect = catBarInnerRef.current.getBoundingClientRect();
+                    const spaceBelow = window.innerHeight - rect.bottom;
+                    const spaceAbove = rect.top;
+                    setCatOpenUp(spaceBelow < 380 && spaceAbove > spaceBelow);
+                  }
+                  setActiveCat(next);
                   setCatSearch("");
                 }}
                 className="flex flex-col items-center gap-2 px-5 py-2 rounded-xl group transition-all cursor-pointer"
@@ -495,14 +503,15 @@ export default function Home() {
           ref={catDropdownRef}
           style={{
             position: "fixed",
-            top: catBarInnerRef.current ? catBarInnerRef.current.getBoundingClientRect().bottom : 0,
+            ...(catOpenUp
+              ? { bottom: catBarInnerRef.current ? window.innerHeight - catBarInnerRef.current.getBoundingClientRect().top : 0, top: "auto" }
+              : { top: catBarInnerRef.current ? catBarInnerRef.current.getBoundingClientRect().bottom : 0 }),
             left: catBarInnerRef.current ? catBarInnerRef.current.getBoundingClientRect().left : 0,
             width: catBarInnerRef.current ? catBarInnerRef.current.getBoundingClientRect().width : 0,
             zIndex: 9999,
             background: "#0e0e1a",
             border: "1px solid rgba(213,173,104,0.35)",
-            borderTop: "none",
-            borderRadius: "0 0 16px 16px",
+            ...(catOpenUp ? { borderBottom: "none", borderRadius: "16px 16px 0 0" } : { borderTop: "none", borderRadius: "0 0 16px 16px" }),
             display: "flex",
             maxHeight: "380px",
             overflow: "hidden",
