@@ -16,14 +16,34 @@ const SERVICES = [
 ];
 
 const POPULAR_CATEGORIES = [
-  { label: "Fortnite Accounts",        category: "Accounts",   color: "#f97316" },
-  { label: "WoW Gold",                 category: "Currency",   color: "#f59e0b" },
-  { label: "Valorant Boosting",        category: "Boosting",   color: "#ef4444" },
-  { label: "Genshin Impact Top Up",    category: "Top Up",     color: "#10b981" },
-  { label: "CS2 Items",                category: "Items",      color: "#a855f7" },
-  { label: "Steam Gift Cards",         category: "Gift Cards", color: "#ec4899" },
+  { label: "Fortnite Accounts",        category: "Accounts",   color: "#3b82f6" },
+  { label: "Valorant Accounts",        category: "Accounts",   color: "#3b82f6" },
   { label: "Apex Legends Accounts",    category: "Accounts",   color: "#3b82f6" },
-  { label: "Roblox Top Up",            category: "Top Up",     color: "#14b8a6" },
+  { label: "CS2 Accounts",             category: "Accounts",   color: "#3b82f6" },
+  { label: "WoW Gold",                 category: "Currency",   color: "#f59e0b" },
+  { label: "FC 24 Coins",              category: "Currency",   color: "#f59e0b" },
+  { label: "Path of Exile Currency",   category: "Currency",   color: "#f59e0b" },
+  { label: "Runescape Gold",           category: "Currency",   color: "#f59e0b" },
+  { label: "Valorant Boosting",        category: "Boosting",   color: "#ef4444" },
+  { label: "League of Legends Boosting", category: "Boosting", color: "#ef4444" },
+  { label: "Apex Legends Boosting",    category: "Boosting",   color: "#ef4444" },
+  { label: "CS2 Boosting",             category: "Boosting",   color: "#ef4444" },
+  { label: "Genshin Impact Top Up",    category: "Top Up",     color: "#10b981" },
+  { label: "Roblox Top Up",            category: "Top Up",     color: "#10b981" },
+  { label: "Mobile Legends Top Up",    category: "Top Up",     color: "#10b981" },
+  { label: "PUBG Mobile Top Up",       category: "Top Up",     color: "#10b981" },
+  { label: "CS2 Items",                category: "Items",      color: "#a855f7" },
+  { label: "Dota 2 Items",             category: "Items",      color: "#a855f7" },
+  { label: "Rocket League Items",      category: "Items",      color: "#a855f7" },
+  { label: "TF2 Items",                category: "Items",      color: "#a855f7" },
+  { label: "Steam Gift Cards",         category: "Gift Cards", color: "#ec4899" },
+  { label: "PSN Gift Cards",           category: "Gift Cards", color: "#ec4899" },
+  { label: "Xbox Gift Cards",          category: "Gift Cards", color: "#ec4899" },
+  { label: "Google Play Gift Cards",   category: "Gift Cards", color: "#ec4899" },
+  { label: "ShadowStriker Store",      category: "Sellers",    color: "#0ea5e9" },
+  { label: "ElvenMerchant Store",      category: "Sellers",    color: "#0ea5e9" },
+  { label: "TacticalGear Store",       category: "Sellers",    color: "#0ea5e9" },
+  { label: "NinjaBoosts Store",        category: "Sellers",    color: "#0ea5e9" },
 ];
 
 const SEARCH_DATA = [
@@ -119,7 +139,7 @@ export default function Home() {
       const q = searchQuery.toLowerCase();
       const filtered = SEARCH_DATA.filter(item => {
         const matchesQuery = item.label.toLowerCase().includes(q);
-        const matchesCategory = selectedService === "All Categories" || selectedService === "Sellers" || item.category === selectedService;
+        const matchesCategory = selectedService === "All Categories" || item.category === selectedService;
         return matchesQuery && matchesCategory;
       }).slice(0, 7);
       setSuggestions(filtered);
@@ -274,7 +294,7 @@ export default function Home() {
                     )}
                     <p className="text-[11px] text-white/35 font-bold uppercase tracking-widest px-5 py-2">Popular categories</p>
                     {POPULAR_CATEGORIES
-                      .filter(p => selectedService === "All Categories" || selectedService === "Sellers" || p.category === selectedService)
+                      .filter(p => selectedService === "All Categories" || p.category === selectedService)
                       .map((item, i, arr) => (
                         <button
                           key={i}
