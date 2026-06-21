@@ -337,7 +337,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-20" style={{ height: "500px", background: "#020818" }}>
+      <section className="relative overflow-hidden pt-20" style={{ height: "680px", background: "#020818" }}>
         {/* Full-width background image */}
         <div className="absolute inset-0 z-0">
           <img
@@ -346,12 +346,12 @@ export default function Home() {
             className="w-full h-full object-cover object-top"
             onError={(e) => { e.currentTarget.style.display = 'none' }}
           />
-          {/* Strong left overlay so text is readable */}
-          <div className="absolute inset-0 z-10" style={{ background: "linear-gradient(to right, rgba(2,8,24,0.92) 0%, rgba(2,8,24,0.75) 40%, rgba(2,8,24,0.15) 70%, rgba(2,8,24,0.0) 100%)" }} />
-          {/* Bottom fade */}
-          <div className="absolute bottom-0 left-0 right-0 z-10" style={{ height: "160px", background: "linear-gradient(to bottom, transparent, #020818)" }} />
-          {/* Right edge */}
-          <div className="absolute inset-y-0 right-0 z-10" style={{ width: "60px", background: "linear-gradient(to left, #020818, transparent)" }} />
+          {/* Left gradient — smooth text readability */}
+          <div className="absolute inset-0 z-10" style={{ background: "linear-gradient(to right, rgba(2,8,24,0.95) 0%, rgba(2,8,24,0.80) 30%, rgba(2,8,24,0.30) 60%, rgba(2,8,24,0.0) 100%)" }} />
+          {/* Bottom fade — long smooth dissolve into page */}
+          <div className="absolute bottom-0 left-0 right-0 z-10" style={{ height: "260px", background: "linear-gradient(to bottom, transparent 0%, rgba(2,8,24,0.5) 50%, rgba(2,8,24,0.85) 75%, #020818 100%)" }} />
+          {/* Right edge soft fade */}
+          <div className="absolute inset-y-0 right-0 z-10" style={{ width: "120px", background: "linear-gradient(to left, rgba(2,8,24,0.85), transparent)" }} />
         </div>
 
         {/* Left text */}
