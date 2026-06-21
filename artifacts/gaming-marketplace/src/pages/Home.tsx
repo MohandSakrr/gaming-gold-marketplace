@@ -473,6 +473,11 @@ export default function Home() {
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.18 }}
                 style={{
+                  position: "absolute",
+                  top: "100%",
+                  left: 0,
+                  right: 0,
+                  zIndex: 200,
                   background: "#0e0e1a",
                   border: "1px solid rgba(213,173,104,0.35)",
                   borderTop: "none",
