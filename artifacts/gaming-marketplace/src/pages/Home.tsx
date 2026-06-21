@@ -133,6 +133,11 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    document.body.style.overflow = searchFocused ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [searchFocused]);
+
+  useEffect(() => {
     if (!searchQuery.trim()) { setSuggestions([]); setSearchLoading(false); return; }
     setSearchLoading(true);
     const timer = setTimeout(() => {
