@@ -111,21 +111,21 @@ export default function Home() {
 
               {/* Dropdown menu */}
               {dropdownOpen && (
-                <div className="absolute top-full right-0 mt-2 w-80 rounded-2xl shadow-2xl z-50 p-5" style={{ background: "#1c1c2e", border: "1px solid rgba(255,255,255,0.08)" }}>
-                  <p className="text-[11px] text-white/40 font-semibold uppercase tracking-widest mb-4">Search in service</p>
-                  <div className="grid grid-cols-3 gap-3">
+                <div className="absolute top-full right-0 mt-2 rounded-2xl shadow-2xl z-50 p-6" style={{ background: "#1c1c2e", border: "1px solid rgba(255,255,255,0.08)", width: "480px" }}>
+                  <p className="text-[11px] text-white/40 font-semibold uppercase tracking-widest mb-5">Search in service</p>
+                  <div className="grid grid-cols-6 gap-2">
                     {SERVICES.map(service => (
                       <button
                         key={service.label}
                         onClick={() => { setSelectedService(service.label); setDropdownOpen(false); }}
-                        className="flex flex-col items-center gap-2.5 p-2 rounded-xl transition-all hover:bg-white/5 group"
+                        className="flex flex-col items-center gap-2 p-2 rounded-xl transition-all hover:bg-white/5 group"
                       >
                         <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ background: service.bg }}>
                           <svg viewBox="0 0 24 24" className="w-7 h-7 stroke-[1.5] fill-none stroke-white" strokeLinecap="round" strokeLinejoin="round">
                             <path d={service.icon} />
                           </svg>
                         </div>
-                        <span className="text-[12px] font-semibold text-white/80 group-hover:text-white leading-tight text-center tracking-tight">{service.label}</span>
+                        <span className="text-[11px] font-semibold text-white/80 group-hover:text-white leading-tight text-center tracking-tight">{service.label}</span>
                       </button>
                     ))}
                   </div>
