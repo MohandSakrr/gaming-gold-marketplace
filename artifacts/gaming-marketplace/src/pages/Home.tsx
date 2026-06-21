@@ -123,9 +123,6 @@ export default function Home() {
             <Button variant="outline" className="border-primary text-primary hover:bg-primary/10 rounded-full h-10 px-6 font-semibold glow-gold">
               Log In
             </Button>
-            <Button className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full h-10 px-6 font-semibold glow-gold">
-              Shop Now
-            </Button>
           </div>
         </div>
       </nav>
