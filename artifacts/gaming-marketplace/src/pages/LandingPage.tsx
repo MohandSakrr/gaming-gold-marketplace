@@ -379,14 +379,17 @@ export default function Home() {
             {/* Dark / Light mode toggle */}
             <button
               onClick={() => setDarkMode(d => !d)}
-              className="w-10 h-10 flex items-center justify-center rounded-xl transition-colors"
-              style={{ background: darkMode ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.08)", border: "1px solid rgba(213,173,104,0.3)" }}
-              title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+              className="flex items-center gap-2.5 px-3 py-2 rounded-xl transition-colors"
+              style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)" }}
             >
-              {darkMode
-                ? <Sun className="w-4 h-4" style={{ color: "#D5AD68" }} />
-                : <Moon className="w-4 h-4" style={{ color: "#6b4f1a" }} />
-              }
+              <span className="text-[13px] font-medium" style={{ color: "rgba(255,255,255,0.75)" }}>
+                {darkMode ? "Dark Theme" : "Light Theme"}
+              </span>
+              {/* Toggle pill */}
+              <div className="relative shrink-0" style={{ width: "36px", height: "20px" }}>
+                <div className="absolute inset-0 rounded-full transition-colors" style={{ background: darkMode ? "#D5AD68" : "rgba(255,255,255,0.2)" }} />
+                <div className="absolute top-[3px] rounded-full transition-all" style={{ width: "14px", height: "14px", background: "#fff", left: darkMode ? "19px" : "3px", boxShadow: "0 1px 3px rgba(0,0,0,0.4)" }} />
+              </div>
             </button>
             <button className="h-10 px-6 font-semibold text-sm rounded-xl transition-opacity hover:opacity-90" style={{ background: "#D5AD68", color: "#1a1100" }}>
               Log in
