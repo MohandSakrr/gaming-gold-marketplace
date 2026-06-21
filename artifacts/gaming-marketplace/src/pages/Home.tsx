@@ -337,43 +337,44 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative h-[85vh] min-h-[600px] flex items-center justify-center pt-20 overflow-hidden">
-        <motion.div 
-          className="absolute inset-0 z-0"
-          style={{ y: heroY, opacity: heroOpacity }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background z-10" />
-          <img 
-            src="/images/hero.png" 
-            alt="Cinematic Gaming Interface" 
-            className="w-full h-full object-cover opacity-60 mix-blend-screen"
+      <section className="relative w-full overflow-hidden pt-20" style={{ minHeight: "520px", background: "#0a0a12" }}>
+        {/* Hero image - right side, fades at edges */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/images/hero.png"
+            alt="Hero"
+            className="absolute right-0 top-0 h-full object-cover object-left"
+            style={{ width: "60%", maskImage: "linear-gradient(to left, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%)", WebkitMaskImage: "linear-gradient(to left, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%)" }}
             onError={(e) => { e.currentTarget.style.display = 'none' }}
           />
-          <div className="absolute inset-0 bg-blue-900/10 mix-blend-overlay" />
-        </motion.div>
+          {/* Bottom fade to dark */}
+          <div className="absolute bottom-0 left-0 right-0 h-40 z-10" style={{ background: "linear-gradient(to bottom, transparent, #0a0a12)" }} />
+          {/* Left fade */}
+          <div className="absolute inset-y-0 left-0 w-1/2 z-10" style={{ background: "linear-gradient(to right, #0a0a12 30%, transparent)" }} />
+        </div>
 
-        <div className="container relative z-20 px-6 text-center max-w-4xl">
+        {/* Text content - left side */}
+        <div className="relative z-20 w-full px-12 flex items-center" style={{ minHeight: "520px" }}>
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
+            className="max-w-xl"
           >
-            <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight mb-6 font-heading">
-              The World's #1 <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-yellow-200 to-primary">
-                Gaming Marketplace
-              </span>
+            <h1 className="font-bold text-white leading-tight mb-4 font-heading" style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)" }}>
+              The World's #1<br/>
+              <span style={{ color: "#D5AD68" }}>Gaming Marketplace</span>
             </h1>
-            <p className="text-lg md:text-xl text-card-foreground mb-10 font-medium">
+            <p className="text-white/60 mb-8 text-lg">
               Trusted by 12M+ players worldwide · 500K+ listings · Instant delivery.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full h-14 px-8 text-lg font-bold glow-gold w-full sm:w-auto">
+            <div className="flex items-center gap-4">
+              <button className="h-12 px-8 rounded-full font-bold text-base transition-opacity hover:opacity-90" style={{ background: "#D5AD68", color: "#0a0a12" }}>
                 Shop Now
-              </Button>
-              <Button variant="outline" className="border-border text-white hover:bg-white/5 rounded-full h-14 px-8 text-lg font-bold w-full sm:w-auto backdrop-blur-sm">
+              </button>
+              <button className="h-12 px-8 rounded-full font-bold text-base text-white transition-colors hover:bg-white/10" style={{ border: "1px solid rgba(255,255,255,0.2)" }}>
                 Browse Categories
-              </Button>
+              </button>
             </div>
           </motion.div>
         </div>
