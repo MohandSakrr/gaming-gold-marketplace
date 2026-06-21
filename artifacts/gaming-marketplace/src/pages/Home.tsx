@@ -104,6 +104,33 @@ const MOCK_OFFERS = [
   { id: 12, game: "Genshin Impact", type: "Savage Raid Clear", price: "40.00", rating: "4.8", thumb: "/images/thumb-mmo.png" },
 ];
 
+const CATEGORY_DATA: Record<string, { popular: string[]; all: string[] }> = {
+  Currency: {
+    popular: ["EA Sports FC Coins","DonutSMP Money","Roblox Robux","Blade Ball Tokens","World of Warcraft Gold","Grow a Garden 2 Shackles","Path of Exile 2 Currency","Old School RuneScape Gold","WoW Classic Era Gold","Pet Simulator 99 Gems","Grow a Garden Tokens","MLB: The Show Stubs"],
+    all: ["8 Ball Pool Coins","Aion 2 Kinah","Albion Online Silver","Arc Raiders Coins","Black Desert Online Silver","Blade Ball Tokens","Dark and Darker Gold","Diablo 4 Gold","DonutSMP Money","Dune: Awakening Solaris","EA Sports FC Coins","Elden Ring Runes","Elder Scrolls Online Gold","Escape From Tarkov Roubles","EVE Online ISK","Fallout 76 Caps","Final Fantasy XIV Gil","Forza Horizon 5 Credits","Grow a Garden 2 Shackles","Grow a Garden Tokens","Guild Wars 2 Gold","Lost Ark Gold","Minecraft Hypixel Coins","New World Coins","Old School RuneScape Gold","Path of Exile 2 Currency","Pet Simulator 99 Gems","Pokemon Go Stardust","Roblox Robux","RuneScape 3 Gold","Throne and Liberty Lucent","Warframe Platinum","World of Warcraft Gold","WoW Classic Era Gold"],
+  },
+  Accounts: {
+    popular: ["Fortnite","Valorant","Roblox","Minecraft","Counter-Strike 2","Grand Theft Auto 5","Rainbow Six Siege X","League of Legends","Call of Duty","Pokemon Go","Rocket League"],
+    all: ["8 Ball Pool","Adopt Me","Apex Legends","Arc Raiders","Battlefield","Brawl Stars","Call of Duty","Clash of Clans","Counter-Strike 2","Dark and Darker","Dead by Daylight","Destiny 2","Diablo 4","Diablo Immortal","Dota 2","EA Sports FC","Elden Ring","Escape from Tarkov","Fortnite","Genshin Impact","Grand Theft Auto 5","Grow a Garden","Honkai: Star Rail","League of Legends","Minecraft","Mobile Legends","Overwatch","Path of Exile 2","Pokemon Go","PUBG","PUBG Mobile","Rainbow Six Siege X","Roblox","Rocket League","Rust","Valorant","World of Tanks","World of Warcraft","Wuthering Waves","Zenless Zone Zero"],
+  },
+  "Top Up": {
+    popular: ["Pokemon Go Top Ups","Genshin Impact Top Ups","Apex Legends Top Ups","Zenless Zone Zero Monochromes","Spotify Subscription","EA Sports FC Points","Valorant Points","Fortnite V-Bucks","Roblox Top Ups","Call of Duty Points","Minecraft Minecoins","Mobile Legends Diamonds"],
+    all: ["Amazon Subscription","Apex Legends Top Ups","Brawl Stars Gems","Call of Duty Points","ChatGPT Subscription","Clash of Clans Gems","Crunchyroll Subscription","Dead by Daylight Auric Cells","EA Sports FC Points","Fortnite V-Bucks","Garena Free Fire Diamonds","Genshin Impact Top Ups","Honkai: Star Rail Oneric Shards","League of Legends Riot Points","Marvel Rivals Lattice","Minecraft Minecoins","Mobile Legends Diamonds","Nintendo Subscription","Overwatch Coins","PlayStation Subscription","PUBG G-Coins","Rainbow Six Siege X Credits","Roblox Top Ups","Rocket League Credits","Spotify Subscription","TikTok Coins","Valorant Points","Xbox Game Pass","Zenless Zone Zero Monochromes"],
+  },
+  Items: {
+    popular: ["Grow a Garden 2","Arc Raiders","Adopt Me","Old School RuneScape","Roblox Limiteds","Fisch","Steal a Brainrot","Murder Mystery 2","Roblox","Fortnite","Blox Fruits","Minecraft Hypixel Items"],
+    all: ["Adopt Me","Albion Online","Anime Defenders","Arc Raiders","ARK: Survival Ascended","Blade Ball","Blox Fruits","Borderlands 4","Case Paradise","Counter-Strike 2","Da Hood","Dark and Darker","Delta Force","Destiny 2","Diablo 4","Dota 2","Dune: Awakening","EA Sports FC","Elden Ring","Elder Scrolls Online","Escape from Tarkov","EVE Online","Fallout 76","Fisch","Fortnite","Grand Piece Online","Grow a Garden","Grow a Garden 2","Guild Wars 2","Jailbreak","King Legacy","League of Legends","Lost Ark","Minecraft Hypixel Items","Murder Mystery 2","Old School RuneScape","Path of Exile 2","Pet Simulator 99","Pokemon Go","Roblox","Roblox Limiteds","Rust","SpongeBob Tower Defense","Steal a Brainrot","Team Fortress 2","Throne and Liberty","Warframe","World of Warcraft"],
+  },
+  Boosting: {
+    popular: ["Brawl Stars","EA Sports FC","Rainbow Six Siege X","Marvel Rivals","Apex Legends","Call of Duty","Valorant","League of Legends","Rocket League","Pokemon Go","Roblox","Arc Raiders"],
+    all: ["Apex Legends","Arc Raiders","Arena Breakout","Battlefield","Black Desert Online","Blox Fruits","Brawl Stars","Call of Duty","Clash of Clans","Clash Royale","Counter-Strike 2","Dead by Daylight","Deadlock","Delta Force","Destiny 2","Diablo 4","Dota 2","EA Sports FC","Escape from Tarkov","Fisch","Fortnite","Forza Horizon 5","Genshin Impact","League of Legends","Marvel Rivals","Minecraft","Mobile Legends","New World","Old School RuneScape","Overwatch","Path of Exile 2","Pokemon Go","Rainbow Six Siege X","Roblox","Rocket League","Teamfight Tactics","The First Descendant","Throne and Liberty","Valorant","Warframe","World of Warcraft"],
+  },
+  "Gift Cards": {
+    popular: ["Roblox Gift Cards","Valorant Gift Cards","Steam Gift Cards","Apple Gift Cards","Steam Game Accounts","CD Keys","PlayStation Gift Card","Razer Gold","Amazon Gift Cards","Discord Nitro","Xbox Gift Cards","Garena Free Fire Gift Cards"],
+    all: ["Amazon Gift Cards","Apple Gift Cards","Blizzard Gift Cards","CD Keys","Discord Nitro","Fortnite Gift Cards","Garena Free Fire Gift Cards","Google Play Gift Cards","League of Legends Gift Cards","Netflix Gift Cards","Nintendo Gift Cards","PlayStation Gift Card","PUBG Mobile Gift Cards","Razer Gold","Roblox Gift Cards","Runescape Memberships","Steam Game Accounts","Steam Gift Cards","Valorant Gift Cards","Xbox Gift Cards"],
+  },
+};
+
 export default function Home() {
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 500], [0, 150]);
@@ -119,6 +146,10 @@ export default function Home() {
   const searchRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  const [activeCat, setActiveCat] = useState<string | null>(null);
+  const [catSearch, setCatSearch] = useState("");
+  const catBarRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
@@ -126,6 +157,10 @@ export default function Home() {
       }
       if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
         setSearchFocused(false);
+      }
+      if (catBarRef.current && !catBarRef.current.contains(e.target as Node)) {
+        setActiveCat(null);
+        setCatSearch("");
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -381,70 +416,123 @@ export default function Home() {
       </section>
 
       {/* Categories Bar */}
-      <section className="relative z-20 -mt-6">
+      <section className="relative z-30 -mt-6" ref={catBarRef}>
         <div className="mx-auto px-8" style={{ maxWidth: "1100px" }}>
           <div
-            className="flex items-center justify-between gap-2 px-6 py-4"
+            className="flex items-center justify-between gap-2 px-6 py-4 relative"
             style={{
               background: "rgba(10,10,22,0.97)",
               border: "1px solid rgba(213,173,104,0.35)",
-              borderRadius: "16px",
+              borderRadius: activeCat ? "16px 16px 0 0" : "16px",
               backdropFilter: "blur(12px)",
-              boxShadow: "0 4px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(213,173,104,0.08)",
+              boxShadow: "0 4px 32px rgba(0,0,0,0.6)",
             }}
           >
             {[
-              {
-                label: "Currency",
-                icon: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",
-              },
-              {
-                label: "Accounts",
-                icon: "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z",
-              },
-              {
-                label: "Top Up",
-                icon: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",
-              },
-              {
-                label: "Items",
-                icon: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z",
-              },
-              {
-                label: "Boosting",
-                icon: "M13 2L3 14h9l-1 8 10-12h-9l1-8z",
-              },
-              {
-                label: "Gift Cards",
-                icon: "M20 12v10H4V12M22 7H2v5h20V7zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z",
-              },
+              { label: "Currency",   icon: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" },
+              { label: "Accounts",   icon: "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" },
+              { label: "Top Up",     icon: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" },
+              { label: "Items",      icon: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" },
+              { label: "Boosting",   icon: "M13 2L3 14h9l-1 8 10-12h-9l1-8z" },
+              { label: "Gift Cards", icon: "M20 12v10H4V12M22 7H2v5h20V7zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" },
             ].map((cat, i) => (
               <motion.button
                 key={cat.label}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.06 }}
-                className="flex flex-col items-center gap-2 px-5 py-2 rounded-xl group transition-all hover:bg-white/5 cursor-pointer"
-                style={{ flex: 1 }}
+                onClick={() => { setActiveCat(activeCat === cat.label ? null : cat.label); setCatSearch(""); }}
+                className="flex flex-col items-center gap-2 px-5 py-2 rounded-xl group transition-all cursor-pointer"
+                style={{
+                  flex: 1,
+                  background: activeCat === cat.label ? "rgba(213,173,104,0.1)" : "transparent",
+                }}
               >
                 <svg
                   viewBox="0 0 24 24"
-                  style={{ width: "36px", height: "36px", color: "#D5AD68" }}
+                  style={{ width: "32px", height: "32px", color: activeCat === cat.label ? "#D5AD68" : "rgba(213,173,104,0.7)" }}
                   className="fill-none stroke-current stroke-[1.6] group-hover:scale-110 transition-transform duration-200"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+                  strokeLinecap="round" strokeLinejoin="round"
                 >
                   <path d={cat.icon} />
                 </svg>
-                <span
-                  className="text-[13px] font-semibold transition-colors group-hover:text-white"
-                  style={{ color: "rgba(255,255,255,0.7)" }}
-                >
+                <span className="text-[13px] font-semibold transition-colors"
+                  style={{ color: activeCat === cat.label ? "#D5AD68" : "rgba(255,255,255,0.7)" }}>
                   {cat.label}
                 </span>
               </motion.button>
             ))}
           </div>
+
+          {/* Dropdown panel */}
+          <AnimatePresence>
+            {activeCat && CATEGORY_DATA[activeCat] && (
+              <motion.div
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.18 }}
+                style={{
+                  background: "#0e0e1a",
+                  border: "1px solid rgba(213,173,104,0.35)",
+                  borderTop: "none",
+                  borderRadius: "0 0 16px 16px",
+                  display: "flex",
+                  maxHeight: "380px",
+                  overflow: "hidden",
+                }}
+              >
+                {/* Left: Popular games */}
+                <div className="flex-1 p-5 overflow-y-auto" style={{ borderRight: "1px solid rgba(255,255,255,0.06)", scrollbarWidth: "thin", scrollbarColor: "#D5AD68 transparent" }}>
+                  <p className="text-[11px] font-bold uppercase tracking-widest mb-3" style={{ color: "#D5AD68" }}>Popular games</p>
+                  <div className="grid grid-cols-2 gap-1">
+                    {CATEGORY_DATA[activeCat].popular.map((game) => (
+                      <button key={game}
+                        className="flex items-center gap-2 px-2 py-2 rounded-lg text-left transition-colors hover:bg-white/5 group"
+                      >
+                        <div className="w-8 h-8 rounded-lg shrink-0 flex items-center justify-center text-[10px] font-bold"
+                          style={{ background: "rgba(213,173,104,0.15)", color: "#D5AD68" }}>
+                          {game.slice(0, 2).toUpperCase()}
+                        </div>
+                        <span className="text-[13px] text-white/70 group-hover:text-white leading-tight line-clamp-1">{game}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Right: All games + search */}
+                <div className="w-72 p-5 flex flex-col">
+                  <p className="text-[11px] font-bold uppercase tracking-widest mb-3" style={{ color: "rgba(255,255,255,0.4)" }}>All games</p>
+                  <div className="relative mb-3">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: "rgba(255,255,255,0.3)" }} />
+                    <input
+                      type="text"
+                      value={catSearch}
+                      onChange={e => setCatSearch(e.target.value)}
+                      placeholder="Search for game"
+                      className="w-full bg-transparent pl-9 pr-3 py-2 text-sm text-white outline-none rounded-lg"
+                      style={{ border: "1px solid rgba(213,173,104,0.4)", background: "rgba(255,255,255,0.03)" }}
+                    />
+                  </div>
+                  <div className="overflow-y-auto flex-1" style={{ scrollbarWidth: "thin", scrollbarColor: "#D5AD68 transparent" }}>
+                    {CATEGORY_DATA[activeCat].all
+                      .filter(g => g.toLowerCase().includes(catSearch.toLowerCase()))
+                      .map((game) => (
+                        <button key={game}
+                          className="w-full flex items-center gap-2 px-2 py-2 rounded-lg text-left transition-colors hover:bg-white/5 group"
+                        >
+                          <div className="w-7 h-7 rounded-md shrink-0 flex items-center justify-center text-[9px] font-bold"
+                            style={{ background: "rgba(213,173,104,0.12)", color: "#D5AD68" }}>
+                            {game.slice(0, 2).toUpperCase()}
+                          </div>
+                          <span className="text-[13px] text-white/60 group-hover:text-white">{game}</span>
+                        </button>
+                      ))}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </section>
 
