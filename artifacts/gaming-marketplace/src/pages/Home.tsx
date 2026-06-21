@@ -319,9 +319,9 @@ export default function Home() {
           </div>
 
           <div className="flex items-center gap-3 shrink-0">
-            <Button variant="outline" className="border-primary text-primary hover:bg-primary/10 rounded-full h-10 px-6 font-semibold glow-gold">
-              Log In
-            </Button>
+            <button className="h-10 px-6 font-semibold text-sm rounded-xl transition-opacity hover:opacity-90" style={{ background: "#D5AD68", color: "#1a1100" }}>
+              Log in
+            </button>
           </div>
         </div>
       </nav>
