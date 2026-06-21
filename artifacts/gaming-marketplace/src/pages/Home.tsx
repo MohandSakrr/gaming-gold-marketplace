@@ -399,38 +399,26 @@ export default function Home() {
             {[
               {
                 label: "Currency",
-                color: "#f59e0b",
-                bg: "linear-gradient(135deg,#f59e0b,#f97316)",
                 icon: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",
               },
               {
                 label: "Accounts",
-                color: "#3b82f6",
-                bg: "linear-gradient(135deg,#3b82f6,#06b6d4)",
                 icon: "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z",
               },
               {
                 label: "Top Up",
-                color: "#10b981",
-                bg: "linear-gradient(135deg,#10b981,#14b8a6)",
                 icon: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",
               },
               {
                 label: "Items",
-                color: "#a855f7",
-                bg: "linear-gradient(135deg,#a855f7,#ec4899)",
                 icon: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z",
               },
               {
                 label: "Boosting",
-                color: "#ef4444",
-                bg: "linear-gradient(135deg,#ef4444,#f97316)",
                 icon: "M13 2L3 14h9l-1 8 10-12h-9l1-8z",
               },
               {
                 label: "Gift Cards",
-                color: "#ec4899",
-                bg: "linear-gradient(135deg,#ec4899,#f43f5e)",
                 icon: "M20 12v10H4V12M22 7H2v5h20V7zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z",
               },
             ].map((cat, i) => (
@@ -445,10 +433,10 @@ export default function Home() {
                 <div
                   className="flex items-center justify-center rounded-xl group-hover:scale-105 transition-transform duration-200"
                   style={{
-                    background: cat.bg,
+                    background: "linear-gradient(135deg,#D5AD68,#a07c3a)",
                     width: "52px",
                     height: "52px",
-                    boxShadow: `0 4px 14px ${cat.color}55`,
+                    boxShadow: "0 4px 14px rgba(213,173,104,0.4)",
                   }}
                 >
                   <svg
