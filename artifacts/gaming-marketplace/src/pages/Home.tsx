@@ -185,7 +185,15 @@ export default function Home() {
 
           {/* Search bar */}
           <div className="flex-1 max-w-6xl mx-8 relative" ref={searchRef}>
-            <div className="relative flex items-center h-11 bg-[#1a1a2e] border border-border/50 rounded-full overflow-visible" ref={dropdownRef}>
+            <div
+              className="relative flex items-center h-11 bg-[#1a1a2e] overflow-visible transition-all"
+              ref={dropdownRef}
+              style={{
+                border: searchFocused ? "2px solid #D5AD68" : "1px solid rgba(255,255,255,0.15)",
+                borderRadius: searchFocused ? "12px 12px 0 0" : "999px",
+                borderBottom: searchFocused ? "none" : undefined,
+              }}
+            >
               {searchLoading
                 ? <Loader2 className="absolute left-4 w-4 h-4 text-primary animate-spin pointer-events-none" />
                 : <Search className="absolute left-4 w-4 h-4 text-muted-foreground pointer-events-none" />
@@ -244,7 +252,7 @@ export default function Home() {
 
             {/* Search results panel */}
             {searchFocused && !dropdownOpen && (
-              <div className="absolute top-full left-0 right-0 mt-1 z-50 overflow-hidden" style={{ background: "#1e1e28", border: "1px solid rgba(255,255,255,0.07)", borderRadius: "16px" }}>
+              <div className="absolute top-full left-0 right-0 z-50 overflow-hidden" style={{ background: "#1a1a2e", border: "2px solid #D5AD68", borderTop: "1px solid rgba(255,255,255,0.08)", borderRadius: "0 0 12px 12px" }}>
                 {searchQuery && suggestions.length > 0 ? (
                   <div className="py-3">
                     <p className="text-[11px] text-white/35 font-bold uppercase tracking-widest px-5 pb-1">
@@ -254,12 +262,12 @@ export default function Home() {
                       <button
                         key={i}
                         onClick={() => { setSearchQuery(item.label); setSearchFocused(false); setRecentSearches(r => [item.label, ...r.filter(x => x !== item.label)].slice(0, 5)); }}
-                        className="w-full flex items-center gap-4 px-5 py-3 transition-colors group"
+                        className="w-full flex items-center gap-4 px-5 py-4 transition-colors group"
                         style={{ borderBottom: i < suggestions.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none" }}
                         onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.04)")}
                         onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
                       >
-                        <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 font-bold text-sm" style={{ background: CATEGORY_COLORS[item.category] + "25", color: CATEGORY_COLORS[item.category] }}>
+                        <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 font-bold text-sm" style={{ background: CATEGORY_COLORS[item.category] + "25", color: CATEGORY_COLORS[item.category] }}>
                           {item.category.slice(0, 2).toUpperCase()}
                         </div>
                         <span className="text-[15px] text-white/85 group-hover:text-white flex-1 text-left font-medium">{item.label}</span>
