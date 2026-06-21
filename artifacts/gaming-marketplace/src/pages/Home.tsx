@@ -337,22 +337,27 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative h-[85vh] min-h-[600px] flex items-center justify-center pt-20 overflow-hidden">
-        <motion.div 
-          className="absolute inset-0 z-0"
-          style={{ y: heroY, opacity: heroOpacity }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background z-10" />
-          <img 
-            src="/images/hero.png" 
-            alt="Cinematic Gaming Interface" 
-            className="w-full h-full object-cover opacity-60 mix-blend-screen"
+      <section className="relative flex items-center justify-center pt-20 overflow-hidden" style={{ height: "520px" }}>
+        {/* Full background image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/images/hero.png"
+            alt="Hero"
+            className="w-full h-full object-cover object-top"
             onError={(e) => { e.currentTarget.style.display = 'none' }}
           />
-          <div className="absolute inset-0 bg-blue-900/10 mix-blend-overlay" />
-        </motion.div>
+          {/* Dark overlay so text is readable */}
+          <div className="absolute inset-0" style={{ background: "rgba(5,8,20,0.55)" }} />
+          {/* Bottom fade to page background */}
+          <div className="absolute bottom-0 left-0 right-0 z-10" style={{ height: "160px", background: "linear-gradient(to bottom, transparent, #020818)" }} />
+          {/* Left edge fade */}
+          <div className="absolute inset-y-0 left-0 z-10" style={{ width: "180px", background: "linear-gradient(to right, #020818, transparent)" }} />
+          {/* Right edge fade */}
+          <div className="absolute inset-y-0 right-0 z-10" style={{ width: "180px", background: "linear-gradient(to left, #020818, transparent)" }} />
+        </div>
 
-        <div className="container relative z-20 px-6 text-center max-w-4xl">
+        {/* Centered text */}
+        <div className="relative z-20 text-center px-6 max-w-4xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -360,18 +365,17 @@ export default function Home() {
           >
             <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight mb-6 font-heading">
               The World's #1 <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-yellow-200 to-primary">
-                Gaming Marketplace
-              </span>
+              <span style={{ color: "#D5AD68" }}>Gaming Marketplace</span>
             </h1>
-            <p className="text-lg md:text-xl text-card-foreground mb-10 font-medium">
+            <p className="text-lg md:text-xl mb-10 font-medium" style={{ color: "rgba(255,255,255,0.7)" }}>
               Trusted by 12M+ players worldwide · 500K+ listings · Instant delivery.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 -ml-20">
-              <Button className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full h-14 px-8 text-lg font-bold glow-gold w-full sm:w-auto">
-                Shop Now
-              </Button>
-            </div>
+            <button
+              className="h-14 px-10 rounded-full text-lg font-bold transition-opacity hover:opacity-90"
+              style={{ background: "#D5AD68", color: "#0a0a12" }}
+            >
+              Shop Now
+            </button>
           </motion.div>
         </div>
       </section>
