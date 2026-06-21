@@ -184,7 +184,7 @@ export default function Home() {
           </div>
 
           {/* Search bar */}
-          <div className="flex-1 max-w-4xl mx-8 relative" ref={searchRef}>
+          <div className="flex-1 max-w-6xl mx-8 relative" ref={searchRef}>
             <div className="relative flex items-center h-11 bg-[#1a1a2e] border border-border/50 rounded-full overflow-visible" ref={dropdownRef}>
               {searchLoading
                 ? <Loader2 className="absolute left-4 w-4 h-4 text-primary animate-spin pointer-events-none" />
