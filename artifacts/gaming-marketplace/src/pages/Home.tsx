@@ -416,8 +416,8 @@ export default function Home() {
       </section>
 
       {/* Categories Bar */}
-      <section className="relative z-30 -mt-6" ref={catBarRef}>
-        <div className="mx-auto px-8" style={{ maxWidth: "1100px" }}>
+      <section className="relative -mt-6" style={{ zIndex: 100 }} ref={catBarRef}>
+        <div className="mx-auto px-8" style={{ maxWidth: "1100px", position: "relative" }}>
           <div
             className="flex items-center justify-between gap-2 px-6 py-4 relative"
             style={{
