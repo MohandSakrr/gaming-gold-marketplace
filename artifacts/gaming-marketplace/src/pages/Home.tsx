@@ -337,42 +337,40 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative flex items-center justify-center pt-20 overflow-hidden" style={{ height: "520px" }}>
-        {/* Full background image */}
-        <div className="absolute inset-0 z-0">
+      <section className="relative overflow-hidden pt-20" style={{ height: "500px", background: "#020818" }}>
+        {/* Right side image with fades */}
+        <div className="absolute inset-y-0 right-0 z-0" style={{ width: "65%" }}>
           <img
             src="/images/hero.png"
             alt="Hero"
-            className="w-full h-full object-cover object-top"
+            className="w-full h-full object-cover object-center"
             onError={(e) => { e.currentTarget.style.display = 'none' }}
           />
-          {/* Dark overlay so text is readable */}
-          <div className="absolute inset-0" style={{ background: "rgba(5,8,20,0.55)" }} />
-          {/* Bottom fade to page background */}
-          <div className="absolute bottom-0 left-0 right-0 z-10" style={{ height: "160px", background: "linear-gradient(to bottom, transparent, #020818)" }} />
-          {/* Left edge fade */}
-          <div className="absolute inset-y-0 left-0 z-10" style={{ width: "180px", background: "linear-gradient(to right, #020818, transparent)" }} />
+          {/* Left fade — image dissolves into dark bg */}
+          <div className="absolute inset-y-0 left-0 z-10" style={{ width: "55%", background: "linear-gradient(to right, #020818, transparent)" }} />
+          {/* Bottom fade */}
+          <div className="absolute bottom-0 left-0 right-0 z-10" style={{ height: "180px", background: "linear-gradient(to bottom, transparent, #020818)" }} />
           {/* Right edge fade */}
-          <div className="absolute inset-y-0 right-0 z-10" style={{ width: "180px", background: "linear-gradient(to left, #020818, transparent)" }} />
+          <div className="absolute inset-y-0 right-0 z-10" style={{ width: "80px", background: "linear-gradient(to left, #020818, transparent)" }} />
         </div>
 
-        {/* Centered text */}
-        <div className="relative z-20 text-center px-6 max-w-4xl">
+        {/* Left text */}
+        <div className="relative z-20 h-full flex items-center px-12" style={{ maxWidth: "600px" }}>
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight mb-6 font-heading">
-              The World's #1 <br/>
+            <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight mb-5 font-heading">
+              The World's #1<br />
               <span style={{ color: "#D5AD68" }}>Gaming Marketplace</span>
             </h1>
-            <p className="text-lg md:text-xl mb-10 font-medium" style={{ color: "rgba(255,255,255,0.7)" }}>
-              Trusted by 12M+ players worldwide · 500K+ listings · Instant delivery.
+            <p className="text-base md:text-lg mb-8 font-medium" style={{ color: "rgba(255,255,255,0.65)" }}>
+              Trusted by 12M+ players worldwide<br />500K+ listings · Instant delivery.
             </p>
             <button
-              className="h-14 px-10 rounded-full text-lg font-bold transition-opacity hover:opacity-90"
-              style={{ background: "#D5AD68", color: "#0a0a12" }}
+              className="h-13 px-10 rounded-full text-base font-bold transition-opacity hover:opacity-90"
+              style={{ background: "#D5AD68", color: "#0a0a12", height: "52px" }}
             >
               Shop Now
             </button>
@@ -386,11 +384,11 @@ export default function Home() {
           <div
             className="flex items-center justify-between gap-2 px-6 py-4"
             style={{
-              background: "rgba(15,15,30,0.92)",
-              border: "1px solid rgba(213,173,104,0.18)",
+              background: "rgba(10,10,22,0.97)",
+              border: "1px solid rgba(213,173,104,0.35)",
               borderRadius: "16px",
               backdropFilter: "blur(12px)",
-              boxShadow: "0 4px 32px rgba(0,0,0,0.5)",
+              boxShadow: "0 4px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(213,173,104,0.08)",
             }}
           >
             {[
