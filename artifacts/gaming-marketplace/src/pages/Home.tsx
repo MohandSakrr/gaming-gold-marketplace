@@ -5,13 +5,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 const SERVICES = [
-  { label: "All",        bg: "#3d3d5c", icon: "M4 6h16M4 12h16M4 18h7" },
-  { label: "Currency",   bg: "#2d6a4f", icon: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" },
-  { label: "Accounts",   bg: "#1d4ed8", icon: "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" },
-  { label: "Top Up",     bg: "#0d9488", icon: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" },
-  { label: "Items",      bg: "#7c3aed", icon: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" },
-  { label: "Boosting",   bg: "#b45309", icon: "M13 2L3 14h9l-1 8 10-12h-9l1-8z" },
-  { label: "Gift Cards", bg: "#be185d", icon: "M20 12v10H4V12M22 7H2v5h20V7zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" },
+  { label: "All",        bg: "linear-gradient(135deg,#6366f1,#8b5cf6)", icon: "M4 6h16M4 12h16M4 18h10" },
+  { label: "Currency",   bg: "linear-gradient(135deg,#f59e0b,#f97316)", icon: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" },
+  { label: "Accounts",   bg: "linear-gradient(135deg,#3b82f6,#06b6d4)", icon: "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" },
+  { label: "Top Up",     bg: "linear-gradient(135deg,#10b981,#14b8a6)", icon: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" },
+  { label: "Items",      bg: "linear-gradient(135deg,#a855f7,#ec4899)", icon: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" },
+  { label: "Boosting",   bg: "linear-gradient(135deg,#ef4444,#f97316)", icon: "M13 2L3 14h9l-1 8 10-12h-9l1-8z" },
+  { label: "Gift Cards", bg: "linear-gradient(135deg,#ec4899,#f43f5e)", icon: "M20 12v10H4V12M22 7H2v5h20V7zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" },
 ];
 
 const MOCK_OFFERS = [
@@ -121,7 +121,7 @@ export default function Home() {
                         onClick={() => { setSelectedService(service.label); setDropdownOpen(false); }}
                         className="flex flex-col items-center gap-2.5 p-2 rounded-xl transition-all hover:bg-white/5 group"
                       >
-                        <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ backgroundColor: service.bg }}>
+                        <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ background: service.bg }}>
                           <svg viewBox="0 0 24 24" className="w-7 h-7 stroke-[1.5] fill-none stroke-white" strokeLinecap="round" strokeLinejoin="round">
                             <path d={service.icon} />
                           </svg>
