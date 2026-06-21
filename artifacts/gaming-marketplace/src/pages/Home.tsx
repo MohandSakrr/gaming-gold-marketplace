@@ -169,7 +169,7 @@ export default function Home() {
       
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
-        <div className="container mx-auto px-6 h-20 flex items-center justify-between">
+        <div className="w-full px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 relative">
               <svg viewBox="0 0 100 100" className="w-full h-full text-primary fill-current">
