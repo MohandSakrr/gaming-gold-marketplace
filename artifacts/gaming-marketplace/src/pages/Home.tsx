@@ -264,7 +264,7 @@ export default function Home() {
 
             {/* Search results panel */}
             {searchFocused && !dropdownOpen && (
-              <div className="absolute top-full left-0 right-0 z-50 mt-2" style={{ background: "#1a1a2e", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "12px", overflow: "hidden" }}>
+              <div className="absolute top-full left-0 right-0 z-50 mt-2" style={{ background: "#1a1a2e", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "12px", maxHeight: "400px", overflowY: "auto", scrollbarWidth: "none" }}>
                 {searchQuery && suggestions.length > 0 ? (
                   suggestions.slice(0, 7).map((item, i) => (
                     <button key={i}
