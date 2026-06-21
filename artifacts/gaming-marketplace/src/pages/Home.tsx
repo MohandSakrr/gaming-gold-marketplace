@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { Search, Star, Crown, ChevronRight, LogIn, ShoppingCart } from "lucide-react";
+import { Search, Star, Crown, ChevronRight, ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+
+const SERVICES = ["All services", "Top Up", "Accounts", "Boosting", "Items", "Coaching", "Gift Cards", "Esports", "Power Level"];
 
 const MOCK_OFFERS = [
   { id: 1, game: "Elden Ring", type: "Max Level Account", price: "249.99", rating: "4.9", thumb: "/images/thumb-rpg.png" },
@@ -23,6 +25,21 @@ export default function Home() {
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 500], [0, 150]);
   const heroOpacity = useTransform(scrollY, [0, 300], [1, 0]);
+
+  const [selectedService, setSelectedService] = useState("All services");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // Live offers state
   const [offers, setOffers] = useState(MOCK_OFFERS.slice(0, 5));
@@ -59,23 +76,50 @@ export default function Home() {
             </span>
           </div>
 
-          <div className="hidden lg:flex items-center gap-8 font-medium text-sm text-card-foreground">
-            <a href="#" className="hover:text-primary transition-colors">Home</a>
-            <a href="#" className="hover:text-primary transition-colors">Market</a>
-            <a href="#" className="hover:text-primary transition-colors">Top Up</a>
-            <a href="#" className="hover:text-primary transition-colors">Accounts</a>
-            <a href="#" className="hover:text-primary transition-colors">Boosting</a>
-            <a href="#" className="hover:text-primary transition-colors">Esports</a>
+          {/* Search bar with dropdown */}
+          <div className="flex-1 max-w-2xl mx-8" ref={dropdownRef}>
+            <div className="relative flex items-center h-11 bg-[#1a1a2e] border border-border/50 rounded-full overflow-visible">
+              <Search className="absolute left-4 w-4 h-4 text-muted-foreground pointer-events-none" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                placeholder="Search games, keywords, sellers..."
+                className="flex-1 bg-transparent pl-10 pr-4 h-full text-sm text-white placeholder:text-muted-foreground outline-none"
+              />
+              {/* Divider */}
+              <div className="w-px h-6 bg-border/50 shrink-0" />
+              {/* Dropdown trigger */}
+              <button
+                onClick={() => setDropdownOpen(o => !o)}
+                className="flex items-center gap-2 px-4 h-full text-sm font-medium text-card-foreground hover:text-white transition-colors whitespace-nowrap"
+              >
+                {selectedService}
+                <ChevronDown className={`w-4 h-4 transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
+              </button>
+              {/* Search button */}
+              <button className="h-full px-4 bg-primary hover:bg-primary/90 transition-colors rounded-r-full flex items-center justify-center">
+                <Search className="w-4 h-4 text-primary-foreground" />
+              </button>
+
+              {/* Dropdown menu */}
+              {dropdownOpen && (
+                <div className="absolute top-full right-0 mt-2 w-48 bg-card border border-border rounded-xl shadow-xl z-50 overflow-hidden">
+                  {SERVICES.map(service => (
+                    <button
+                      key={service}
+                      onClick={() => { setSelectedService(service); setDropdownOpen(false); }}
+                      className={`w-full text-left px-4 py-2.5 text-sm transition-colors hover:bg-primary/10 hover:text-primary ${selectedService === service ? "text-primary bg-primary/10" : "text-card-foreground"}`}
+                    >
+                      {service}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
-          <div className="flex items-center gap-4">
-            <div className="relative hidden md:block">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <Input 
-                placeholder="Search games, items..." 
-                className="w-64 bg-card/50 border-border/50 pl-10 h-10 rounded-full focus-visible:ring-primary focus-visible:border-primary transition-all"
-              />
-            </div>
+          <div className="flex items-center gap-3 shrink-0">
             <Button variant="outline" className="border-primary text-primary hover:bg-primary/10 rounded-full h-10 px-6 font-semibold glow-gold">
               Log In
             </Button>
