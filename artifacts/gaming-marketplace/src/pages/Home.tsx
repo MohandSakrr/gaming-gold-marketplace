@@ -263,7 +263,7 @@ export default function Home() {
                     <button key={i}
                       onClick={() => { setSearchQuery(item.label); setSearchFocused(false); setRecentSearches(r => [item.label, ...r.filter(x => x !== item.label)].slice(0, 5)); }}
                       className="w-full flex items-center gap-3 px-5 py-3 transition-colors group"
-                      style={{ borderBottom: i < Math.min(suggestions.length,7)-1 ? "1px solid rgba(255,255,255,0.05)" : "none" }}
+                      style={{  }}
                       onMouseEnter={e=>(e.currentTarget.style.background="rgba(255,255,255,0.04)")}
                       onMouseLeave={e=>(e.currentTarget.style.background="transparent")}
                     >
@@ -304,7 +304,7 @@ export default function Home() {
                         <button key={i}
                           onClick={() => { setSearchQuery(item.label); setRecentSearches(r => [item.label, ...r.filter(x => x !== item.label)].slice(0, 5)); }}
                           className="w-full flex items-center gap-3 px-5 py-3 transition-colors group"
-                          style={{ borderBottom: i < arr.length-1 ? "1px solid rgba(255,255,255,0.05)" : "none" }}
+                          style={{  }}
                           onMouseEnter={e=>(e.currentTarget.style.background="rgba(255,255,255,0.04)")}
                           onMouseLeave={e=>(e.currentTarget.style.background="transparent")}
                         >
