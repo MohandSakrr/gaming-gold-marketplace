@@ -367,7 +367,7 @@ export default function Home() {
             <p className="text-lg md:text-xl text-card-foreground mb-10 font-medium">
               Trusted by 12M+ players worldwide · 500K+ listings · Instant delivery.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 -ml-20">
               <Button className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full h-14 px-8 text-lg font-bold glow-gold w-full sm:w-auto">
                 Shop Now
               </Button>
