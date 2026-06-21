@@ -151,6 +151,7 @@ export default function Home() {
   const [catSearch, setCatSearch] = useState("");
   const catBarRef = useRef<HTMLDivElement>(null);
   const catBarInnerRef = useRef<HTMLDivElement>(null);
+  const catDropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -160,7 +161,9 @@ export default function Home() {
       if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
         setSearchFocused(false);
       }
-      if (catBarRef.current && !catBarRef.current.contains(e.target as Node)) {
+      const inBar = catBarRef.current && catBarRef.current.contains(e.target as Node);
+      const inDropdown = catDropdownRef.current && catDropdownRef.current.contains(e.target as Node);
+      if (!inBar && !inDropdown) {
         setActiveCat(null);
         setCatSearch("");
       }
@@ -476,6 +479,7 @@ export default function Home() {
       {/* Category Dropdown — rendered via portal to escape overflow clipping */}
       {activeCat && CATEGORY_DATA[activeCat] && createPortal(
         <div
+          ref={catDropdownRef}
           style={{
             position: "fixed",
             top: catBarInnerRef.current ? catBarInnerRef.current.getBoundingClientRect().bottom : 0,
