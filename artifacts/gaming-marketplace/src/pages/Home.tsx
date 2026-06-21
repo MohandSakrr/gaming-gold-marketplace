@@ -350,8 +350,8 @@ export default function Home() {
           <div className="absolute inset-0 z-10" style={{ background: "linear-gradient(to right, rgba(2,8,24,0.95) 0%, rgba(2,8,24,0.80) 30%, rgba(2,8,24,0.30) 60%, rgba(2,8,24,0.0) 100%)" }} />
           {/* Bottom fade — long smooth dissolve into page */}
           <div className="absolute bottom-0 left-0 right-0 z-10" style={{ height: "260px", background: "linear-gradient(to bottom, transparent 0%, rgba(2,8,24,0.5) 50%, rgba(2,8,24,0.85) 75%, #020818 100%)" }} />
-          {/* Right edge soft fade */}
-          <div className="absolute inset-y-0 right-0 z-10" style={{ width: "120px", background: "linear-gradient(to left, rgba(2,8,24,0.85), transparent)" }} />
+          {/* Right edge smooth fade */}
+          <div className="absolute inset-y-0 right-0 z-10" style={{ width: "45%", background: "linear-gradient(to left, #020818 0%, rgba(2,8,24,0.9) 25%, rgba(2,8,24,0.5) 60%, transparent 100%)" }} />
         </div>
 
         {/* Left text */}
