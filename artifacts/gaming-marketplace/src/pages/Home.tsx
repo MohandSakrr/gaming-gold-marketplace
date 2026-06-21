@@ -355,7 +355,7 @@ export default function Home() {
         </div>
 
         {/* Left text */}
-        <div className="relative z-20 h-full flex items-center px-24">
+        <div className="relative z-20 h-full flex items-center px-40">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
