@@ -179,7 +179,7 @@ export default function Home() {
               </svg>
             </div>
             <span className="font-heading font-bold text-xl tracking-tight text-white">
-              Nexus<span className="text-primary">Market</span>
+              Ra<span className="text-primary">Rumble</span>
             </span>
           </div>
 
@@ -610,7 +610,7 @@ export default function Home() {
                   </svg>
                 </div>
                 <span className="font-heading font-bold text-xl tracking-tight text-white">
-                  Nexus<span className="text-primary">Market</span>
+                  Ra<span className="text-primary">Rumble</span>
                 </span>
               </div>
               <p className="text-muted-foreground text-sm max-w-sm mb-6">
@@ -648,7 +648,7 @@ export default function Home() {
           
           <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-border/50 gap-4">
             <p className="text-xs text-muted-foreground">
-              © 2026 NexusMarket Inc. All rights reserved. Trade responsibly.
+              © 2026 RaRumble Inc. All rights reserved. Trade responsibly.
             </p>
             <div className="flex gap-4">
               <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Twitter/X</a>
