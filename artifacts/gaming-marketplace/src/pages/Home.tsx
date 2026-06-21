@@ -264,7 +264,7 @@ export default function Home() {
 
             {/* Search results panel */}
             {searchFocused && !dropdownOpen && (
-              <div className="absolute top-full left-0 right-0 z-50 mt-2" style={{ background: "#1a1a2e", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "12px" }}>
+              <div className="absolute top-full left-0 right-0 z-50 mt-2" style={{ background: "#1a1a2e", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "12px", overflow: "hidden" }}>
                 {searchQuery && suggestions.length > 0 ? (
                   suggestions.slice(0, 7).map((item, i) => (
                     <button key={i}
@@ -290,7 +290,7 @@ export default function Home() {
                           <p className="text-[11px] text-white/35 font-bold uppercase tracking-widest">Recently searched</p>
                           <button onClick={() => setRecentSearches([])} className="text-[11px] text-white/35 hover:text-white transition-colors">Clear all</button>
                         </div>
-                        {recentSearches.slice(0, 3).map((r, i) => (
+                        {recentSearches.slice(0, 2).map((r, i) => (
                           <button key={i} onClick={() => setSearchQuery(r)}
                             className="w-full flex items-center gap-3 px-5 py-3 transition-colors group"
                             onMouseEnter={e=>(e.currentTarget.style.background="rgba(255,255,255,0.04)")}
@@ -306,7 +306,7 @@ export default function Home() {
                     <p className="text-[11px] text-white/35 font-bold uppercase tracking-widest px-5 pt-3 pb-1">Popular categories</p>
                     {POPULAR_CATEGORIES
                       .filter(p => selectedService === "All Categories" || p.category === selectedService)
-                      .slice(0, 7)
+                      .slice(0, 5)
                       .map((item, i, arr) => (
                         <button key={i}
                           onClick={() => { setSearchQuery(item.label); setRecentSearches(r => [item.label, ...r.filter(x => x !== item.label)].slice(0, 5)); }}
