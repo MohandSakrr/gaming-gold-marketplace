@@ -4,7 +4,15 @@ import { Search, Star, Crown, ChevronRight, ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-const SERVICES = ["All services", "Top Up", "Accounts", "Boosting", "Items", "Coaching", "Gift Cards", "Esports", "Power Level"];
+const SERVICES = [
+  { label: "All", icon: "M4 6h16M4 12h16M4 18h16", color: "#6366f1" },
+  { label: "Currency", icon: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6", color: "#f59e0b" },
+  { label: "Accounts", icon: "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z", color: "#3b82f6" },
+  { label: "Top Up", icon: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6", color: "#10b981" },
+  { label: "Items", icon: "M20 7.4V16.6C20 17.6 19.3 18.5 18.4 18.8L12 21.2C11.4 21.4 10.6 21.4 10 21.2L3.6 18.8C2.7 18.5 2 17.6 2 16.6V7.4C2 6.4 2.7 5.5 3.6 5.2L10 2.8C10.6 2.6 11.4 2.6 12 2.8L18.4 5.2C19.3 5.5 20 6.4 20 7.4Z", color: "#8b5cf6" },
+  { label: "Boosting", icon: "M13 2L3 14h9l-1 8 10-12h-9l1-8z", color: "#f97316" },
+  { label: "Gift Cards", icon: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z", color: "#ec4899" },
+];
 
 const MOCK_OFFERS = [
   { id: 1, game: "Elden Ring", type: "Max Level Account", price: "249.99", rating: "4.9", thumb: "/images/thumb-rpg.png" },
@@ -26,7 +34,7 @@ export default function Home() {
   const heroY = useTransform(scrollY, [0, 500], [0, 150]);
   const heroOpacity = useTransform(scrollY, [0, 300], [1, 0]);
 
-  const [selectedService, setSelectedService] = useState("All services");
+  const [selectedService, setSelectedService] = useState("All");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -104,16 +112,24 @@ export default function Home() {
 
               {/* Dropdown menu */}
               {dropdownOpen && (
-                <div className="absolute top-full right-0 mt-2 w-48 bg-card border border-border rounded-xl shadow-xl z-50 overflow-hidden">
-                  {SERVICES.map(service => (
-                    <button
-                      key={service}
-                      onClick={() => { setSelectedService(service); setDropdownOpen(false); }}
-                      className={`w-full text-left px-4 py-2.5 text-sm transition-colors hover:bg-primary/10 hover:text-primary ${selectedService === service ? "text-primary bg-primary/10" : "text-card-foreground"}`}
-                    >
-                      {service}
-                    </button>
-                  ))}
+                <div className="absolute top-full right-0 mt-2 w-72 bg-[#1a1a2e] border border-border/50 rounded-2xl shadow-2xl z-50 p-4">
+                  <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wider mb-3 px-1">Search in service</p>
+                  <div className="grid grid-cols-3 gap-2">
+                    {SERVICES.map(service => (
+                      <button
+                        key={service.label}
+                        onClick={() => { setSelectedService(service.label); setDropdownOpen(false); }}
+                        className={`flex flex-col items-center gap-2 p-3 rounded-xl transition-all hover:bg-white/5 ${selectedService === service.label ? "bg-white/10" : ""}`}
+                      >
+                        <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ backgroundColor: service.color + "33" }}>
+                          <svg viewBox="0 0 24 24" className="w-6 h-6 stroke-[1.5] fill-none" style={{ stroke: service.color }} strokeLinecap="round" strokeLinejoin="round">
+                            <path d={service.icon} />
+                          </svg>
+                        </div>
+                        <span className="text-xs font-medium text-card-foreground leading-tight text-center">{service.label}</span>
+                      </button>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
