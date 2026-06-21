@@ -199,17 +199,20 @@ export default function Home() {
                 borderBottom: searchFocused ? "none" : undefined,
               }}
             >
-              {searchLoading
-                ? <Loader2 className="absolute left-4 w-4 h-4 text-primary animate-spin pointer-events-none" />
-                : <Search className="absolute left-4 w-4 h-4 text-muted-foreground pointer-events-none" />
-              }
+              {/* Search icon left (only when not focused) */}
+              {!searchFocused && (
+                searchLoading
+                  ? <Loader2 className="absolute left-4 w-4 h-4 text-primary animate-spin pointer-events-none" />
+                  : <Search className="absolute left-4 w-4 h-4 pointer-events-none" style={{ color: "rgba(255,255,255,0.4)" }} />
+              )}
               <input
                 type="text"
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 onFocus={() => { setSearchFocused(true); setDropdownOpen(false); }}
                 placeholder="Search games, keywords, sellers..."
-                className="flex-1 bg-transparent pl-10 pr-2 h-full text-sm text-white placeholder:text-muted-foreground outline-none"
+                className="flex-1 bg-transparent h-full text-sm text-white placeholder:text-muted-foreground outline-none"
+                style={{ paddingLeft: searchFocused ? "16px" : "36px", paddingRight: "8px" }}
               />
               {searchQuery && (
                 <button onClick={() => { setSearchQuery(""); setSuggestions([]); }} className="p-1 mr-1 text-muted-foreground hover:text-white transition-colors">
@@ -226,10 +229,15 @@ export default function Home() {
                 {selectedService}
                 <ChevronDown className={`w-4 h-4 transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
               </button>
-              {/* Search button */}
-              <button className="h-full px-4 bg-primary hover:bg-primary/90 transition-colors rounded-r-full flex items-center justify-center">
-                <Search className="w-4 h-4 text-primary-foreground" />
-              </button>
+              {/* Search icon right (only when focused) */}
+              {searchFocused && (
+                <button className="h-full px-4 flex items-center justify-center" style={{ color: "rgba(255,255,255,0.5)" }}>
+                  {searchLoading
+                    ? <Loader2 className="w-4 h-4 text-primary animate-spin" />
+                    : <Search className="w-4 h-4" />
+                  }
+                </button>
+              )}
 
               {/* Category dropdown */}
               {dropdownOpen && (
