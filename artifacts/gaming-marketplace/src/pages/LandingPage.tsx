@@ -151,7 +151,6 @@ export default function Home() {
   const [catSearch, setCatSearch] = useState("");
   const catBarRef = useRef<HTMLDivElement>(null);
   const catBarInnerRef = useRef<HTMLDivElement>(null);
-  const [catDropPos, setCatDropPos] = useState({ top: 0, left: 0, width: 0 });
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -446,12 +445,7 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.06 }}
                 onClick={() => {
-                  const next = activeCat === cat.label ? null : cat.label;
-                  if (next && catBarInnerRef.current) {
-                    const r = catBarInnerRef.current.getBoundingClientRect();
-                    setCatDropPos({ top: r.bottom, left: r.left, width: r.width });
-                  }
-                  setActiveCat(next);
+                  setActiveCat(activeCat === cat.label ? null : cat.label);
                   setCatSearch("");
                 }}
                 className="flex flex-col items-center gap-2 px-5 py-2 rounded-xl group transition-all cursor-pointer"
@@ -484,9 +478,9 @@ export default function Home() {
         <div
           style={{
             position: "fixed",
-            top: catDropPos.top,
-            left: catDropPos.left,
-            width: catDropPos.width,
+            top: catBarInnerRef.current ? catBarInnerRef.current.getBoundingClientRect().bottom : 0,
+            left: catBarInnerRef.current ? catBarInnerRef.current.getBoundingClientRect().left : 0,
+            width: catBarInnerRef.current ? catBarInnerRef.current.getBoundingClientRect().width : 0,
             zIndex: 9999,
             background: "#0e0e1a",
             border: "1px solid rgba(213,173,104,0.35)",
