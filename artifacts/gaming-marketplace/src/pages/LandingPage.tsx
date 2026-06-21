@@ -174,9 +174,9 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = searchFocused ? "hidden" : "";
+    document.body.style.overflow = (searchFocused || !!activeCat) ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
-  }, [searchFocused]);
+  }, [searchFocused, activeCat]);
 
   useEffect(() => {
     if (!searchQuery.trim()) { setSuggestions([]); setSearchLoading(false); return; }
