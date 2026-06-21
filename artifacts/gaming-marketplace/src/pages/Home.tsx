@@ -355,16 +355,13 @@ export default function Home() {
         </div>
 
         {/* Left text */}
-        <div className="relative z-20 h-full flex items-center px-14">
+        <div className="relative z-20 h-full flex items-center px-24">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             style={{ maxWidth: "560px" }}
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-5 text-xs font-bold uppercase tracking-widest" style={{ background: "rgba(213,173,104,0.15)", border: "1px solid rgba(213,173,104,0.4)", color: "#D5AD68" }}>
-              GTA VI · Now Available
-            </div>
             <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight mb-5 font-heading">
               Rule Vice City's<br />
               <span style={{ color: "#D5AD68" }}>Economy</span>
