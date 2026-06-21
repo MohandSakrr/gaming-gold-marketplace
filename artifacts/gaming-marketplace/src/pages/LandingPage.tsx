@@ -419,13 +419,15 @@ export default function Home() {
       <section className="-mt-6" style={{ zIndex: 100, position: "relative", overflow: "visible" }} ref={catBarRef}>
         <div className="mx-auto px-8" style={{ maxWidth: "1100px", position: "relative", overflow: "visible" }}>
           <div
-            className="flex items-center justify-between gap-2 px-6 py-4 relative"
+            className="flex items-center justify-between gap-2 px-6 py-4"
             style={{
+              position: "relative",
               background: "rgba(10,10,22,0.97)",
               border: "1px solid rgba(213,173,104,0.35)",
               borderRadius: activeCat ? "16px 16px 0 0" : "16px",
               backdropFilter: "blur(12px)",
               boxShadow: "0 4px 32px rgba(0,0,0,0.6)",
+              zIndex: 100,
             }}
           >
             {[
@@ -474,10 +476,10 @@ export default function Home() {
                 transition={{ duration: 0.18 }}
                 style={{
                   position: "absolute",
-                  top: "100%",
-                  left: 0,
-                  right: 0,
-                  zIndex: 200,
+                  top: "calc(100% - 1px)",
+                  left: "32px",
+                  right: "32px",
+                  zIndex: 300,
                   background: "#0e0e1a",
                   border: "1px solid rgba(213,173,104,0.35)",
                   borderTop: "none",
