@@ -543,40 +543,26 @@ export default function Home() {
       {/* Popular Categories Grid */}
       <section className="py-10 relative z-20">
         <div className="mx-auto px-8" style={{ maxWidth: "1100px" }}>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-5">
             {[
-              {
-                title: "Popular Accounts",
-                games: ["Fortnite","Valorant","Roblox","Minecraft","Counter-Strike 2","Grand Theft Auto 5","Rainbow Six Siege X","League of Legends","Call of Duty","Pokemon Go"],
-              },
-              {
-                title: "Popular Currencies",
-                games: ["EA Sports FC Coins","Path of Exile 2 Currency","DonutSMP Money","Old School RuneScape Gold","Roblox Robux","World of Warcraft Gold","Grow a Garden 2 Shackles","Pet Simulator 99 Gems","Blade Ball Tokens","WoW Classic Era Gold"],
-              },
-              {
-                title: "Popular Boosting Services",
-                games: ["Brawl Stars","EA Sports FC","Rainbow Six Siege X","Marvel Rivals","Apex Legends","Valorant","League of Legends","Call of Duty","Rocket League","Fortnite"],
-              },
-              {
-                title: "Popular Items",
-                games: ["Grow a Garden 2","Steal a Brainrot","Adopt Me","Old School RuneScape","Roblox Limiteds","Fisch","Murder Mystery 2","Fortnite","Blox Fruits","Arc Raiders"],
-              },
-            ].map((section) => (
-              <div key={section.title}
-                className="rounded-2xl p-6"
-                style={{ background: "rgba(14,14,26,0.9)", border: "1px solid rgba(255,255,255,0.07)" }}
-              >
-                <h3 className="text-[15px] font-bold text-white mb-4">{section.title}</h3>
-                <div className="grid grid-cols-2 gap-y-1">
-                  {section.games.map((game) => (
-                    <button key={game}
-                      className="flex items-center gap-2 px-2 py-2 rounded-lg text-left hover:bg-white/5 group transition-colors"
+              { title: "Popular Accounts",          games: ["Fortnite","Valorant","Roblox","Minecraft","Counter-Strike 2","Grand Theft Auto 5","Rainbow Six Siege X","League of Legends","Call of Duty","Pokemon Go"] },
+              { title: "Popular Currencies",         games: ["EA Sports FC Coins","Path of Exile 2 Currency","DonutSMP Money","Old School RuneScape Gold","Roblox Robux","World of Warcraft Gold","Grow a Garden 2 Shackles","Pet Simulator 99 Gems","Blade Ball Tokens","WoW Classic Era Gold"] },
+              { title: "Popular Boosting Services", games: ["Brawl Stars","EA Sports FC","Rainbow Six Siege X","Marvel Rivals","Apex Legends","Valorant","League of Legends","Call of Duty","Rocket League","Fortnite"] },
+              { title: "Popular Items",              games: ["Grow a Garden 2","Steal a Brainrot","Adopt Me","Old School RuneScape","Roblox Limiteds","Fisch","Murder Mystery 2","Fortnite","Blox Fruits","Arc Raiders"] },
+            ].map((sec) => (
+              <div key={sec.title} className="rounded-2xl p-6" style={{ background: "#111120", border: "1px solid rgba(213,173,104,0.15)" }}>
+                <h3 className="text-[15px] font-bold mb-5" style={{ color: "#D5AD68" }}>{sec.title}</h3>
+                <div className="grid grid-cols-2 gap-y-0.5">
+                  {sec.games.map((game) => (
+                    <button key={game} className="flex items-center gap-3 px-2 py-2.5 rounded-lg text-left group transition-colors"
+                      onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.05)")}
+                      onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
                     >
                       <div className="w-8 h-8 rounded-lg shrink-0 flex items-center justify-center text-[10px] font-bold"
                         style={{ background: "rgba(213,173,104,0.15)", color: "#D5AD68" }}>
                         {game.slice(0, 2).toUpperCase()}
                       </div>
-                      <span className="text-[13px] text-white/70 group-hover:text-white leading-tight line-clamp-1">{game}</span>
+                      <span className="text-[13px] font-medium text-white/70 group-hover:text-white leading-tight line-clamp-1">{game}</span>
                     </button>
                   ))}
                 </div>
