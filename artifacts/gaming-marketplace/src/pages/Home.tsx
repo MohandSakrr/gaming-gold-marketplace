@@ -338,38 +338,43 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-20" style={{ height: "500px", background: "#020818" }}>
-        {/* Right side image with fades */}
-        <div className="absolute inset-y-0 right-0 z-0" style={{ width: "65%" }}>
+        {/* Full-width background image */}
+        <div className="absolute inset-0 z-0">
           <img
             src="/images/hero.png"
             alt="Hero"
-            className="w-full h-full object-cover object-center"
+            className="w-full h-full object-cover object-top"
             onError={(e) => { e.currentTarget.style.display = 'none' }}
           />
-          {/* Left fade — image dissolves into dark bg */}
-          <div className="absolute inset-y-0 left-0 z-10" style={{ width: "55%", background: "linear-gradient(to right, #020818, transparent)" }} />
+          {/* Strong left overlay so text is readable */}
+          <div className="absolute inset-0 z-10" style={{ background: "linear-gradient(to right, rgba(2,8,24,0.92) 0%, rgba(2,8,24,0.75) 40%, rgba(2,8,24,0.15) 70%, rgba(2,8,24,0.0) 100%)" }} />
           {/* Bottom fade */}
-          <div className="absolute bottom-0 left-0 right-0 z-10" style={{ height: "180px", background: "linear-gradient(to bottom, transparent, #020818)" }} />
-          {/* Right edge fade */}
-          <div className="absolute inset-y-0 right-0 z-10" style={{ width: "80px", background: "linear-gradient(to left, #020818, transparent)" }} />
+          <div className="absolute bottom-0 left-0 right-0 z-10" style={{ height: "160px", background: "linear-gradient(to bottom, transparent, #020818)" }} />
+          {/* Right edge */}
+          <div className="absolute inset-y-0 right-0 z-10" style={{ width: "60px", background: "linear-gradient(to left, #020818, transparent)" }} />
         </div>
 
         {/* Left text */}
-        <div className="relative z-20 h-full flex items-center px-12" style={{ maxWidth: "600px" }}>
+        <div className="relative z-20 h-full flex items-center px-14">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
+            style={{ maxWidth: "560px" }}
           >
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-5 text-xs font-bold uppercase tracking-widest" style={{ background: "rgba(213,173,104,0.15)", border: "1px solid rgba(213,173,104,0.4)", color: "#D5AD68" }}>
+              GTA VI · Now Available
+            </div>
             <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight mb-5 font-heading">
-              The World's #1<br />
-              <span style={{ color: "#D5AD68" }}>Gaming Marketplace</span>
+              Rule Vice City's<br />
+              <span style={{ color: "#D5AD68" }}>Economy</span>
             </h1>
-            <p className="text-base md:text-lg mb-8 font-medium" style={{ color: "rgba(255,255,255,0.65)" }}>
-              Trusted by 12M+ players worldwide<br />500K+ listings · Instant delivery.
+            <p className="text-base mb-8 font-medium" style={{ color: "rgba(255,255,255,0.6)" }}>
+              Buy & sell GTA VI money, accounts, and items.<br />
+              Trusted by 12M+ players · Instant delivery.
             </p>
             <button
-              className="h-13 px-10 rounded-full text-base font-bold transition-opacity hover:opacity-90"
+              className="px-10 rounded-full text-base font-bold transition-opacity hover:opacity-90"
               style={{ background: "#D5AD68", color: "#0a0a12", height: "52px" }}
             >
               Shop Now
