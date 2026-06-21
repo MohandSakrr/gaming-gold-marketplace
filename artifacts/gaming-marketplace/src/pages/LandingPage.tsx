@@ -149,6 +149,8 @@ export default function Home() {
   const [activeCat, setActiveCat] = useState<string | null>(null);
   const [catSearch, setCatSearch] = useState("");
   const catBarRef = useRef<HTMLDivElement>(null);
+  const catBarInnerRef = useRef<HTMLDivElement>(null);
+  const [catDropPos, setCatDropPos] = useState({ top: 0, left: 0, width: 0 });
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -419,15 +421,14 @@ export default function Home() {
       <section className="-mt-6" style={{ zIndex: 100, position: "relative", overflow: "visible" }} ref={catBarRef}>
         <div className="mx-auto px-8" style={{ maxWidth: "1100px", position: "relative", overflow: "visible" }}>
           <div
+            ref={catBarInnerRef}
             className="flex items-center justify-between gap-2 px-6 py-4"
             style={{
-              position: "relative",
               background: "rgba(10,10,22,0.97)",
               border: "1px solid rgba(213,173,104,0.35)",
               borderRadius: activeCat ? "16px 16px 0 0" : "16px",
               backdropFilter: "blur(12px)",
               boxShadow: "0 4px 32px rgba(0,0,0,0.6)",
-              zIndex: 100,
             }}
           >
             {[
@@ -443,7 +444,15 @@ export default function Home() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.06 }}
-                onClick={() => { setActiveCat(activeCat === cat.label ? null : cat.label); setCatSearch(""); }}
+                onClick={() => {
+                  const next = activeCat === cat.label ? null : cat.label;
+                  if (next && catBarInnerRef.current) {
+                    const r = catBarInnerRef.current.getBoundingClientRect();
+                    setCatDropPos({ top: r.bottom, left: r.left, width: r.width });
+                  }
+                  setActiveCat(next);
+                  setCatSearch("");
+                }}
                 className="flex flex-col items-center gap-2 px-5 py-2 rounded-xl group transition-all cursor-pointer"
                 style={{
                   flex: 1,
@@ -475,11 +484,11 @@ export default function Home() {
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.18 }}
                 style={{
-                  position: "absolute",
-                  top: "calc(100% - 1px)",
-                  left: "32px",
-                  right: "32px",
-                  zIndex: 300,
+                  position: "fixed",
+                  top: catDropPos.top,
+                  left: catDropPos.left,
+                  width: catDropPos.width,
+                  zIndex: 9999,
                   background: "#0e0e1a",
                   border: "1px solid rgba(213,173,104,0.35)",
                   borderTop: "none",
