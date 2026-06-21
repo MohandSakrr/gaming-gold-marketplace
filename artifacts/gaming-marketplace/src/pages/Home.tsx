@@ -306,7 +306,7 @@ export default function Home() {
                     <p className="text-[11px] text-white/35 font-bold uppercase tracking-widest px-5 pt-3 pb-1">Popular categories</p>
                     {POPULAR_CATEGORIES
                       .filter(p => selectedService === "All Categories" || p.category === selectedService)
-                      .slice(0, 5)
+                      .slice(0, 10)
                       .map((item, i, arr) => (
                         <button key={i}
                           onClick={() => { setSearchQuery(item.label); setRecentSearches(r => [item.label, ...r.filter(x => x !== item.label)].slice(0, 5)); }}
