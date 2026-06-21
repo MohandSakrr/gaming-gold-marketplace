@@ -376,21 +376,6 @@ export default function Home() {
           </div>
 
           <div className="flex items-center gap-3 shrink-0">
-            {/* Dark / Light mode toggle */}
-            <button
-              onClick={() => setDarkMode(d => !d)}
-              className="flex items-center gap-2.5 px-3 py-2 rounded-xl transition-colors"
-              style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)" }}
-            >
-              <span className="text-[13px] font-medium" style={{ color: "rgba(255,255,255,0.75)" }}>
-                {darkMode ? "Dark Theme" : "Light Theme"}
-              </span>
-              {/* Toggle pill */}
-              <div className="relative shrink-0" style={{ width: "36px", height: "20px" }}>
-                <div className="absolute inset-0 rounded-full transition-colors" style={{ background: darkMode ? "#D5AD68" : "rgba(255,255,255,0.2)" }} />
-                <div className="absolute top-[3px] rounded-full transition-all" style={{ width: "14px", height: "14px", background: "#fff", left: darkMode ? "19px" : "3px", boxShadow: "0 1px 3px rgba(0,0,0,0.4)" }} />
-              </div>
-            </button>
             <button className="h-10 px-6 font-semibold text-sm rounded-xl transition-opacity hover:opacity-90" style={{ background: "#D5AD68", color: "#1a1100" }}>
               Log in
             </button>
@@ -823,9 +808,21 @@ export default function Home() {
               ))}
               <span className="text-[12px] font-medium ml-1" style={{ color: "rgba(255,255,255,0.35)" }}>+15 more</span>
             </div>
-            <div className="flex items-center gap-2 text-[13px] font-medium px-4 py-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.7)" }}>
-              <svg viewBox="0 0 24 24" className="w-4 h-4 fill-none stroke-current stroke-[1.5]"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
-              English | USD - $
+            <div className="flex items-center gap-5">
+              {/* Dark/Light toggle — no box */}
+              <button onClick={() => setDarkMode(d => !d)} className="flex items-center gap-2.5">
+                <span className="text-[13px] font-medium" style={{ color: "rgba(255,255,255,0.65)" }}>
+                  {darkMode ? "Dark Theme" : "Light Theme"}
+                </span>
+                <div className="relative shrink-0" style={{ width: "36px", height: "20px" }}>
+                  <div className="absolute inset-0 rounded-full transition-colors" style={{ background: darkMode ? "#D5AD68" : "rgba(255,255,255,0.25)" }} />
+                  <div className="absolute top-[3px] rounded-full transition-all" style={{ width: "14px", height: "14px", background: "#fff", left: darkMode ? "19px" : "3px", boxShadow: "0 1px 3px rgba(0,0,0,0.4)" }} />
+                </div>
+              </button>
+              <div className="flex items-center gap-2 text-[13px] font-medium px-4 py-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.7)" }}>
+                <svg viewBox="0 0 24 24" className="w-4 h-4 fill-none stroke-current stroke-[1.5]"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+                English | USD - $
+              </div>
             </div>
           </div>
         </div>
