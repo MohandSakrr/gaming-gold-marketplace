@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { Search, Star, Crown, ChevronRight, ChevronDown, X, Clock, TrendingUp, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -475,82 +476,75 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Dropdown panel */}
-          <AnimatePresence>
-            {activeCat && CATEGORY_DATA[activeCat] && (
-              <motion.div
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.18 }}
-                style={{
-                  position: "fixed",
-                  top: catDropPos.top,
-                  left: catDropPos.left,
-                  width: catDropPos.width,
-                  zIndex: 9999,
-                  background: "#0e0e1a",
-                  border: "1px solid rgba(213,173,104,0.35)",
-                  borderTop: "none",
-                  borderRadius: "0 0 16px 16px",
-                  display: "flex",
-                  maxHeight: "380px",
-                  overflow: "hidden",
-                }}
-              >
-                {/* Left: Popular games */}
-                <div className="flex-1 p-5 overflow-y-auto" style={{ borderRight: "1px solid rgba(255,255,255,0.06)", scrollbarWidth: "thin", scrollbarColor: "#D5AD68 transparent" }}>
-                  <p className="text-[11px] font-bold uppercase tracking-widest mb-3" style={{ color: "#D5AD68" }}>Popular games</p>
-                  <div className="grid grid-cols-2 gap-1">
-                    {CATEGORY_DATA[activeCat].popular.map((game) => (
-                      <button key={game}
-                        className="flex items-center gap-2 px-2 py-2 rounded-lg text-left transition-colors hover:bg-white/5 group"
-                      >
-                        <div className="w-8 h-8 rounded-lg shrink-0 flex items-center justify-center text-[10px] font-bold"
-                          style={{ background: "rgba(213,173,104,0.15)", color: "#D5AD68" }}>
-                          {game.slice(0, 2).toUpperCase()}
-                        </div>
-                        <span className="text-[13px] text-white/70 group-hover:text-white leading-tight line-clamp-1">{game}</span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Right: All games + search */}
-                <div className="w-72 p-5 flex flex-col">
-                  <p className="text-[11px] font-bold uppercase tracking-widest mb-3" style={{ color: "rgba(255,255,255,0.4)" }}>All games</p>
-                  <div className="relative mb-3">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: "rgba(255,255,255,0.3)" }} />
-                    <input
-                      type="text"
-                      value={catSearch}
-                      onChange={e => setCatSearch(e.target.value)}
-                      placeholder="Search for game"
-                      className="w-full bg-transparent pl-9 pr-3 py-2 text-sm text-white outline-none rounded-lg"
-                      style={{ border: "1px solid rgba(213,173,104,0.4)", background: "rgba(255,255,255,0.03)" }}
-                    />
-                  </div>
-                  <div className="overflow-y-auto flex-1" style={{ scrollbarWidth: "thin", scrollbarColor: "#D5AD68 transparent" }}>
-                    {CATEGORY_DATA[activeCat].all
-                      .filter(g => g.toLowerCase().includes(catSearch.toLowerCase()))
-                      .map((game) => (
-                        <button key={game}
-                          className="w-full flex items-center gap-2 px-2 py-2 rounded-lg text-left transition-colors hover:bg-white/5 group"
-                        >
-                          <div className="w-7 h-7 rounded-md shrink-0 flex items-center justify-center text-[9px] font-bold"
-                            style={{ background: "rgba(213,173,104,0.12)", color: "#D5AD68" }}>
-                            {game.slice(0, 2).toUpperCase()}
-                          </div>
-                          <span className="text-[13px] text-white/60 group-hover:text-white">{game}</span>
-                        </button>
-                      ))}
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
       </section>
+
+      {/* Category Dropdown — rendered via portal to escape overflow clipping */}
+      {activeCat && CATEGORY_DATA[activeCat] && createPortal(
+        <div
+          style={{
+            position: "fixed",
+            top: catDropPos.top,
+            left: catDropPos.left,
+            width: catDropPos.width,
+            zIndex: 9999,
+            background: "#0e0e1a",
+            border: "1px solid rgba(213,173,104,0.35)",
+            borderTop: "none",
+            borderRadius: "0 0 16px 16px",
+            display: "flex",
+            maxHeight: "380px",
+            overflow: "hidden",
+            boxShadow: "0 20px 40px rgba(0,0,0,0.8)",
+          }}
+        >
+          {/* Left: Popular games */}
+          <div className="flex-1 p-5 overflow-y-auto" style={{ borderRight: "1px solid rgba(255,255,255,0.06)", scrollbarWidth: "thin", scrollbarColor: "#D5AD68 transparent" }}>
+            <p className="text-[11px] font-bold uppercase tracking-widest mb-3" style={{ color: "#D5AD68" }}>Popular games</p>
+            <div className="grid grid-cols-2 gap-1">
+              {CATEGORY_DATA[activeCat].popular.map((game) => (
+                <button key={game} className="flex items-center gap-2 px-2 py-2 rounded-lg text-left transition-colors hover:bg-white/5 group">
+                  <div className="w-8 h-8 rounded-lg shrink-0 flex items-center justify-center text-[10px] font-bold"
+                    style={{ background: "rgba(213,173,104,0.15)", color: "#D5AD68" }}>
+                    {game.slice(0, 2).toUpperCase()}
+                  </div>
+                  <span className="text-[13px] text-white/70 group-hover:text-white leading-tight line-clamp-1">{game}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Right: All games + search */}
+          <div className="w-72 p-5 flex flex-col">
+            <p className="text-[11px] font-bold uppercase tracking-widest mb-3" style={{ color: "rgba(255,255,255,0.4)" }}>All games</p>
+            <div className="relative mb-3">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: "rgba(255,255,255,0.3)" }} />
+              <input
+                type="text"
+                value={catSearch}
+                onChange={e => setCatSearch(e.target.value)}
+                placeholder="Search for game"
+                className="w-full bg-transparent pl-9 pr-3 py-2 text-sm text-white outline-none rounded-lg"
+                style={{ border: "1px solid rgba(213,173,104,0.4)", background: "rgba(255,255,255,0.03)" }}
+              />
+            </div>
+            <div className="overflow-y-auto flex-1" style={{ scrollbarWidth: "thin", scrollbarColor: "#D5AD68 transparent" }}>
+              {CATEGORY_DATA[activeCat].all
+                .filter(g => g.toLowerCase().includes(catSearch.toLowerCase()))
+                .map((game) => (
+                  <button key={game} className="w-full flex items-center gap-2 px-2 py-2 rounded-lg text-left transition-colors hover:bg-white/5 group">
+                    <div className="w-7 h-7 rounded-md shrink-0 flex items-center justify-center text-[9px] font-bold"
+                      style={{ background: "rgba(213,173,104,0.12)", color: "#D5AD68" }}>
+                      {game.slice(0, 2).toUpperCase()}
+                    </div>
+                    <span className="text-[13px] text-white/60 group-hover:text-white">{game}</span>
+                  </button>
+                ))}
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
 
       {/* Live Offers Feed */}
       <section className="py-20 relative z-20">
