@@ -169,18 +169,17 @@ export default function Home() {
       
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
-        <div className="w-full px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-14 h-14 relative">
-              <svg viewBox="0 0 100 100" className="w-full h-full text-primary fill-current">
-                <polygon points="50 5 95 27.5 95 72.5 50 95 5 72.5 5 27.5" />
-                <polygon points="50 20 80 37 80 63 50 80 20 63 20 37" className="fill-background" />
-                <polygon points="50 35 65 45 65 55 50 65 35 55 35 45" />
-              </svg>
-            </div>
-            <span className="font-heading font-bold text-3xl tracking-tight text-white">
-              Ra<span className="text-primary">Rumble</span>
-            </span>
+        <div className="w-full px-6 h-10 flex items-center justify-between">
+          <div className="flex items-center">
+            <svg viewBox="0 0 165 40" width="164" height="40" xmlns="http://www.w3.org/2000/svg">
+              <g transform="translate(4, 4)">
+                <polygon points="16 0 30 8 30 24 16 32 2 24 2 8" fill="#D5AD68" />
+                <polygon points="16 6 25 11 25 21 16 26 7 21 7 11" fill="#0a0a14" />
+                <polygon points="16 12 21 15 21 19 16 22 11 19 11 15" fill="#D5AD68" />
+              </g>
+              <text x="44" y="28" fontFamily="inherit" fontWeight="700" fontSize="22" fill="white">Ra</text>
+              <text x="70" y="28" fontFamily="inherit" fontWeight="700" fontSize="22" fill="#D5AD68">Rumble</text>
+            </svg>
           </div>
 
           {/* Search bar */}
