@@ -224,60 +224,75 @@ export default function Home() {
 
             {/* Search results panel */}
             {searchFocused && !dropdownOpen && (
-              <div className="absolute top-full left-0 right-0 mt-2 rounded-2xl shadow-2xl z-50 py-4" style={{ background: "#16161e", border: "1px solid rgba(255,255,255,0.08)" }}>
+              <div className="absolute top-full left-0 right-0 mt-1 z-50 overflow-hidden" style={{ background: "#1e1e28", border: "1px solid rgba(255,255,255,0.07)", borderRadius: "16px" }}>
                 {searchQuery && suggestions.length > 0 ? (
-                  <>
-                    <p className="text-[11px] text-white/40 font-semibold uppercase tracking-widest px-5 mb-2">
-                      {selectedService === "All Categories" ? "Search Results" : `${selectedService} Results`}
+                  <div className="py-3">
+                    <p className="text-[11px] text-white/35 font-bold uppercase tracking-widest px-5 pb-1">
+                      {selectedService === "All Categories" ? "Search results" : `${selectedService} results`}
                     </p>
                     {suggestions.map((item, i) => (
                       <button
                         key={i}
                         onClick={() => { setSearchQuery(item.label); setSearchFocused(false); setRecentSearches(r => [item.label, ...r.filter(x => x !== item.label)].slice(0, 5)); }}
-                        className="w-full flex items-center gap-4 px-5 py-2.5 hover:bg-white/5 transition-colors group"
+                        className="w-full flex items-center gap-4 px-5 py-3 transition-colors group"
+                        style={{ borderBottom: i < suggestions.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none" }}
+                        onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.04)")}
+                        onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
                       >
-                        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: CATEGORY_COLORS[item.category] + "33" }}>
-                          <Search className="w-3.5 h-3.5" style={{ color: CATEGORY_COLORS[item.category] }} />
+                        <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 font-bold text-sm" style={{ background: CATEGORY_COLORS[item.category] + "25", color: CATEGORY_COLORS[item.category] }}>
+                          {item.category.slice(0, 2).toUpperCase()}
                         </div>
-                        <span className="text-sm text-white/80 group-hover:text-white flex-1 text-left">{item.label}</span>
-                        <span className="text-[11px] px-2 py-0.5 rounded-full font-medium" style={{ background: CATEGORY_COLORS[item.category] + "22", color: CATEGORY_COLORS[item.category] }}>{item.category}</span>
+                        <span className="text-[15px] text-white/85 group-hover:text-white flex-1 text-left font-medium">{item.label}</span>
+                        <span className="text-[12px] text-white/30">{item.category}</span>
                       </button>
                     ))}
-                  </>
+                  </div>
                 ) : searchQuery && !searchLoading ? (
-                  <p className="text-sm text-white/40 text-center py-6">No results found for "{searchQuery}"</p>
+                  <p className="text-sm text-white/40 text-center py-8">No results found for "<span className="text-white/60">{searchQuery}</span>"</p>
                 ) : (
-                  <>
+                  <div className="py-3">
                     {recentSearches.length > 0 && (
-                      <div className="mb-3">
-                        <div className="flex items-center justify-between px-5 mb-2">
-                          <p className="text-[11px] text-white/40 font-semibold uppercase tracking-widest">Recently Searched</p>
-                          <button onClick={() => setRecentSearches([])} className="text-[11px] text-primary hover:text-primary/80 transition-colors">Clear all</button>
+                      <div className="mb-1">
+                        <div className="flex items-center justify-between px-5 py-2">
+                          <p className="text-[11px] text-white/35 font-bold uppercase tracking-widest">Recently searched</p>
+                          <button onClick={() => setRecentSearches([])} className="text-[12px] text-white/40 hover:text-white transition-colors">Clear all</button>
                         </div>
                         {recentSearches.map((r, i) => (
-                          <button key={i} onClick={() => { setSearchQuery(r); }} className="w-full flex items-center gap-4 px-5 py-2 hover:bg-white/5 transition-colors group">
-                            <Clock className="w-4 h-4 text-white/30 shrink-0" />
-                            <span className="text-sm text-white/60 group-hover:text-white">{r}</span>
+                          <button
+                            key={i}
+                            onClick={() => setSearchQuery(r)}
+                            className="w-full flex items-center gap-4 px-5 py-3 transition-colors group"
+                            onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.04)")}
+                            onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+                          >
+                            <Clock className="w-4 h-4 text-white/25 shrink-0" />
+                            <span className="text-[15px] text-white/65 group-hover:text-white font-medium">{r}</span>
                           </button>
                         ))}
+                        <div className="mx-5 my-2" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }} />
                       </div>
                     )}
-                    <div>
-                      <p className="text-[11px] text-white/40 font-semibold uppercase tracking-widest px-5 mb-2">Popular Categories</p>
-                      {POPULAR_CATEGORIES
-                        .filter(p => selectedService === "All Categories" || selectedService === "Sellers" || p.category === selectedService)
-                        .map((item, i) => (
-                          <button key={i} onClick={() => { setSearchQuery(item.label); setRecentSearches(r => [item.label, ...r.filter(x => x !== item.label)].slice(0, 5)); }} className="w-full flex items-center gap-4 px-5 py-2.5 hover:bg-white/5 transition-colors group">
-                            <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: item.color + "33" }}>
-                              <TrendingUp className="w-3.5 h-3.5" style={{ color: item.color }} />
-                            </div>
-                            <span className="text-sm text-white/70 group-hover:text-white flex-1 text-left">{item.label}</span>
-                            <span className="text-[11px] px-2 py-0.5 rounded-full font-medium" style={{ background: item.color + "22", color: item.color }}>{item.category}</span>
-                          </button>
-                        ))
-                      }
-                    </div>
-                  </>
+                    <p className="text-[11px] text-white/35 font-bold uppercase tracking-widest px-5 py-2">Popular categories</p>
+                    {POPULAR_CATEGORIES
+                      .filter(p => selectedService === "All Categories" || selectedService === "Sellers" || p.category === selectedService)
+                      .map((item, i, arr) => (
+                        <button
+                          key={i}
+                          onClick={() => { setSearchQuery(item.label); setRecentSearches(r => [item.label, ...r.filter(x => x !== item.label)].slice(0, 5)); }}
+                          className="w-full flex items-center gap-4 px-5 py-3 transition-colors group"
+                          style={{ borderBottom: i < arr.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none" }}
+                          onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.04)")}
+                          onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+                        >
+                          <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 font-bold text-sm" style={{ background: item.color + "25", color: item.color }}>
+                            {item.category.slice(0, 2).toUpperCase()}
+                          </div>
+                          <span className="text-[15px] text-white/80 group-hover:text-white flex-1 text-left font-medium">{item.label}</span>
+                          <span className="text-[12px] text-white/30">{item.category}</span>
+                        </button>
+                      ))
+                    }
+                  </div>
                 )}
               </div>
             )}
