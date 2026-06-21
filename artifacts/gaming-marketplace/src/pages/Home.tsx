@@ -173,7 +173,7 @@ export default function Home() {
     <div className="min-h-screen bg-background text-foreground overflow-hidden selection:bg-primary/30">
       
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
+      <nav className="fixed top-0 w-full z-50 bg-background border-b border-border/50">
         <div className="w-full px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-14 h-14 relative">
