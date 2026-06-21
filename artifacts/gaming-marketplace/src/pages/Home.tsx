@@ -371,9 +371,6 @@ export default function Home() {
               <Button className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full h-14 px-8 text-lg font-bold glow-gold w-full sm:w-auto">
                 Shop Now
               </Button>
-              <Button variant="outline" className="border-border text-white hover:bg-white/5 rounded-full h-14 px-8 text-lg font-bold w-full sm:w-auto backdrop-blur-sm">
-                Browse Categories
-              </Button>
             </div>
           </motion.div>
         </div>
