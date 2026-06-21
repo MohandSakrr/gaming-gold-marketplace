@@ -430,25 +430,15 @@ export default function Home() {
                 className="flex flex-col items-center gap-2 px-5 py-2 rounded-xl group transition-all hover:bg-white/5 cursor-pointer"
                 style={{ flex: 1 }}
               >
-                <div
-                  className="flex items-center justify-center rounded-xl group-hover:scale-105 transition-transform duration-200"
-                  style={{
-                    background: "linear-gradient(135deg,#D5AD68,#a07c3a)",
-                    width: "52px",
-                    height: "52px",
-                    boxShadow: "0 4px 14px rgba(213,173,104,0.4)",
-                  }}
+                <svg
+                  viewBox="0 0 24 24"
+                  style={{ width: "36px", height: "36px", color: "#D5AD68" }}
+                  className="fill-none stroke-current stroke-[1.6] group-hover:scale-110 transition-transform duration-200"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 >
-                  <svg
-                    viewBox="0 0 24 24"
-                    style={{ width: "24px", height: "24px" }}
-                    className="fill-none stroke-white stroke-[1.8]"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d={cat.icon} />
-                  </svg>
-                </div>
+                  <path d={cat.icon} />
+                </svg>
                 <span
                   className="text-[13px] font-semibold transition-colors group-hover:text-white"
                   style={{ color: "rgba(255,255,255,0.7)" }}
