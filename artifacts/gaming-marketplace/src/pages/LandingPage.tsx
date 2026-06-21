@@ -153,6 +153,7 @@ export default function Home() {
   const catBarRef = useRef<HTMLDivElement>(null);
   const catBarInnerRef = useRef<HTMLDivElement>(null);
   const catDropdownRef = useRef<HTMLDivElement>(null);
+  const catOpenUpRef = useRef(false);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -442,7 +443,7 @@ export default function Home() {
             style={{
               background: "rgba(10,10,22,0.97)",
               border: "1px solid rgba(213,173,104,0.35)",
-              borderRadius: activeCat ? (catBarInnerRef.current && catBarInnerRef.current.getBoundingClientRect().bottom > window.innerHeight * 0.55 ? "0 0 16px 16px" : "16px 16px 0 0") : "16px",
+              borderRadius: activeCat ? (catOpenUpRef.current ? "0 0 16px 16px" : "16px 16px 0 0") : "16px",
               backdropFilter: "blur(12px)",
               boxShadow: "0 4px 32px rgba(0,0,0,0.6)",
             }}
@@ -461,7 +462,12 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.06 }}
                 onClick={() => {
-                  setActiveCat(activeCat === cat.label ? null : cat.label);
+                  const next = activeCat === cat.label ? null : cat.label;
+                  if (next && catBarInnerRef.current) {
+                    const rect = catBarInnerRef.current.getBoundingClientRect();
+                    catOpenUpRef.current = rect.bottom > window.innerHeight * 0.55;
+                  }
+                  setActiveCat(next);
                   setCatSearch("");
                 }}
                 className="flex flex-col items-center gap-2 px-5 py-2 rounded-xl group transition-all cursor-pointer"
@@ -491,56 +497,54 @@ export default function Home() {
 
       {/* Category Dropdown — rendered via portal to escape overflow clipping */}
       {activeCat && CATEGORY_DATA[activeCat] && createPortal(
-        (() => {
-          const rect = catBarInnerRef.current?.getBoundingClientRect();
-          const openUp = rect ? rect.bottom > window.innerHeight * 0.55 : false;
-          return (
         <div
           ref={catDropdownRef}
           style={{
             position: "fixed",
-            ...(openUp
-              ? { bottom: rect ? window.innerHeight - rect.top : 0, top: "auto" }
-              : { top: rect ? rect.bottom : 0 }),
-            left: rect ? rect.left : 0,
-            width: rect ? rect.width : 0,
+            ...(catOpenUpRef.current
+              ? { bottom: catBarInnerRef.current ? window.innerHeight - catBarInnerRef.current.getBoundingClientRect().top : 0, top: "auto" }
+              : { top: catBarInnerRef.current ? catBarInnerRef.current.getBoundingClientRect().bottom : 0 }),
+            left: catBarInnerRef.current ? catBarInnerRef.current.getBoundingClientRect().left : 0,
+            width: catBarInnerRef.current ? catBarInnerRef.current.getBoundingClientRect().width : 0,
             zIndex: 9999,
             background: "#0e0e1a",
             border: "1px solid rgba(213,173,104,0.35)",
-            ...(openUp ? { borderBottom: "none", borderRadius: "16px 16px 0 0" } : { borderTop: "none", borderRadius: "0 0 16px 16px" }),
+            ...(catOpenUpRef.current
+              ? { borderBottom: "none", borderRadius: "16px 16px 0 0" }
+              : { borderTop: "none", borderRadius: "0 0 16px 16px" }),
             display: "flex",
-            maxHeight: "380px",
+            maxHeight: "500px",
             overflow: "hidden",
-            boxShadow: "0 20px 40px rgba(0,0,0,0.8)",
+            boxShadow: "0 20px 60px rgba(0,0,0,0.9)",
           }}
         >
           {/* Left: Popular games */}
-          <div className="flex-1 p-5 overflow-y-auto" style={{ borderRight: "1px solid rgba(255,255,255,0.06)", scrollbarWidth: "thin", scrollbarColor: "#D5AD68 transparent" }}>
-            <p className="text-[11px] font-bold uppercase tracking-widest mb-3" style={{ color: "#D5AD68" }}>Popular games</p>
-            <div className="grid grid-cols-2 gap-1">
+          <div className="flex-1 p-6 overflow-y-auto" style={{ borderRight: "1px solid rgba(255,255,255,0.06)", scrollbarWidth: "thin", scrollbarColor: "#D5AD68 transparent" }}>
+            <p className="text-[11px] font-bold uppercase tracking-widest mb-4" style={{ color: "#D5AD68" }}>Popular games</p>
+            <div className="grid grid-cols-2 gap-1.5">
               {CATEGORY_DATA[activeCat].popular.map((game) => (
-                <button key={game} className="flex items-center gap-2 px-2 py-2 rounded-lg text-left transition-colors hover:bg-white/5 group">
-                  <div className="w-8 h-8 rounded-lg shrink-0 flex items-center justify-center text-[10px] font-bold"
-                    style={{ background: "rgba(213,173,104,0.15)", color: "#D5AD68" }}>
+                <button key={game} className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-colors hover:bg-white/5 group">
+                  <div className="w-10 h-10 rounded-xl shrink-0 flex items-center justify-center text-[11px] font-bold"
+                    style={{ background: "rgba(213,173,104,0.15)", color: "#D5AD68", border: "1px solid rgba(213,173,104,0.2)" }}>
                     {game.slice(0, 2).toUpperCase()}
                   </div>
-                  <span className="text-[13px] text-white/70 group-hover:text-white leading-tight line-clamp-1">{game}</span>
+                  <span className="text-[13px] font-medium text-white/75 group-hover:text-white leading-tight line-clamp-2">{game}</span>
                 </button>
               ))}
             </div>
           </div>
 
           {/* Right: All games + search */}
-          <div className="w-72 p-5 flex flex-col">
-            <p className="text-[11px] font-bold uppercase tracking-widest mb-3" style={{ color: "rgba(255,255,255,0.4)" }}>All games</p>
-            <div className="relative mb-3">
+          <div className="flex flex-col p-6" style={{ width: "300px" }}>
+            <p className="text-[11px] font-bold uppercase tracking-widest mb-4" style={{ color: "rgba(255,255,255,0.4)" }}>All games</p>
+            <div className="relative mb-4">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: "rgba(255,255,255,0.3)" }} />
               <input
                 type="text"
                 value={catSearch}
                 onChange={e => setCatSearch(e.target.value)}
                 placeholder="Search for game"
-                className="w-full bg-transparent pl-9 pr-3 py-2 text-sm text-white outline-none rounded-lg"
+                className="w-full bg-transparent pl-9 pr-3 py-2.5 text-sm text-white outline-none rounded-xl"
                 style={{ border: "1px solid rgba(213,173,104,0.4)", background: "rgba(255,255,255,0.03)" }}
               />
             </div>
@@ -548,19 +552,17 @@ export default function Home() {
               {CATEGORY_DATA[activeCat].all
                 .filter(g => g.toLowerCase().includes(catSearch.toLowerCase()))
                 .map((game) => (
-                  <button key={game} className="w-full flex items-center gap-2 px-2 py-2 rounded-lg text-left transition-colors hover:bg-white/5 group">
-                    <div className="w-7 h-7 rounded-md shrink-0 flex items-center justify-center text-[9px] font-bold"
-                      style={{ background: "rgba(213,173,104,0.12)", color: "#D5AD68" }}>
+                  <button key={game} className="w-full flex items-center gap-3 px-2 py-2.5 rounded-xl text-left transition-colors hover:bg-white/5 group">
+                    <div className="w-9 h-9 rounded-lg shrink-0 flex items-center justify-center text-[10px] font-bold"
+                      style={{ background: "rgba(213,173,104,0.12)", color: "#D5AD68", border: "1px solid rgba(213,173,104,0.15)" }}>
                       {game.slice(0, 2).toUpperCase()}
                     </div>
-                    <span className="text-[13px] text-white/60 group-hover:text-white">{game}</span>
+                    <span className="text-[13px] font-medium text-white/65 group-hover:text-white">{game}</span>
                   </button>
                 ))}
             </div>
           </div>
-        </div>
-          );
-        })(),
+        </div>,
         document.body
       )}
 
