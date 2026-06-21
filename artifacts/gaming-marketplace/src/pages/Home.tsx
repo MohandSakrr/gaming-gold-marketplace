@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { Search, Star, Crown, ChevronRight, ChevronDown } from "lucide-react";
+import { Search, Star, Crown, ChevronRight, ChevronDown, X, Clock, TrendingUp, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -14,6 +14,60 @@ const SERVICES = [
   { label: "Boosting",   bg: "linear-gradient(135deg,#ef4444,#f97316)", icon: "M13 2L3 14h9l-1 8 10-12h-9l1-8z" },
   { label: "Gift Cards", bg: "linear-gradient(135deg,#ec4899,#f43f5e)", icon: "M20 12v10H4V12M22 7H2v5h20V7zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" },
 ];
+
+const POPULAR_CATEGORIES = [
+  { label: "Fortnite Accounts",        category: "Accounts",   color: "#f97316" },
+  { label: "WoW Gold",                 category: "Currency",   color: "#f59e0b" },
+  { label: "Valorant Boosting",        category: "Boosting",   color: "#ef4444" },
+  { label: "Genshin Impact Top Up",    category: "Top Up",     color: "#10b981" },
+  { label: "CS2 Items",                category: "Items",      color: "#a855f7" },
+  { label: "Steam Gift Cards",         category: "Gift Cards", color: "#ec4899" },
+  { label: "Apex Legends Accounts",    category: "Accounts",   color: "#3b82f6" },
+  { label: "Roblox Top Up",            category: "Top Up",     color: "#14b8a6" },
+];
+
+const SEARCH_DATA = [
+  { label: "Fortnite Accounts",        category: "Accounts"   },
+  { label: "Fortnite V-Bucks",         category: "Currency"   },
+  { label: "Fortnite Boosting",        category: "Boosting"   },
+  { label: "Fortnite Gift Cards",      category: "Gift Cards" },
+  { label: "Fortnite Items",           category: "Items"      },
+  { label: "WoW Gold",                 category: "Currency"   },
+  { label: "WoW Accounts",             category: "Accounts"   },
+  { label: "WoW Boosting",             category: "Boosting"   },
+  { label: "Valorant Accounts",        category: "Accounts"   },
+  { label: "Valorant Boosting",        category: "Boosting"   },
+  { label: "Valorant Items",           category: "Items"      },
+  { label: "CS2 Items",                category: "Items"      },
+  { label: "CS2 Accounts",             category: "Accounts"   },
+  { label: "CS2 Boosting",             category: "Boosting"   },
+  { label: "Genshin Impact Top Up",    category: "Top Up"     },
+  { label: "Genshin Impact Accounts",  category: "Accounts"   },
+  { label: "Apex Legends Accounts",    category: "Accounts"   },
+  { label: "Apex Legends Boosting",    category: "Boosting"   },
+  { label: "League of Legends Boosting", category: "Boosting" },
+  { label: "League of Legends Accounts", category: "Accounts" },
+  { label: "Dota 2 Items",             category: "Items"      },
+  { label: "Dota 2 Boosting",          category: "Boosting"   },
+  { label: "Roblox Top Up",            category: "Top Up"     },
+  { label: "Steam Gift Cards",         category: "Gift Cards" },
+  { label: "PSN Gift Cards",           category: "Gift Cards" },
+  { label: "Xbox Gift Cards",          category: "Gift Cards" },
+  { label: "Rocket League Items",      category: "Items"      },
+  { label: "Elden Ring Accounts",      category: "Accounts"   },
+  { label: "FC 24 Coins",              category: "Currency"   },
+  { label: "Path of Exile Currency",   category: "Currency"   },
+];
+
+const CATEGORY_COLORS: Record<string, string> = {
+  "Accounts":   "#3b82f6",
+  "Currency":   "#f59e0b",
+  "Boosting":   "#ef4444",
+  "Top Up":     "#10b981",
+  "Items":      "#a855f7",
+  "Gift Cards": "#ec4899",
+  "Sellers":    "#0ea5e9",
+};
 
 const MOCK_OFFERS = [
   { id: 1, game: "Elden Ring", type: "Max Level Account", price: "249.99", rating: "4.9", thumb: "/images/thumb-rpg.png" },
@@ -38,6 +92,11 @@ export default function Home() {
   const [selectedService, setSelectedService] = useState("All Categories");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchFocused, setSearchFocused] = useState(false);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [suggestions, setSuggestions] = useState<typeof SEARCH_DATA>([]);
+  const [recentSearches, setRecentSearches] = useState<string[]>(["Fortnite Accounts", "WoW Gold"]);
+  const searchRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -45,10 +104,29 @@ export default function Home() {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setDropdownOpen(false);
       }
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+        setSearchFocused(false);
+      }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    if (!searchQuery.trim()) { setSuggestions([]); setSearchLoading(false); return; }
+    setSearchLoading(true);
+    const timer = setTimeout(() => {
+      const q = searchQuery.toLowerCase();
+      const filtered = SEARCH_DATA.filter(item => {
+        const matchesQuery = item.label.toLowerCase().includes(q);
+        const matchesCategory = selectedService === "All Categories" || selectedService === "Sellers" || item.category === selectedService;
+        return matchesQuery && matchesCategory;
+      }).slice(0, 7);
+      setSuggestions(filtered);
+      setSearchLoading(false);
+    }, 350);
+    return () => clearTimeout(timer);
+  }, [searchQuery, selectedService]);
 
   // Live offers state
   const [offers, setOffers] = useState(MOCK_OFFERS.slice(0, 5));
@@ -85,22 +163,31 @@ export default function Home() {
             </span>
           </div>
 
-          {/* Search bar with dropdown */}
-          <div className="flex-1 max-w-4xl mx-8" ref={dropdownRef}>
-            <div className="relative flex items-center h-11 bg-[#1a1a2e] border border-border/50 rounded-full overflow-visible">
-              <Search className="absolute left-4 w-4 h-4 text-muted-foreground pointer-events-none" />
+          {/* Search bar */}
+          <div className="flex-1 max-w-4xl mx-8 relative" ref={searchRef}>
+            <div className="relative flex items-center h-11 bg-[#1a1a2e] border border-border/50 rounded-full overflow-visible" ref={dropdownRef}>
+              {searchLoading
+                ? <Loader2 className="absolute left-4 w-4 h-4 text-primary animate-spin pointer-events-none" />
+                : <Search className="absolute left-4 w-4 h-4 text-muted-foreground pointer-events-none" />
+              }
               <input
                 type="text"
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
+                onFocus={() => { setSearchFocused(true); setDropdownOpen(false); }}
                 placeholder="Search games, keywords, sellers..."
-                className="flex-1 bg-transparent pl-10 pr-4 h-full text-sm text-white placeholder:text-muted-foreground outline-none"
+                className="flex-1 bg-transparent pl-10 pr-2 h-full text-sm text-white placeholder:text-muted-foreground outline-none"
               />
+              {searchQuery && (
+                <button onClick={() => { setSearchQuery(""); setSuggestions([]); }} className="p-1 mr-1 text-muted-foreground hover:text-white transition-colors">
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
               {/* Divider */}
               <div className="w-px h-6 bg-border/50 shrink-0" />
-              {/* Dropdown trigger */}
+              {/* Category trigger */}
               <button
-                onClick={() => setDropdownOpen(o => !o)}
+                onClick={() => { setDropdownOpen(o => !o); setSearchFocused(false); }}
                 className="flex items-center gap-2 px-4 h-full text-sm font-medium text-card-foreground hover:text-white transition-colors whitespace-nowrap"
               >
                 {selectedService}
@@ -111,7 +198,7 @@ export default function Home() {
                 <Search className="w-4 h-4 text-primary-foreground" />
               </button>
 
-              {/* Dropdown menu */}
+              {/* Category dropdown */}
               {dropdownOpen && (
                 <div className="absolute top-full right-0 mt-2 rounded-2xl shadow-2xl z-50 p-6" style={{ background: "#1c1c2e", border: "1px solid rgba(255,255,255,0.08)", width: "700px" }}>
                   <p className="text-[11px] text-white/40 font-semibold uppercase tracking-widest mb-5">Search in service</p>
@@ -120,7 +207,7 @@ export default function Home() {
                       <button
                         key={service.label}
                         onClick={() => { setSelectedService(service.label); setDropdownOpen(false); }}
-                        className="flex flex-col items-center gap-2 px-2 py-3 rounded-xl transition-all hover:bg-white/5 group"
+                        className={`flex flex-col items-center gap-2 px-2 py-3 rounded-xl transition-all hover:bg-white/5 group ${selectedService === service.label ? "bg-white/10" : ""}`}
                       >
                         <div className="rounded-2xl flex items-center justify-center" style={{ background: service.bg, width: "52px", height: "52px" }}>
                           <svg viewBox="0 0 24 24" style={{ width: "24px", height: "24px" }} className="stroke-[1.8] fill-none stroke-white" strokeLinecap="round" strokeLinejoin="round">
@@ -134,6 +221,66 @@ export default function Home() {
                 </div>
               )}
             </div>
+
+            {/* Search results panel */}
+            {searchFocused && !dropdownOpen && (
+              <div className="absolute top-full left-0 right-0 mt-2 rounded-2xl shadow-2xl z-50 py-4" style={{ background: "#16161e", border: "1px solid rgba(255,255,255,0.08)" }}>
+                {searchQuery && suggestions.length > 0 ? (
+                  <>
+                    <p className="text-[11px] text-white/40 font-semibold uppercase tracking-widest px-5 mb-2">
+                      {selectedService === "All Categories" ? "Search Results" : `${selectedService} Results`}
+                    </p>
+                    {suggestions.map((item, i) => (
+                      <button
+                        key={i}
+                        onClick={() => { setSearchQuery(item.label); setSearchFocused(false); setRecentSearches(r => [item.label, ...r.filter(x => x !== item.label)].slice(0, 5)); }}
+                        className="w-full flex items-center gap-4 px-5 py-2.5 hover:bg-white/5 transition-colors group"
+                      >
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: CATEGORY_COLORS[item.category] + "33" }}>
+                          <Search className="w-3.5 h-3.5" style={{ color: CATEGORY_COLORS[item.category] }} />
+                        </div>
+                        <span className="text-sm text-white/80 group-hover:text-white flex-1 text-left">{item.label}</span>
+                        <span className="text-[11px] px-2 py-0.5 rounded-full font-medium" style={{ background: CATEGORY_COLORS[item.category] + "22", color: CATEGORY_COLORS[item.category] }}>{item.category}</span>
+                      </button>
+                    ))}
+                  </>
+                ) : searchQuery && !searchLoading ? (
+                  <p className="text-sm text-white/40 text-center py-6">No results found for "{searchQuery}"</p>
+                ) : (
+                  <>
+                    {recentSearches.length > 0 && (
+                      <div className="mb-3">
+                        <div className="flex items-center justify-between px-5 mb-2">
+                          <p className="text-[11px] text-white/40 font-semibold uppercase tracking-widest">Recently Searched</p>
+                          <button onClick={() => setRecentSearches([])} className="text-[11px] text-primary hover:text-primary/80 transition-colors">Clear all</button>
+                        </div>
+                        {recentSearches.map((r, i) => (
+                          <button key={i} onClick={() => { setSearchQuery(r); }} className="w-full flex items-center gap-4 px-5 py-2 hover:bg-white/5 transition-colors group">
+                            <Clock className="w-4 h-4 text-white/30 shrink-0" />
+                            <span className="text-sm text-white/60 group-hover:text-white">{r}</span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    <div>
+                      <p className="text-[11px] text-white/40 font-semibold uppercase tracking-widest px-5 mb-2">Popular Categories</p>
+                      {POPULAR_CATEGORIES
+                        .filter(p => selectedService === "All Categories" || selectedService === "Sellers" || p.category === selectedService)
+                        .map((item, i) => (
+                          <button key={i} onClick={() => { setSearchQuery(item.label); setRecentSearches(r => [item.label, ...r.filter(x => x !== item.label)].slice(0, 5)); }} className="w-full flex items-center gap-4 px-5 py-2.5 hover:bg-white/5 transition-colors group">
+                            <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: item.color + "33" }}>
+                              <TrendingUp className="w-3.5 h-3.5" style={{ color: item.color }} />
+                            </div>
+                            <span className="text-sm text-white/70 group-hover:text-white flex-1 text-left">{item.label}</span>
+                            <span className="text-[11px] px-2 py-0.5 rounded-full font-medium" style={{ background: item.color + "22", color: item.color }}>{item.category}</span>
+                          </button>
+                        ))
+                      }
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="flex items-center gap-3 shrink-0">
