@@ -500,65 +500,91 @@ export default function Home() {
             left: catBarInnerRef.current ? catBarInnerRef.current.getBoundingClientRect().left : 0,
             width: catBarInnerRef.current ? catBarInnerRef.current.getBoundingClientRect().width : 0,
             zIndex: 9999,
-            background: darkMode ? "#0e0e1a" : "#f4f4f7",
+            background: darkMode ? "#0e0e1a" : "#ffffff",
             border: darkMode ? "1px solid rgba(213,173,104,0.35)" : "1px solid rgba(0,0,0,0.10)",
             ...(catOpenUpRef.current
               ? { borderBottom: "none", borderRadius: "16px 16px 0 0" }
               : { borderTop: "none", borderRadius: "0 0 16px 16px" }),
+            display: "flex",
+            maxHeight: "500px",
             overflow: "hidden",
-            boxShadow: darkMode ? "0 20px 60px rgba(0,0,0,0.9)" : "0 20px 40px rgba(0,0,0,0.12)",
+            boxShadow: darkMode ? "0 20px 60px rgba(0,0,0,0.9)" : "0 20px 60px rgba(0,0,0,0.15)",
           }}
         >
-          {/* Mega-menu: 4 category cards in a 2x2 grid — matches Popular section style */}
-          <div className="p-5 grid grid-cols-2 gap-4" style={{ maxHeight: "500px", overflowY: "auto", scrollbarWidth: "thin", scrollbarColor: "#D5AD68 transparent" }}>
-            {[
-              { title: "Popular Accounts",          cat: "Accounts",   games: CATEGORY_DATA["Accounts"].popular.slice(0,10) },
-              { title: "Popular Currencies",         cat: "Currency",   games: CATEGORY_DATA["Currency"].popular.slice(0,10) },
-              { title: "Popular Boosting Services", cat: "Boosting",   games: CATEGORY_DATA["Boosting"].popular.slice(0,10) },
-              { title: "Popular Items",              cat: "Items",      games: CATEGORY_DATA["Items"].popular.slice(0,10) },
-            ].map((sec) => {
-              const catColor = CATEGORY_COLORS[sec.cat] || "#D5AD68";
-              const isActive = activeCat === sec.cat;
-              return (
-                <div key={sec.title} className="rounded-2xl p-5"
-                  style={{
-                    background: darkMode
-                      ? (isActive ? "rgba(213,173,104,0.08)" : "#111120")
-                      : "#ffffff",
-                    border: darkMode
-                      ? (isActive ? "1px solid rgba(213,173,104,0.35)" : "1px solid rgba(255,255,255,0.05)")
-                      : (isActive ? `1px solid ${catColor}55` : "1px solid rgba(0,0,0,0.08)"),
-                    boxShadow: darkMode ? "none" : "0 2px 10px rgba(0,0,0,0.06)",
-                  }}
-                >
-                  <h3 className="text-[14px] font-bold mb-4"
-                    style={{ color: darkMode ? (isActive ? "#D5AD68" : "rgba(255,255,255,0.85)") : "#1a1a2e" }}>
-                    {sec.title}
-                  </h3>
-                  <div className="grid grid-cols-2 gap-y-0.5">
-                    {sec.games.map((game) => (
-                      <button key={game}
-                        className="flex items-center gap-2.5 px-2 py-2 rounded-lg text-left transition-colors"
-                        onMouseEnter={e => (e.currentTarget.style.background = darkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)")}
-                        onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
-                      >
-                        <div className="w-8 h-8 rounded-lg shrink-0 flex items-center justify-center text-[10px] font-bold"
-                          style={darkMode
-                            ? { background: "rgba(213,173,104,0.15)", color: "#D5AD68" }
-                            : { background: catColor + "20", color: catColor }
-                          }>
-                          {game.slice(0, 2).toUpperCase()}
-                        </div>
-                        <span className="text-[12px] font-medium leading-tight line-clamp-1"
-                          style={{ color: darkMode ? "rgba(255,255,255,0.70)" : "rgba(26,26,46,0.80)" }}>
-                          {game}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
+          {/* Left: Popular games */}
+          <div className="flex-1 p-6 overflow-y-auto" style={{ borderRight: darkMode ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.07)", scrollbarWidth: "thin", scrollbarColor: "#D5AD68 transparent" }}>
+            <p className="text-[11px] font-bold uppercase tracking-widest mb-4" style={{ color: darkMode ? "#D5AD68" : "#9a7a3a" }}>Popular games</p>
+            <div className="grid grid-cols-2 gap-1.5">
+              {CATEGORY_DATA[activeCat].popular.map((game) => {
+                const catColor = CATEGORY_COLORS[activeCat] || "#D5AD68";
+                return (
+                  <button key={game}
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-colors group"
+                    style={{}}
+                    onMouseEnter={e => (e.currentTarget.style.background = darkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)")}
+                    onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+                  >
+                    <div className="w-10 h-10 rounded-xl shrink-0 flex items-center justify-center text-[11px] font-bold"
+                      style={darkMode
+                        ? { background: "rgba(213,173,104,0.15)", color: "#D5AD68", border: "1px solid rgba(213,173,104,0.2)" }
+                        : { background: catColor + "22", color: catColor, border: `1px solid ${catColor}44` }
+                      }>
+                      {game.slice(0, 2).toUpperCase()}
+                    </div>
+                    <span className="text-[13px] font-medium leading-tight line-clamp-2 transition-colors"
+                      style={{ color: darkMode ? "rgba(255,255,255,0.75)" : "rgba(26,26,46,0.80)" }}>
+                      {game}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Right: All games + search */}
+          <div className="flex flex-col p-6" style={{ width: "300px" }}>
+            <p className="text-[11px] font-bold uppercase tracking-widest mb-4" style={{ color: darkMode ? "rgba(255,255,255,0.4)" : "rgba(26,26,46,0.45)" }}>All games</p>
+            <div className="relative mb-4">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: darkMode ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)" }} />
+              <input
+                type="text"
+                value={catSearch}
+                onChange={e => setCatSearch(e.target.value)}
+                placeholder="Search for game"
+                className="w-full pl-9 pr-3 py-2.5 text-sm outline-none rounded-xl"
+                style={{
+                  border: darkMode ? "1px solid rgba(213,173,104,0.4)" : "1px solid rgba(0,0,0,0.15)",
+                  background: darkMode ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.04)",
+                  color: darkMode ? "#fff" : "#1a1a2e",
+                }}
+              />
+            </div>
+            <div className="overflow-y-auto flex-1" style={{ scrollbarWidth: "thin", scrollbarColor: "#D5AD68 transparent" }}>
+              {CATEGORY_DATA[activeCat].all
+                .filter(g => g.toLowerCase().includes(catSearch.toLowerCase()))
+                .map((game) => {
+                  const catColor = CATEGORY_COLORS[activeCat] || "#D5AD68";
+                  return (
+                    <button key={game}
+                      className="w-full flex items-center gap-3 px-2 py-2.5 rounded-xl text-left transition-colors group"
+                      onMouseEnter={e => (e.currentTarget.style.background = darkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)")}
+                      onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+                    >
+                      <div className="w-9 h-9 rounded-lg shrink-0 flex items-center justify-center text-[10px] font-bold"
+                        style={darkMode
+                          ? { background: "rgba(213,173,104,0.12)", color: "#D5AD68", border: "1px solid rgba(213,173,104,0.15)" }
+                          : { background: catColor + "1a", color: catColor, border: `1px solid ${catColor}33` }
+                        }>
+                        {game.slice(0, 2).toUpperCase()}
+                      </div>
+                      <span className="text-[13px] font-medium transition-colors"
+                        style={{ color: darkMode ? "rgba(255,255,255,0.65)" : "rgba(26,26,46,0.75)" }}>
+                        {game}
+                      </span>
+                    </button>
+                  );
+                })}
+            </div>
           </div>
         </div>,
         document.body
