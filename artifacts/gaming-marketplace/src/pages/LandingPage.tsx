@@ -256,7 +256,7 @@ export default function Home() {
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 onFocus={() => { setSearchFocused(true); setDropdownOpen(false); }}
-                placeholder="Search for titles, accounts, and Top Sellers..."
+                placeholder="Search for game, titles, and Top Sellers..."
                 className="flex-1 bg-transparent h-full text-sm text-white placeholder:text-muted-foreground outline-none"
                 style={{ paddingLeft: searchFocused ? "16px" : "36px", paddingRight: "8px" }}
               />
