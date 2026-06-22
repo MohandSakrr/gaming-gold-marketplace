@@ -621,7 +621,7 @@ export default function Home() {
                         <div className="w-8 h-8 rounded-lg shrink-0 flex items-center justify-center text-[10px] font-bold"
                           style={darkMode
                             ? { background: "rgba(213,173,104,0.15)", color: "#D5AD68" }
-                            : { background: catColor + "20", color: catColor }
+                            : { background: "#e8edf8", color: "#5a72b5" }
                           }>
                           {game.slice(0, 2).toUpperCase()}
                         </div>
