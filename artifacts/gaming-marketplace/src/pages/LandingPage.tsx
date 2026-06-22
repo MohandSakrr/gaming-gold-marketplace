@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { Search, Star, Crown, ChevronRight, ChevronDown, X, Clock, TrendingUp, Loader2, Moon, Sun } from "lucide-react";
+import { Search, Star, Crown, ChevronRight, ChevronDown, X, Clock, TrendingUp, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -800,7 +800,7 @@ export default function Home() {
                 { label: "DISC",   bg: "#ff6600", color: "#fff" },
                 { label: "BTC",    bg: "#f7931a", color: "#fff" },
                 { label: "GPay",   bg: "#fff",    color: "#333" },
-                { label: "⁠Pay",   bg: "#111",    color: "#fff" },
+                { label: "Pay",    bg: "#111",    color: "#fff" },
               ].map(p => (
                 <div key={p.label} className="px-3 h-7 flex items-center justify-center rounded text-[11px] font-bold tracking-wide" style={{ background: p.bg, color: p.color, minWidth: "46px" }}>
                   {p.label}
