@@ -217,7 +217,7 @@ export default function Home() {
   }, [offerIndex]);
 
   return (
-    <div className="min-h-screen overflow-x-hidden selection:bg-primary/30 bg-background text-foreground">
+    <div className={`min-h-screen overflow-x-hidden selection:bg-primary/30 ${darkMode ? "bg-background text-foreground" : "bg-[#f5f3ee] text-[#1a1a2e]"}`}>
       
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 border-b border-border/50" style={{ background: darkMode ? "#0a0a12" : "#1a1a2e" }}>
