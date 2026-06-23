@@ -599,32 +599,21 @@ export default function Home() {
 
             {/* Popular Accounts — large, 2-col inner grid */}
             {(() => {
-              const games = [
-                { name: "Fortnite",           grad: "linear-gradient(135deg,#1a6dff,#00cfff)" },
-                { name: "Valorant",            grad: "linear-gradient(135deg,#ff4655,#ff9a3c)" },
-                { name: "Roblox",              grad: "linear-gradient(135deg,#e53935,#ff6f00)" },
-                { name: "Minecraft",           grad: "linear-gradient(135deg,#5d8a3c,#a5c96b)" },
-                { name: "Counter-Strike 2",    grad: "linear-gradient(135deg,#c8a951,#f0d080)" },
-                { name: "Grand Theft Auto 5",  grad: "linear-gradient(135deg,#1e7a29,#6fcf47)" },
-                { name: "Rainbow Six Siege X", grad: "linear-gradient(135deg,#1565c0,#42a5f5)" },
-                { name: "League of Legends",   grad: "linear-gradient(135deg,#c89b3c,#f0d060)" },
-                { name: "Call of Duty",        grad: "linear-gradient(135deg,#4a6741,#8bc34a)" },
-                { name: "Pokemon Go",          grad: "linear-gradient(135deg,#e0a800,#ffe566)" },
-              ];
+              const games = ["Fortnite","Valorant","Roblox","Minecraft","Counter-Strike 2","Grand Theft Auto 5","Rainbow Six Siege X","League of Legends","Call of Duty","Pokemon Go"];
               return (
-                <div className="rounded-2xl p-6 flex-1" style={{ background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(0,0,0,0.08)", boxShadow: darkMode ? "none" : "0 2px 12px rgba(0,0,0,0.06)" }}>
-                  <h3 className="text-[16px] font-bold mb-4" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>Popular Accounts</h3>
-                  <div className="grid grid-cols-2 gap-1">
-                    {games.map(g => (
-                      <button key={g.name} className="flex items-center gap-3.5 px-3 py-3 rounded-xl text-left transition-colors"
-                        onMouseEnter={e => (e.currentTarget.style.background = darkMode ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)")}
+                <div className="rounded-2xl p-6 flex-1" style={{ background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(213,173,104,0.15)" : "1px solid rgba(0,0,0,0.08)", boxShadow: darkMode ? "none" : "0 2px 12px rgba(0,0,0,0.06)" }}>
+                  <h3 className="text-[15px] font-bold mb-5" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>Popular Accounts</h3>
+                  <div className="grid grid-cols-2 gap-y-0.5">
+                    {games.map(game => (
+                      <button key={game} className="flex items-center gap-3 px-2 py-2.5 rounded-lg text-left transition-colors"
+                        onMouseEnter={e => (e.currentTarget.style.background = darkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)")}
                         onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
                       >
-                        <div className="shrink-0 rounded-xl flex items-center justify-center text-[13px] font-bold text-white"
-                          style={{ width: "52px", height: "52px", background: g.grad, boxShadow: "0 2px 8px rgba(0,0,0,0.35)" }}>
-                          {g.name.slice(0,2).toUpperCase()}
+                        <div className="w-8 h-8 rounded-lg shrink-0 flex items-center justify-center text-[10px] font-bold"
+                          style={darkMode ? { background: "rgba(213,173,104,0.15)", color: "#D5AD68" } : { background: "#e8edf8", color: "#5a72b5" }}>
+                          {game.slice(0,2).toUpperCase()}
                         </div>
-                        <span className="text-[14px] font-semibold leading-tight line-clamp-2" style={{ color: darkMode ? "#ffffff" : "rgba(26,26,46,0.85)" }}>{g.name}</span>
+                        <span className="text-[13px] font-medium leading-tight line-clamp-1" style={{ color: darkMode ? "#ffffff" : "rgba(26,26,46,0.80)" }}>{game}</span>
                       </button>
                     ))}
                   </div>
@@ -634,27 +623,21 @@ export default function Home() {
 
             {/* Popular Items — narrower, 1-col */}
             {(() => {
-              const games = [
-                { name: "Grow a Garden 2",    grad: "linear-gradient(135deg,#2e7d32,#81c784)" },
-                { name: "Steal a Brainrot",   grad: "linear-gradient(135deg,#6a1b9a,#ce93d8)" },
-                { name: "Adopt Me",           grad: "linear-gradient(135deg,#0288d1,#4fc3f7)" },
-                { name: "Old School RuneScape",grad: "linear-gradient(135deg,#5d4037,#bcaaa4)" },
-                { name: "Roblox Limiteds",    grad: "linear-gradient(135deg,#e53935,#ff6f00)" },
-              ];
+              const games = ["Grow a Garden 2","Steal a Brainrot","Adopt Me","Old School RuneScape","Roblox Limiteds"];
               return (
-                <div className="rounded-2xl p-6" style={{ width: "340px", flexShrink: 0, background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(0,0,0,0.08)", boxShadow: darkMode ? "none" : "0 2px 12px rgba(0,0,0,0.06)" }}>
-                  <h3 className="text-[16px] font-bold mb-4" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>Popular Items</h3>
-                  <div className="flex flex-col gap-1">
-                    {games.map(g => (
-                      <button key={g.name} className="flex items-center gap-3.5 px-3 py-3 rounded-xl text-left transition-colors"
-                        onMouseEnter={e => (e.currentTarget.style.background = darkMode ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)")}
+                <div className="rounded-2xl p-6" style={{ width: "340px", flexShrink: 0, background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(213,173,104,0.15)" : "1px solid rgba(0,0,0,0.08)", boxShadow: darkMode ? "none" : "0 2px 12px rgba(0,0,0,0.06)" }}>
+                  <h3 className="text-[15px] font-bold mb-5" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>Popular Items</h3>
+                  <div className="flex flex-col gap-y-0.5">
+                    {games.map(game => (
+                      <button key={game} className="flex items-center gap-3 px-2 py-2.5 rounded-lg text-left transition-colors"
+                        onMouseEnter={e => (e.currentTarget.style.background = darkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)")}
                         onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
                       >
-                        <div className="shrink-0 rounded-xl flex items-center justify-center text-[13px] font-bold text-white"
-                          style={{ width: "52px", height: "52px", background: g.grad, boxShadow: "0 2px 8px rgba(0,0,0,0.35)" }}>
-                          {g.name.slice(0,2).toUpperCase()}
+                        <div className="w-8 h-8 rounded-lg shrink-0 flex items-center justify-center text-[10px] font-bold"
+                          style={darkMode ? { background: "rgba(213,173,104,0.15)", color: "#D5AD68" } : { background: "#e8edf8", color: "#5a72b5" }}>
+                          {game.slice(0,2).toUpperCase()}
                         </div>
-                        <span className="text-[14px] font-semibold leading-tight line-clamp-2" style={{ color: darkMode ? "#ffffff" : "rgba(26,26,46,0.85)" }}>{g.name}</span>
+                        <span className="text-[13px] font-medium leading-tight line-clamp-1" style={{ color: darkMode ? "#ffffff" : "rgba(26,26,46,0.80)" }}>{game}</span>
                       </button>
                     ))}
                   </div>
@@ -665,28 +648,21 @@ export default function Home() {
 
           {/* Bottom row — Popular Boosting full width, 3-col inner grid */}
           {(() => {
-            const games = [
-              { name: "Brawl Stars",         grad: "linear-gradient(135deg,#e040fb,#ff6f00)" },
-              { name: "EA Sports FC",        grad: "linear-gradient(135deg,#1565c0,#42a5f5)" },
-              { name: "Rainbow Six Siege X", grad: "linear-gradient(135deg,#1565c0,#42a5f5)" },
-              { name: "Marvel Rivals",       grad: "linear-gradient(135deg,#b71c1c,#f57f17)" },
-              { name: "Apex Legends",        grad: "linear-gradient(135deg,#bf360c,#ff7043)" },
-              { name: "Valorant",            grad: "linear-gradient(135deg,#ff4655,#ff9a3c)" },
-            ];
+            const games = ["Brawl Stars","EA Sports FC","Rainbow Six Siege X","Marvel Rivals","Apex Legends","Valorant"];
             return (
-              <div className="rounded-2xl p-6" style={{ background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(0,0,0,0.08)", boxShadow: darkMode ? "none" : "0 2px 12px rgba(0,0,0,0.06)" }}>
-                <h3 className="text-[16px] font-bold mb-4" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>Popular Boosting Services</h3>
-                <div className="grid grid-cols-3 gap-1">
-                  {games.map(g => (
-                    <button key={g.name} className="flex items-center gap-3.5 px-3 py-3 rounded-xl text-left transition-colors"
-                      onMouseEnter={e => (e.currentTarget.style.background = darkMode ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)")}
+              <div className="rounded-2xl p-6" style={{ background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(213,173,104,0.15)" : "1px solid rgba(0,0,0,0.08)", boxShadow: darkMode ? "none" : "0 2px 12px rgba(0,0,0,0.06)" }}>
+                <h3 className="text-[15px] font-bold mb-5" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>Popular Boosting Services</h3>
+                <div className="grid grid-cols-3 gap-y-0.5">
+                  {games.map(game => (
+                    <button key={game} className="flex items-center gap-3 px-2 py-2.5 rounded-lg text-left transition-colors"
+                      onMouseEnter={e => (e.currentTarget.style.background = darkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)")}
                       onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
                     >
-                      <div className="shrink-0 rounded-xl flex items-center justify-center text-[13px] font-bold text-white"
-                        style={{ width: "52px", height: "52px", background: g.grad, boxShadow: "0 2px 8px rgba(0,0,0,0.35)" }}>
-                        {g.name.slice(0,2).toUpperCase()}
+                      <div className="w-8 h-8 rounded-lg shrink-0 flex items-center justify-center text-[10px] font-bold"
+                        style={darkMode ? { background: "rgba(213,173,104,0.15)", color: "#D5AD68" } : { background: "#e8edf8", color: "#5a72b5" }}>
+                        {game.slice(0,2).toUpperCase()}
                       </div>
-                      <span className="text-[14px] font-semibold leading-tight line-clamp-2" style={{ color: darkMode ? "#ffffff" : "rgba(26,26,46,0.85)" }}>{g.name}</span>
+                      <span className="text-[13px] font-medium leading-tight line-clamp-1" style={{ color: darkMode ? "#ffffff" : "rgba(26,26,46,0.80)" }}>{game}</span>
                     </button>
                   ))}
                 </div>
