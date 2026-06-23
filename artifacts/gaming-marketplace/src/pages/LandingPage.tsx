@@ -231,7 +231,7 @@ export default function Home() {
               </svg>
             </div>
             <span className="font-heading font-bold text-3xl tracking-tight text-white">
-              Ra<span className="text-primary">Rumble</span>
+              RaRumble
             </span>
           </div>
 
