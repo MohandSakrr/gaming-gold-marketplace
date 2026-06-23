@@ -623,7 +623,7 @@ export default function Home() {
 
             {/* Popular Items — narrower, 1-col */}
             {(() => {
-              const games = ["Grow a Garden 2","Steal a Brainrot","Adopt Me","Old School RuneScape","Roblox Limiteds","Fisch","Murder Mystery 2","Fortnite","Blox Fruits","Arc Raiders"];
+              const games = ["Grow a Garden 2","Steal a Brainrot","Adopt Me","Old School RuneScape","Roblox Limiteds"];
               return (
                 <div className="rounded-2xl p-6" style={{ width: "340px", flexShrink: 0, background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(213,173,104,0.15)" : "1px solid rgba(0,0,0,0.08)", boxShadow: darkMode ? "none" : "0 2px 12px rgba(0,0,0,0.06)" }}>
                   <h3 className="text-[15px] font-bold mb-5" style={{ color: darkMode ? "#D5AD68" : "#1a1a2e" }}>Popular Items</h3>
@@ -648,7 +648,7 @@ export default function Home() {
 
           {/* Bottom row — Popular Boosting full width, 3-col inner grid */}
           {(() => {
-            const games = ["Brawl Stars","EA Sports FC","Rainbow Six Siege X","Marvel Rivals","Apex Legends","Valorant","League of Legends","Call of Duty","Rocket League","Fortnite","Counter-Strike 2","Roblox"];
+            const games = ["Brawl Stars","EA Sports FC","Rainbow Six Siege X","Marvel Rivals","Apex Legends","Valorant"];
             return (
               <div className="rounded-2xl p-6" style={{ background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(213,173,104,0.15)" : "1px solid rgba(0,0,0,0.08)", boxShadow: darkMode ? "none" : "0 2px 12px rgba(0,0,0,0.06)" }}>
                 <h3 className="text-[15px] font-bold mb-5" style={{ color: darkMode ? "#D5AD68" : "#1a1a2e" }}>Popular Boosting Services</h3>
