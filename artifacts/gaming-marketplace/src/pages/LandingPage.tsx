@@ -609,11 +609,11 @@ export default function Home() {
                         onMouseEnter={e => (e.currentTarget.style.background = darkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)")}
                         onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
                       >
-                        <div className="w-8 h-8 rounded-lg shrink-0 flex items-center justify-center text-[10px] font-bold"
+                        <div className="w-12 h-12 rounded-lg shrink-0 flex items-center justify-center text-[10px] font-bold"
                           style={darkMode ? { background: "rgba(213,173,104,0.15)", color: "#D5AD68" } : { background: "#e8edf8", color: "#5a72b5" }}>
                           {game.slice(0,2).toUpperCase()}
                         </div>
-                        <span className="text-[13px] font-medium leading-tight line-clamp-1" style={{ color: darkMode ? "#ffffff" : "rgba(26,26,46,0.80)" }}>{game}</span>
+                        <span className="text-[20px] font-medium leading-tight line-clamp-1" style={{ color: darkMode ? "#ffffff" : "rgba(26,26,46,0.80)" }}>{game}</span>
                       </button>
                     ))}
                   </div>
@@ -633,11 +633,11 @@ export default function Home() {
                         onMouseEnter={e => (e.currentTarget.style.background = darkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)")}
                         onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
                       >
-                        <div className="w-8 h-8 rounded-lg shrink-0 flex items-center justify-center text-[10px] font-bold"
+                        <div className="w-12 h-12 rounded-lg shrink-0 flex items-center justify-center text-[10px] font-bold"
                           style={darkMode ? { background: "rgba(213,173,104,0.15)", color: "#D5AD68" } : { background: "#e8edf8", color: "#5a72b5" }}>
                           {game.slice(0,2).toUpperCase()}
                         </div>
-                        <span className="text-[13px] font-medium leading-tight line-clamp-1" style={{ color: darkMode ? "#ffffff" : "rgba(26,26,46,0.80)" }}>{game}</span>
+                        <span className="text-[20px] font-medium leading-tight line-clamp-1" style={{ color: darkMode ? "#ffffff" : "rgba(26,26,46,0.80)" }}>{game}</span>
                       </button>
                     ))}
                   </div>
@@ -658,11 +658,11 @@ export default function Home() {
                       onMouseEnter={e => (e.currentTarget.style.background = darkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)")}
                       onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
                     >
-                      <div className="w-8 h-8 rounded-lg shrink-0 flex items-center justify-center text-[10px] font-bold"
+                      <div className="w-12 h-12 rounded-lg shrink-0 flex items-center justify-center text-[10px] font-bold"
                         style={darkMode ? { background: "rgba(213,173,104,0.15)", color: "#D5AD68" } : { background: "#e8edf8", color: "#5a72b5" }}>
                         {game.slice(0,2).toUpperCase()}
                       </div>
-                      <span className="text-[13px] font-medium leading-tight line-clamp-1" style={{ color: darkMode ? "#ffffff" : "rgba(26,26,46,0.80)" }}>{game}</span>
+                      <span className="text-[20px] font-medium leading-tight line-clamp-1" style={{ color: darkMode ? "#ffffff" : "rgba(26,26,46,0.80)" }}>{game}</span>
                     </button>
                   ))}
                 </div>
