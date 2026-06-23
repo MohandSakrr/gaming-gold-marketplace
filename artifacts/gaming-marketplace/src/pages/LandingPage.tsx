@@ -613,7 +613,7 @@ export default function Home() {
                           style={darkMode ? { background: "rgba(213,173,104,0.15)", color: "#D5AD68" } : { background: "#e8edf8", color: "#5a72b5" }}>
                           {game.slice(0,2).toUpperCase()}
                         </div>
-                        <span className="text-[20px] font-medium leading-tight line-clamp-1" style={{ color: darkMode ? "#ffffff" : "rgba(26,26,46,0.80)" }}>{game}</span>
+                        <span className="text-[17px] font-medium leading-tight line-clamp-1" style={{ color: darkMode ? "#ffffff" : "rgba(26,26,46,0.80)" }}>{game}</span>
                       </button>
                     ))}
                   </div>
@@ -637,7 +637,7 @@ export default function Home() {
                           style={darkMode ? { background: "rgba(213,173,104,0.15)", color: "#D5AD68" } : { background: "#e8edf8", color: "#5a72b5" }}>
                           {game.slice(0,2).toUpperCase()}
                         </div>
-                        <span className="text-[20px] font-medium leading-tight line-clamp-1" style={{ color: darkMode ? "#ffffff" : "rgba(26,26,46,0.80)" }}>{game}</span>
+                        <span className="text-[17px] font-medium leading-tight line-clamp-1" style={{ color: darkMode ? "#ffffff" : "rgba(26,26,46,0.80)" }}>{game}</span>
                       </button>
                     ))}
                   </div>
@@ -662,7 +662,7 @@ export default function Home() {
                         style={darkMode ? { background: "rgba(213,173,104,0.15)", color: "#D5AD68" } : { background: "#e8edf8", color: "#5a72b5" }}>
                         {game.slice(0,2).toUpperCase()}
                       </div>
-                      <span className="text-[20px] font-medium leading-tight line-clamp-1" style={{ color: darkMode ? "#ffffff" : "rgba(26,26,46,0.80)" }}>{game}</span>
+                      <span className="text-[17px] font-medium leading-tight line-clamp-1" style={{ color: darkMode ? "#ffffff" : "rgba(26,26,46,0.80)" }}>{game}</span>
                     </button>
                   ))}
                 </div>
