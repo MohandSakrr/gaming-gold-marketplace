@@ -478,7 +478,7 @@ export default function Home() {
                   <path d={cat.icon} />
                 </svg>
                 <span className="text-[13px] font-semibold transition-colors"
-                  style={{ color: activeCat === cat.label ? "#D5AD68" : "rgba(255,255,255,0.7)" }}>
+                  style={{ color: activeCat === cat.label ? "#D5AD68" : "#ffffff" }}>
                   {cat.label}
                 </span>
               </motion.button>
