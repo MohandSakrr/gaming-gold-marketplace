@@ -590,52 +590,86 @@ export default function Home() {
         document.body
       )}
 
-      {/* Popular Categories Grid */}
+      {/* Popular Categories Grid — layout: [Accounts big | Items small] / [Boosting full width] */}
       <section className="py-10 relative z-20">
         <div className="mx-auto px-8" style={{ maxWidth: "1100px" }}>
-          <div className="grid grid-cols-2 gap-5">
-            {[
-              { title: "Popular Accounts",          cat: "Accounts",   games: ["Fortnite","Valorant","Roblox","Minecraft","Counter-Strike 2","Grand Theft Auto 5","Rainbow Six Siege X","League of Legends","Call of Duty","Pokemon Go"] },
-              { title: "Popular Currencies",         cat: "Currency",   games: ["EA Sports FC Coins","Path of Exile 2 Currency","DonutSMP Money","Old School RuneScape Gold","Roblox Robux","World of Warcraft Gold","Grow a Garden 2 Shackles","Pet Simulator 99 Gems","Blade Ball Tokens","WoW Classic Era Gold"] },
-              { title: "Popular Boosting Services", cat: "Boosting",   games: ["Brawl Stars","EA Sports FC","Rainbow Six Siege X","Marvel Rivals","Apex Legends","Valorant","League of Legends","Call of Duty","Rocket League","Fortnite"] },
-              { title: "Popular Items",              cat: "Items",      games: ["Grow a Garden 2","Steal a Brainrot","Adopt Me","Old School RuneScape","Roblox Limiteds","Fisch","Murder Mystery 2","Fortnite","Blox Fruits","Arc Raiders"] },
-            ].map((sec) => {
-              const catColor = CATEGORY_COLORS[sec.cat] || "#D5AD68";
+
+          {/* Top row */}
+          <div className="flex gap-5 mb-5">
+
+            {/* Popular Accounts — large, 2-col inner grid */}
+            {(() => {
+              const games = ["Fortnite","Valorant","Roblox","Minecraft","Counter-Strike 2","Grand Theft Auto 5","Rainbow Six Siege X","League of Legends","Call of Duty","Pokemon Go"];
               return (
-                <div key={sec.title} className="rounded-2xl p-6"
-                  style={{
-                    background: darkMode ? "#111120" : "#ffffff",
-                    border: darkMode ? "1px solid rgba(213,173,104,0.15)" : "1px solid rgba(0,0,0,0.08)",
-                    boxShadow: darkMode ? "none" : "0 2px 12px rgba(0,0,0,0.06)",
-                  }}>
-                  <h3 className="text-[15px] font-bold mb-5"
-                    style={{ color: darkMode ? "#D5AD68" : "#1a1a2e" }}>
-                    {sec.title}
-                  </h3>
+                <div className="rounded-2xl p-6 flex-1" style={{ background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(213,173,104,0.15)" : "1px solid rgba(0,0,0,0.08)", boxShadow: darkMode ? "none" : "0 2px 12px rgba(0,0,0,0.06)" }}>
+                  <h3 className="text-[15px] font-bold mb-5" style={{ color: darkMode ? "#D5AD68" : "#1a1a2e" }}>Popular Accounts</h3>
                   <div className="grid grid-cols-2 gap-y-0.5">
-                    {sec.games.map((game) => (
-                      <button key={game} className="flex items-center gap-3 px-2 py-2.5 rounded-lg text-left group transition-colors"
+                    {games.map(game => (
+                      <button key={game} className="flex items-center gap-3 px-2 py-2.5 rounded-lg text-left transition-colors"
                         onMouseEnter={e => (e.currentTarget.style.background = darkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)")}
                         onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
                       >
                         <div className="w-8 h-8 rounded-lg shrink-0 flex items-center justify-center text-[10px] font-bold"
-                          style={darkMode
-                            ? { background: "rgba(213,173,104,0.15)", color: "#D5AD68" }
-                            : { background: "#e8edf8", color: "#5a72b5" }
-                          }>
-                          {game.slice(0, 2).toUpperCase()}
+                          style={darkMode ? { background: "rgba(213,173,104,0.15)", color: "#D5AD68" } : { background: "#e8edf8", color: "#5a72b5" }}>
+                          {game.slice(0,2).toUpperCase()}
                         </div>
-                        <span className="text-[13px] font-medium leading-tight line-clamp-1 transition-colors"
-                          style={{ color: darkMode ? "rgba(255,255,255,0.70)" : "rgba(26,26,46,0.80)" }}>
-                          {game}
-                        </span>
+                        <span className="text-[13px] font-medium leading-tight line-clamp-1" style={{ color: darkMode ? "rgba(255,255,255,0.70)" : "rgba(26,26,46,0.80)" }}>{game}</span>
                       </button>
                     ))}
                   </div>
                 </div>
               );
-            })}
+            })()}
+
+            {/* Popular Items — narrower, 1-col */}
+            {(() => {
+              const games = ["Grow a Garden 2","Steal a Brainrot","Adopt Me","Old School RuneScape","Roblox Limiteds","Fisch","Murder Mystery 2","Fortnite","Blox Fruits","Arc Raiders"];
+              return (
+                <div className="rounded-2xl p-6" style={{ width: "340px", flexShrink: 0, background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(213,173,104,0.15)" : "1px solid rgba(0,0,0,0.08)", boxShadow: darkMode ? "none" : "0 2px 12px rgba(0,0,0,0.06)" }}>
+                  <h3 className="text-[15px] font-bold mb-5" style={{ color: darkMode ? "#D5AD68" : "#1a1a2e" }}>Popular Items</h3>
+                  <div className="flex flex-col gap-y-0.5">
+                    {games.map(game => (
+                      <button key={game} className="flex items-center gap-3 px-2 py-2.5 rounded-lg text-left transition-colors"
+                        onMouseEnter={e => (e.currentTarget.style.background = darkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)")}
+                        onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+                      >
+                        <div className="w-8 h-8 rounded-lg shrink-0 flex items-center justify-center text-[10px] font-bold"
+                          style={darkMode ? { background: "rgba(213,173,104,0.15)", color: "#D5AD68" } : { background: "#e8edf8", color: "#5a72b5" }}>
+                          {game.slice(0,2).toUpperCase()}
+                        </div>
+                        <span className="text-[13px] font-medium leading-tight line-clamp-1" style={{ color: darkMode ? "rgba(255,255,255,0.70)" : "rgba(26,26,46,0.80)" }}>{game}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              );
+            })()}
           </div>
+
+          {/* Bottom row — Popular Boosting full width, 3-col inner grid */}
+          {(() => {
+            const games = ["Brawl Stars","EA Sports FC","Rainbow Six Siege X","Marvel Rivals","Apex Legends","Valorant","League of Legends","Call of Duty","Rocket League","Fortnite","Counter-Strike 2","Roblox"];
+            return (
+              <div className="rounded-2xl p-6" style={{ background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(213,173,104,0.15)" : "1px solid rgba(0,0,0,0.08)", boxShadow: darkMode ? "none" : "0 2px 12px rgba(0,0,0,0.06)" }}>
+                <h3 className="text-[15px] font-bold mb-5" style={{ color: darkMode ? "#D5AD68" : "#1a1a2e" }}>Popular Boosting Services</h3>
+                <div className="grid grid-cols-3 gap-y-0.5">
+                  {games.map(game => (
+                    <button key={game} className="flex items-center gap-3 px-2 py-2.5 rounded-lg text-left transition-colors"
+                      onMouseEnter={e => (e.currentTarget.style.background = darkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)")}
+                      onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+                    >
+                      <div className="w-8 h-8 rounded-lg shrink-0 flex items-center justify-center text-[10px] font-bold"
+                        style={darkMode ? { background: "rgba(213,173,104,0.15)", color: "#D5AD68" } : { background: "#e8edf8", color: "#5a72b5" }}>
+                        {game.slice(0,2).toUpperCase()}
+                      </div>
+                      <span className="text-[13px] font-medium leading-tight line-clamp-1" style={{ color: darkMode ? "rgba(255,255,255,0.70)" : "rgba(26,26,46,0.80)" }}>{game}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
+
         </div>
       </section>
 
