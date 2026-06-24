@@ -201,20 +201,39 @@ export default function Home() {
   }, [searchQuery, selectedService]);
 
   // Live offers state
-  const [offers, setOffers] = useState(MOCK_OFFERS.slice(0, 4));
-  const [offerIndex, setOfferIndex] = useState(4);
+  const [offerStart, setOfferStart] = useState(0);
+  const offerDirRef = useRef<1 | -1>(1);
+  const autoRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const visibleOffers = Array.from({ length: 4 }, (_, i) => {
+    const idx = (offerStart + i) % MOCK_OFFERS.length;
+    return { ...MOCK_OFFERS[idx], uid: `${offerStart}-${i}` };
+  });
+
+  const startAutoPlay = () => {
+    if (autoRef.current) clearInterval(autoRef.current);
+    autoRef.current = setInterval(() => {
+      offerDirRef.current = 1;
+      setOfferStart(prev => (prev + 1) % MOCK_OFFERS.length);
+    }, 2500);
+  };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setOffers(prev => {
-        const nextIndex = (offerIndex + 1) % MOCK_OFFERS.length;
-        setOfferIndex(nextIndex);
-        const newOffer = { ...MOCK_OFFERS[nextIndex], id: Date.now() };
-        return [newOffer, ...prev.slice(0, 3)];
-      });
-    }, 2500);
-    return () => clearInterval(interval);
-  }, [offerIndex]);
+    startAutoPlay();
+    return () => { if (autoRef.current) clearInterval(autoRef.current); };
+  }, []);
+
+  const handlePrev = () => {
+    offerDirRef.current = -1;
+    setOfferStart(prev => (prev - 1 + MOCK_OFFERS.length) % MOCK_OFFERS.length);
+    startAutoPlay();
+  };
+
+  const handleNext = () => {
+    offerDirRef.current = 1;
+    setOfferStart(prev => (prev + 1) % MOCK_OFFERS.length);
+    startAutoPlay();
+  };
 
   return (
     <div className={`min-h-screen overflow-x-hidden selection:bg-primary/30 ${darkMode ? "bg-background text-foreground" : "bg-[#f5f3ee] text-[#1a1a2e]"}`}>
@@ -687,13 +706,13 @@ export default function Home() {
             <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "Inter, sans-serif" }}>Live Offers</h2>
           </div>
           <div className="flex items-center gap-2">
-            <button className="w-8 h-8 rounded-full flex items-center justify-center transition-colors" style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.7)" }}
+            <button onClick={handlePrev} className="w-8 h-8 rounded-full flex items-center justify-center transition-colors" style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.7)" }}
               onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")}
               onMouseLeave={e => (e.currentTarget.style.background = "rgba(255,255,255,0.08)")}
             >
               <svg viewBox="0 0 24 24" className="w-4 h-4 fill-none stroke-current stroke-2"><path d="M15 18l-6-6 6-6"/></svg>
             </button>
-            <button className="w-8 h-8 rounded-full flex items-center justify-center transition-colors" style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.7)" }}
+            <button onClick={handleNext} className="w-8 h-8 rounded-full flex items-center justify-center transition-colors" style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.7)" }}
               onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")}
               onMouseLeave={e => (e.currentTarget.style.background = "rgba(255,255,255,0.08)")}
             >
@@ -705,13 +724,13 @@ export default function Home() {
         <div className="w-full overflow-hidden">
           <div className="flex gap-4 px-8" style={{ maxWidth: "1100px", margin: "0 auto" }}>
             <AnimatePresence mode="popLayout" initial={false}>
-              {offers.map((offer) => (
+              {visibleOffers.map((offer) => (
                 <motion.div
-                  key={offer.id}
+                  key={offer.uid}
                   layout
-                  initial={{ opacity: 0, x: -300, filter: "blur(4px)" }}
+                  initial={{ opacity: 0, x: offerDirRef.current * -300, filter: "blur(4px)" }}
                   animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, x: 300, filter: "blur(4px)" }}
+                  exit={{ opacity: 0, x: offerDirRef.current * 300, filter: "blur(4px)" }}
                   transition={{ type: "spring", stiffness: 300, damping: 30, opacity: { duration: 0.2 } }}
                   className="shrink-0 cursor-pointer"
                   style={{ width: "240px" }}
