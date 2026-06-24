@@ -753,27 +753,24 @@ export default function Home() {
                         onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(213,173,104,0.4)")}
                         onMouseLeave={e => (e.currentTarget.style.borderColor = darkMode ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.08)")}
                       >
-                        {/* Top: icon + game name stacked + category badge below name */}
-                        <div className="flex items-center gap-3 px-4 pt-4 pb-3">
+                        {/* Top: icon + game name + badge all inline */}
+                        <div className="flex items-center gap-3 px-4 pt-4 pb-4">
                           <div className="w-11 h-11 rounded-xl shrink-0 flex items-center justify-center text-[12px] font-bold text-white"
                             style={{ background: CATEGORY_COLORS[cat] || "#7c3aed" }}>
                             {offer.game.slice(0, 2).toUpperCase()}
                           </div>
-                          <div className="min-w-0">
-                            <p className="text-[14px] font-bold leading-tight truncate" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>{offer.game}</p>
-                            <span className="inline-block mt-1 text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: darkMode ? "rgba(255,255,255,0.09)" : "rgba(0,0,0,0.07)", color: darkMode ? "rgba(255,255,255,0.6)" : "#666" }}>
+                          <div className="flex items-center gap-2 min-w-0 flex-wrap">
+                            <p className="text-[14px] font-bold leading-tight" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>{offer.game}</p>
+                            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full shrink-0" style={{ background: darkMode ? "rgba(255,255,255,0.09)" : "rgba(0,0,0,0.07)", color: darkMode ? "rgba(255,255,255,0.6)" : "#666" }}>
                               {cat}
                             </span>
                           </div>
                         </div>
 
-                        {/* Divider */}
-                        <div style={{ height: "1px", background: darkMode ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)" }} />
-
-                        {/* Bottom: offer title, then seller+rating left / price right */}
-                        <div className="px-4 pt-3 pb-4 flex flex-col gap-2">
+                        {/* Bottom: offer title, seller+rating left / price right */}
+                        <div className="px-4 pb-4 flex flex-col gap-2 mt-auto">
                           <p className="text-[13px] font-semibold leading-snug" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>{offer.type}</p>
-                          <div className="flex items-end justify-between mt-1">
+                          <div className="flex items-end justify-between mt-2">
                             <div>
                               <p className="text-[11px] font-medium" style={{ color: darkMode ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.4)" }}>{offer.seller}</p>
                               <div className="flex items-center gap-1 mt-0.5">
@@ -842,27 +839,24 @@ export default function Home() {
                   onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(213,173,104,0.4)")}
                   onMouseLeave={e => (e.currentTarget.style.borderColor = darkMode ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.08)")}
                 >
-                  {/* Top: icon + game name + type badge inline */}
-                  <div className="flex items-center gap-3 px-4 pt-4 pb-3">
+                  {/* Top: icon + game name + badge all inline */}
+                  <div className="flex items-center gap-3 px-4 pt-4 pb-4">
                     <div className="w-11 h-11 rounded-xl shrink-0 flex items-center justify-center text-[12px] font-bold text-white"
                       style={{ background: CATEGORY_COLORS[cat] || "#7c3aed" }}>
                       {offer.game.slice(0, 2).toUpperCase()}
                     </div>
-                    <div className="min-w-0">
+                    <div className="flex items-center gap-2 min-w-0 flex-wrap">
                       <p className="text-[14px] font-bold leading-tight" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>{offer.game}</p>
-                      <span className="inline-block mt-1 text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: darkMode ? "rgba(255,255,255,0.09)" : "rgba(0,0,0,0.07)", color: darkMode ? "rgba(255,255,255,0.6)" : "#666" }}>
+                      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full shrink-0" style={{ background: darkMode ? "rgba(255,255,255,0.09)" : "rgba(0,0,0,0.07)", color: darkMode ? "rgba(255,255,255,0.6)" : "#666" }}>
                         {cat}
                       </span>
                     </div>
                   </div>
 
-                  {/* Divider */}
-                  <div style={{ height: "1px", background: darkMode ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)" }} />
-
-                  {/* Bottom: title row, then seller+rating on left / price on right */}
-                  <div className="px-4 pt-3 pb-4 flex flex-col gap-2">
+                  {/* Bottom: offer title, seller+rating left / price right */}
+                  <div className="px-4 pb-4 flex flex-col gap-2 mt-auto">
                     <p className="text-[13px] font-semibold leading-snug" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>{offer.type}</p>
-                    <div className="flex items-end justify-between mt-1">
+                    <div className="flex items-end justify-between mt-2">
                       <div>
                         <p className="text-[11px] font-medium" style={{ color: darkMode ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.4)" }}>{offer.seller}</p>
                         <div className="flex items-center gap-1 mt-0.5">
