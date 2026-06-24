@@ -704,6 +704,14 @@ export default function Home() {
           <div className="flex items-center gap-3">
             <div className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
             <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "Inter, sans-serif" }}>Live Offers</h2>
+            <div className="relative group">
+              <div className="w-5 h-5 rounded-full flex items-center justify-center cursor-default select-none text-[11px] font-bold" style={{ background: "rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.5)" }}>?</div>
+              <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-3 py-1.5 rounded-lg text-[12px] font-medium whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-50"
+                style={{ background: "#1e1e30", color: "rgba(255,255,255,0.8)", boxShadow: "0 4px 16px rgba(0,0,0,0.4)" }}>
+                Shows the latest offers listed by sellers in real time
+                <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0" style={{ borderLeft: "5px solid transparent", borderRight: "5px solid transparent", borderTop: "5px solid #1e1e30" }} />
+              </div>
+            </div>
           </div>
           <div className="flex items-center gap-2">
             <button onClick={handlePrev} className="w-8 h-8 rounded-full flex items-center justify-center transition-colors" style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.7)" }}
