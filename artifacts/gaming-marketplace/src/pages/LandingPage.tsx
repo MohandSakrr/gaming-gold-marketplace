@@ -844,9 +844,9 @@ export default function Home() {
                       style={{ background: CATEGORY_COLORS[cat] || "#7c3aed" }}>
                       {offer.game.slice(0, 2).toUpperCase()}
                     </div>
-                    <div className="flex items-center gap-2 min-w-0 flex-wrap">
+                    <div className="min-w-0">
                       <p className="text-[14px] font-bold leading-tight" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>{offer.game}</p>
-                      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full shrink-0" style={{ background: darkMode ? "rgba(255,255,255,0.09)" : "rgba(0,0,0,0.07)", color: darkMode ? "rgba(255,255,255,0.6)" : "#666" }}>
+                      <span className="inline-block mt-1 text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: darkMode ? "rgba(255,255,255,0.09)" : "rgba(0,0,0,0.07)", color: darkMode ? "rgba(255,255,255,0.6)" : "#666" }}>
                         {cat}
                       </span>
                     </div>
