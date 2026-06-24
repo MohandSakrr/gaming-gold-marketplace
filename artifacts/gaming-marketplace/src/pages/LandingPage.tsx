@@ -601,7 +601,7 @@ export default function Home() {
             {(() => {
               const games = ["Fortnite","Valorant","Roblox","Minecraft","Counter-Strike 2","Grand Theft Auto 5","Rainbow Six Siege X","League of Legends","Call of Duty","Pokemon Go"];
               return (
-                <div className="rounded-2xl p-6 flex-1" style={{ background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(213,173,104,0.15)" : "1px solid rgba(0,0,0,0.08)", boxShadow: darkMode ? "none" : "0 2px 12px rgba(0,0,0,0.06)" }}>
+                <div className="p-2 flex-1">
                   <h3 className="text-[15px] font-bold mb-5" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>Popular Accounts</h3>
                   <div className="grid grid-cols-2 gap-y-0.5">
                     {games.map(game => (
@@ -625,7 +625,7 @@ export default function Home() {
             {(() => {
               const games = ["Grow a Garden 2","Steal a Brainrot","Adopt Me","Old School RuneScape","Roblox Limiteds"];
               return (
-                <div className="rounded-2xl p-6" style={{ width: "340px", flexShrink: 0, background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(213,173,104,0.15)" : "1px solid rgba(0,0,0,0.08)", boxShadow: darkMode ? "none" : "0 2px 12px rgba(0,0,0,0.06)" }}>
+                <div className="p-2" style={{ width: "340px", flexShrink: 0 }}>
                   <h3 className="text-[15px] font-bold mb-5" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>Popular Items</h3>
                   <div className="flex flex-col gap-y-0.5">
                     {games.map(game => (
@@ -650,7 +650,7 @@ export default function Home() {
           {(() => {
             const games = ["Brawl Stars","EA Sports FC","Rainbow Six Siege X","Marvel Rivals","Apex Legends","Valorant"];
             return (
-              <div className="rounded-2xl p-6" style={{ background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(213,173,104,0.15)" : "1px solid rgba(0,0,0,0.08)", boxShadow: darkMode ? "none" : "0 2px 12px rgba(0,0,0,0.06)" }}>
+              <div className="p-2">
                 <h3 className="text-[15px] font-bold mb-5" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>Popular Boosting Services</h3>
                 <div className="grid grid-cols-3 gap-y-0.5">
                   {games.map(game => (
