@@ -201,10 +201,20 @@ export default function Home() {
   }, [searchQuery, selectedService]);
 
   // Live offers state
-  const [offerPage, setOfferPage] = useState(0);
-  const offersPerPage = 4;
-  const totalOfferPages = Math.ceil(MOCK_OFFERS.length / offersPerPage);
-  const offers = MOCK_OFFERS.slice(offerPage * offersPerPage, offerPage * offersPerPage + offersPerPage);
+  const [offers, setOffers] = useState(MOCK_OFFERS.slice(0, 4));
+  const [offerIndex, setOfferIndex] = useState(4);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setOffers(prev => {
+        const nextIndex = (offerIndex + 1) % MOCK_OFFERS.length;
+        setOfferIndex(nextIndex);
+        const newOffer = { ...MOCK_OFFERS[nextIndex], id: Date.now() };
+        return [newOffer, ...prev.slice(0, 3)];
+      });
+    }, 2500);
+    return () => clearInterval(interval);
+  }, [offerIndex]);
 
   return (
     <div className={`min-h-screen overflow-x-hidden selection:bg-primary/30 ${darkMode ? "bg-background text-foreground" : "bg-[#f5f3ee] text-[#1a1a2e]"}`}>
@@ -677,26 +687,34 @@ export default function Home() {
             <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "Inter, sans-serif" }}>Live Offers</h2>
           </div>
           <div className="flex items-center gap-2">
-            <button onClick={() => setOfferPage(p => Math.max(0, p - 1))} className="w-8 h-8 rounded-full flex items-center justify-center transition-colors" style={{ background: offerPage === 0 ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.08)", color: offerPage === 0 ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.7)" }}>
+            <button className="w-8 h-8 rounded-full flex items-center justify-center transition-colors" style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.7)" }}
+              onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")}
+              onMouseLeave={e => (e.currentTarget.style.background = "rgba(255,255,255,0.08)")}
+            >
               <svg viewBox="0 0 24 24" className="w-4 h-4 fill-none stroke-current stroke-2"><path d="M15 18l-6-6 6-6"/></svg>
             </button>
-            <button onClick={() => setOfferPage(p => Math.min(totalOfferPages - 1, p + 1))} className="w-8 h-8 rounded-full flex items-center justify-center transition-colors" style={{ background: offerPage === totalOfferPages - 1 ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.08)", color: offerPage === totalOfferPages - 1 ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.7)" }}>
+            <button className="w-8 h-8 rounded-full flex items-center justify-center transition-colors" style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.7)" }}
+              onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")}
+              onMouseLeave={e => (e.currentTarget.style.background = "rgba(255,255,255,0.08)")}
+            >
               <svg viewBox="0 0 24 24" className="w-4 h-4 fill-none stroke-current stroke-2"><path d="M9 18l6-6-6-6"/></svg>
             </button>
           </div>
         </div>
 
-        <div className="w-full">
-          <div className="grid grid-cols-4 gap-4 px-8" style={{ maxWidth: "1100px", margin: "0 auto" }}>
-            <AnimatePresence mode="wait">
+        <div className="w-full overflow-hidden">
+          <div className="flex gap-4 px-8" style={{ maxWidth: "1100px", margin: "0 auto" }}>
+            <AnimatePresence mode="popLayout" initial={false}>
               {offers.map((offer) => (
                 <motion.div
                   key={offer.id}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.18 }}
-                  className="cursor-pointer"
+                  layout
+                  initial={{ opacity: 0, x: -300, filter: "blur(4px)" }}
+                  animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, x: 300, filter: "blur(4px)" }}
+                  transition={{ type: "spring", stiffness: 300, damping: 30, opacity: { duration: 0.2 } }}
+                  className="shrink-0 cursor-pointer"
+                  style={{ width: "240px" }}
                 >
                   <div className="rounded-2xl p-5 flex flex-col gap-4 transition-all h-full"
                     style={{ background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(0,0,0,0.08)" }}
