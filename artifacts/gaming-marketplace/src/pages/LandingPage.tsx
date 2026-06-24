@@ -201,16 +201,16 @@ export default function Home() {
   }, [searchQuery, selectedService]);
 
   // Live offers state
-  const [offers, setOffers] = useState(MOCK_OFFERS.slice(0, 5));
-  const [offerIndex, setOfferIndex] = useState(5);
+  const [offers, setOffers] = useState(MOCK_OFFERS.slice(0, 4));
+  const [offerIndex, setOfferIndex] = useState(4);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setOffers(prev => {
         const nextIndex = (offerIndex + 1) % MOCK_OFFERS.length;
         setOfferIndex(nextIndex);
-        const newOffer = { ...MOCK_OFFERS[nextIndex], id: Date.now() }; // unique ID for animation
-        return [newOffer, ...prev.slice(0, 4)];
+        const newOffer = { ...MOCK_OFFERS[nextIndex], id: Date.now() };
+        return [newOffer, ...prev.slice(0, 3)];
       });
     }, 2500);
     return () => clearInterval(interval);
