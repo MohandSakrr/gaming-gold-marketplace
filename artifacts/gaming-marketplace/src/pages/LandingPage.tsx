@@ -823,10 +823,10 @@ export default function Home() {
           </div>
           <div className="flex gap-4">
             {[
-              { game: "Valorant", type: "Immortal Rank Boost", price: "89.00", rating: "5.0" },
-              { game: "Elden Ring", type: "Max Level Account", price: "249.99", rating: "4.9" },
-              { game: "WoW", type: "100K Gold", price: "12.99", rating: "4.8" },
-              { game: "Apex Legends", type: "Predator Account", price: "150.00", rating: "4.7" },
+              { game: "Valorant", type: "Immortal Rank Boost", price: "89.00", rating: "5.0", seller: "ProBoostKing" },
+              { game: "Elden Ring", type: "Max Level Account", price: "249.99", rating: "4.9", seller: "ShadowStriker" },
+              { game: "WoW", type: "100K Gold", price: "12.99", rating: "4.8", seller: "GoldFarmer99" },
+              { game: "Apex Legends", type: "Predator Account", price: "150.00", rating: "4.7", seller: "NinjaBoosts" },
             ].map((offer) => {
               const cat = offer.type.includes("Account") ? "Accounts"
                 : offer.type.includes("Boost") || offer.type.includes("Coaching") ? "Boosting"
@@ -838,26 +838,36 @@ export default function Home() {
                   onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(213,173,104,0.4)")}
                   onMouseLeave={e => (e.currentTarget.style.borderColor = darkMode ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.08)")}
                 >
+                  {/* Top: icon + game name + type badge inline */}
                   <div className="flex items-center gap-3 px-4 pt-4 pb-3">
                     <div className="w-11 h-11 rounded-xl shrink-0 flex items-center justify-center text-[12px] font-bold text-white"
                       style={{ background: CATEGORY_COLORS[cat] || "#7c3aed" }}>
                       {offer.game.slice(0, 2).toUpperCase()}
                     </div>
-                    <div className="min-w-0">
-                      <p className="text-[14px] font-bold leading-tight truncate" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>{offer.game}</p>
-                      <span className="inline-block mt-1 text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: darkMode ? "rgba(255,255,255,0.09)" : "rgba(0,0,0,0.07)", color: darkMode ? "rgba(255,255,255,0.6)" : "#666" }}>
+                    <div className="flex items-center gap-2 min-w-0 flex-wrap">
+                      <p className="text-[14px] font-bold leading-tight" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>{offer.game}</p>
+                      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full shrink-0" style={{ background: darkMode ? "rgba(255,255,255,0.09)" : "rgba(0,0,0,0.07)", color: darkMode ? "rgba(255,255,255,0.6)" : "#666" }}>
                         {cat}
                       </span>
                     </div>
                   </div>
+
+                  {/* Divider */}
                   <div style={{ height: "1px", background: darkMode ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)" }} />
+
+                  {/* Bottom: title row, then seller+rating on left / price on right */}
                   <div className="px-4 pt-3 pb-4 flex flex-col gap-2">
                     <p className="text-[13px] font-semibold leading-snug" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>{offer.type}</p>
-                    <div className="flex items-center gap-1">
-                      <Star className="w-3 h-3 fill-primary text-primary" />
-                      <span className="text-[11px]" style={{ color: darkMode ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.4)" }}>{offer.rating}</span>
+                    <div className="flex items-end justify-between mt-1">
+                      <div>
+                        <p className="text-[11px] font-medium" style={{ color: darkMode ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.4)" }}>{offer.seller}</p>
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <Star className="w-3 h-3 fill-primary text-primary" />
+                          <span className="text-[11px]" style={{ color: darkMode ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.4)" }}>{offer.rating}</span>
+                        </div>
+                      </div>
+                      <p className="text-[20px] font-bold leading-none" style={{ color: "#D5AD68" }}>${offer.price}</p>
                     </div>
-                    <p className="text-[20px] font-bold mt-1" style={{ color: "#D5AD68" }}>${offer.price}</p>
                   </div>
                 </div>
               );
