@@ -790,6 +790,66 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Recently Viewed */}
+      <section className="pb-12 relative z-20">
+        <div className="mx-auto px-8" style={{ maxWidth: "1100px" }}>
+          <div className="flex items-center gap-3 mb-6">
+            <Clock className="w-5 h-5" style={{ color: "rgba(255,255,255,0.5)" }} />
+            <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "Inter, sans-serif" }}>Recently Viewed</h2>
+            <div className="relative group">
+              <div className="w-5 h-5 rounded-full flex items-center justify-center cursor-default select-none text-[11px] font-bold" style={{ background: "rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.5)" }}>?</div>
+              <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-3 py-1.5 rounded-lg text-[12px] font-medium whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-50"
+                style={{ background: "#1e1e30", color: "rgba(255,255,255,0.8)", boxShadow: "0 4px 16px rgba(0,0,0,0.4)" }}>
+                Shows the offers you have recently viewed
+                <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0" style={{ borderLeft: "5px solid transparent", borderRight: "5px solid transparent", borderTop: "5px solid #1e1e30" }} />
+              </div>
+            </div>
+          </div>
+          <div className="flex gap-4">
+            {[
+              { game: "Valorant", type: "Immortal Rank Boost", price: "89.00", rating: "5.0" },
+              { game: "Elden Ring", type: "Max Level Account", price: "249.99", rating: "4.9" },
+              { game: "WoW", type: "100K Gold", price: "12.99", rating: "4.8" },
+              { game: "Apex Legends", type: "Predator Account", price: "150.00", rating: "4.7" },
+            ].map((offer) => {
+              const cat = offer.type.includes("Account") ? "Accounts"
+                : offer.type.includes("Boost") || offer.type.includes("Coaching") ? "Boosting"
+                : offer.type.includes("Gold") || offer.type.includes("Coins") || offer.type.includes("Credits") ? "Currency"
+                : "Items";
+              return (
+                <div key={offer.game} className="flex-1 rounded-2xl flex flex-col overflow-hidden cursor-pointer transition-all"
+                  style={{ background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(0,0,0,0.08)" }}
+                  onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(213,173,104,0.4)")}
+                  onMouseLeave={e => (e.currentTarget.style.borderColor = darkMode ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.08)")}
+                >
+                  <div className="flex items-center gap-3 px-4 pt-4 pb-3">
+                    <div className="w-11 h-11 rounded-xl shrink-0 flex items-center justify-center text-[12px] font-bold text-white"
+                      style={{ background: CATEGORY_COLORS[cat] || "#7c3aed" }}>
+                      {offer.game.slice(0, 2).toUpperCase()}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-[14px] font-bold leading-tight truncate" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>{offer.game}</p>
+                      <span className="inline-block mt-1 text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: darkMode ? "rgba(255,255,255,0.09)" : "rgba(0,0,0,0.07)", color: darkMode ? "rgba(255,255,255,0.6)" : "#666" }}>
+                        {cat}
+                      </span>
+                    </div>
+                  </div>
+                  <div style={{ height: "1px", background: darkMode ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)" }} />
+                  <div className="px-4 pt-3 pb-4 flex flex-col gap-2">
+                    <p className="text-[13px] font-semibold leading-snug" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>{offer.type}</p>
+                    <div className="flex items-center gap-1">
+                      <Star className="w-3 h-3 fill-primary text-primary" />
+                      <span className="text-[11px]" style={{ color: darkMode ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.4)" }}>{offer.rating}</span>
+                    </div>
+                    <p className="text-[20px] font-bold mt-1" style={{ color: "#D5AD68" }}>${offer.price}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* Featured Categories Grid */}
       <section className="py-20 bg-card/10">
         <div className="container mx-auto px-6">
