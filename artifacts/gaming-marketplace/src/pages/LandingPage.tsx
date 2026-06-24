@@ -235,13 +235,6 @@ export default function Home() {
     startAutoPlay();
   };
 
-
-  const getOfferCategory = (type: string) =>
-    type.includes("Account") ? "Accounts"
-    : type.includes("Boost") || type.includes("Coaching") ? "Boosting"
-    : type.includes("Gold") || type.includes("Coins") || type.includes("Credits") ? "Currency"
-    : "Items";
-
   return (
     <div className={`min-h-screen overflow-x-hidden selection:bg-primary/30 ${darkMode ? "bg-background text-foreground" : "bg-[#f5f3ee] text-[#1a1a2e]"}`}>
       
@@ -735,48 +728,45 @@ export default function Home() {
                 <motion.div
                   key={offer.uid}
                   layout
-                  initial={{ opacity: 0, x: offerDirRef.current * 300, filter: "blur(4px)" }}
+                  initial={{ opacity: 0, x: offerDirRef.current * -300, filter: "blur(4px)" }}
                   animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, x: offerDirRef.current * -300, filter: "blur(4px)" }}
+                  exit={{ opacity: 0, x: offerDirRef.current * 300, filter: "blur(4px)" }}
                   transition={{ type: "spring", stiffness: 300, damping: 30, opacity: { duration: 0.2 } }}
                   className="shrink-0 cursor-pointer"
                   style={{ width: "240px" }}
                 >
-                  <div className="rounded-2xl flex flex-col transition-all h-full overflow-hidden"
+                  <div className="rounded-2xl p-5 flex flex-col gap-4 transition-all h-full"
                     style={{ background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(0,0,0,0.08)" }}
                     onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(213,173,104,0.4)")}
                     onMouseLeave={e => (e.currentTarget.style.borderColor = darkMode ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.08)")}
                   >
-                    {/* Top: icon + game name + category badge */}
-                    <div className="flex items-center gap-3 px-4 py-4">
-                      <div className="w-11 h-11 rounded-xl shrink-0 flex items-center justify-center text-[12px] font-bold text-white"
-                        style={{ background: CATEGORY_COLORS[getOfferCategory(offer.type)] || "#7c3aed" }}>
+                    {/* Header: icon + name + category tag */}
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-xl shrink-0 flex items-center justify-center text-[13px] font-bold text-white overflow-hidden"
+                        style={{ background: CATEGORY_COLORS[offer.type.includes("Account") ? "Accounts" : offer.type.includes("Boost") ? "Boosting" : offer.type.includes("Gold") || offer.type.includes("Coins") ? "Currency" : "Items"] || "#D5AD68" }}>
                         {offer.game.slice(0,2).toUpperCase()}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="text-[14px] font-bold leading-tight" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>{offer.game}</span>
-                          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: darkMode ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.07)", color: darkMode ? "rgba(255,255,255,0.65)" : "#555" }}>
-                            {getOfferCategory(offer.type)}
+                          <span className="text-[14px] font-bold text-white leading-tight">{offer.game}</span>
+                          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: "rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.7)" }}>
+                            {offer.type.includes("Account") ? "Accounts" : offer.type.includes("Boost") || offer.type.includes("Coaching") ? "Boosting" : offer.type.includes("Gold") || offer.type.includes("Coins") || offer.type.includes("Credits") ? "Currency" : "Items"}
                           </span>
                         </div>
                       </div>
                     </div>
 
-                    {/* Divider */}
-                    <div style={{ height: "1px", background: darkMode ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)" }} />
-
-                    {/* Bottom: offer title + rating + price */}
-                    <div className="px-4 py-4 flex flex-col gap-3">
-                      <div>
-                        <p className="text-[13px] font-semibold leading-snug" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>{offer.type}</p>
-                        <div className="flex items-center gap-1 mt-1.5">
-                          <Star className="w-3 h-3 fill-primary text-primary" />
-                          <span className="text-[11px]" style={{ color: darkMode ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.4)" }}>{offer.rating}</span>
-                        </div>
+                    {/* Description */}
+                    <div>
+                      <p className="text-[13px] font-semibold text-white leading-snug">{offer.type}</p>
+                      <div className="flex items-center gap-1 mt-1">
+                        <Star className="w-3 h-3 fill-primary text-primary" />
+                        <span className="text-[11px] text-white/50">{offer.rating}</span>
                       </div>
-                      <p className="text-[20px] font-bold" style={{ color: "#D5AD68" }}>${offer.price}</p>
                     </div>
+
+                    {/* Price */}
+                    <p className="text-[20px] font-bold" style={{ color: "#D5AD68" }}>${offer.price}</p>
                   </div>
                 </motion.div>
               ))}
