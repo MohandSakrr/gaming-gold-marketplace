@@ -680,62 +680,74 @@ export default function Home() {
       </section>
 
       {/* Live Offers Feed */}
-      <section className="py-20 relative z-20">
-        <div className="container mx-auto px-6 mb-8 flex items-center justify-between">
+      <section className="py-16 relative z-20">
+        <div className="mx-auto px-8 mb-6 flex items-center justify-between" style={{ maxWidth: "1100px" }}>
           <div className="flex items-center gap-3">
-            <div className="w-3 h-3 rounded-full bg-red-500 animate-pulse" />
-            <h2 className="text-2xl font-bold font-heading text-white">Live Offers</h2>
+            <div className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
+            <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "Inter, sans-serif" }}>Live Offers</h2>
           </div>
-          <Button variant="link" className="text-primary hover:text-primary/80 group">
-            View All <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-          </Button>
+          <div className="flex items-center gap-2">
+            <button className="w-8 h-8 rounded-full flex items-center justify-center transition-colors" style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.7)" }}
+              onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")}
+              onMouseLeave={e => (e.currentTarget.style.background = "rgba(255,255,255,0.08)")}
+            >
+              <svg viewBox="0 0 24 24" className="w-4 h-4 fill-none stroke-current stroke-2"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <button className="w-8 h-8 rounded-full flex items-center justify-center transition-colors" style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.7)" }}
+              onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")}
+              onMouseLeave={e => (e.currentTarget.style.background = "rgba(255,255,255,0.08)")}
+            >
+              <svg viewBox="0 0 24 24" className="w-4 h-4 fill-none stroke-current stroke-2"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+          </div>
         </div>
 
         <div className="w-full overflow-hidden">
-          <div className="flex px-6 h-[180px]">
+          <div className="flex gap-4 px-8" style={{ maxWidth: "1100px", margin: "0 auto" }}>
             <AnimatePresence mode="popLayout" initial={false}>
               {offers.map((offer) => (
                 <motion.div
                   key={offer.id}
                   layout
-                  initial={{ opacity: 0, x: -280, filter: "blur(4px)" }}
+                  initial={{ opacity: 0, x: -300, filter: "blur(4px)" }}
                   animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, x: 280, filter: "blur(4px)" }}
-                  transition={{ 
-                    type: "spring", 
-                    stiffness: 300, 
-                    damping: 30,
-                    opacity: { duration: 0.2 }
-                  }}
-                  className="shrink-0 w-[260px] mr-4"
+                  exit={{ opacity: 0, x: 300, filter: "blur(4px)" }}
+                  transition={{ type: "spring", stiffness: 300, damping: 30, opacity: { duration: 0.2 } }}
+                  className="shrink-0 cursor-pointer"
+                  style={{ width: "240px" }}
                 >
-                  <div className="h-full bg-card rounded-xl border border-border p-4 flex flex-col justify-between hover:border-primary/50 hover:shadow-[0_0_15px_rgba(213,173,104,0.1)] transition-all cursor-pointer">
-                    <div className="flex items-start gap-3">
-                      <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 border border-border">
-                        <img src={offer.thumb} alt={offer.game} className="w-full h-full object-cover" />
-                        <div className="absolute top-0 left-0 bg-background/80 backdrop-blur-[2px] px-1.5 py-0.5 rounded-br-lg flex items-center gap-1">
-                          <div className="w-1.5 h-1.5 rounded-full bg-primary pulse-indicator" />
-                          <span className="text-[8px] font-bold text-primary tracking-wider">LIVE</span>
+                  <div className="rounded-2xl p-5 flex flex-col gap-4 transition-all h-full"
+                    style={{ background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(0,0,0,0.08)" }}
+                    onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(213,173,104,0.4)")}
+                    onMouseLeave={e => (e.currentTarget.style.borderColor = darkMode ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.08)")}
+                  >
+                    {/* Header: icon + name + category tag */}
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-xl shrink-0 flex items-center justify-center text-[13px] font-bold text-white overflow-hidden"
+                        style={{ background: CATEGORY_COLORS[offer.type.includes("Account") ? "Accounts" : offer.type.includes("Boost") ? "Boosting" : offer.type.includes("Gold") || offer.type.includes("Coins") ? "Currency" : "Items"] || "#D5AD68" }}>
+                        {offer.game.slice(0,2).toUpperCase()}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-[14px] font-bold text-white leading-tight">{offer.game}</span>
+                          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: "rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.7)" }}>
+                            {offer.type.includes("Account") ? "Accounts" : offer.type.includes("Boost") || offer.type.includes("Coaching") ? "Boosting" : offer.type.includes("Gold") || offer.type.includes("Coins") || offer.type.includes("Credits") ? "Currency" : "Items"}
+                          </span>
                         </div>
                       </div>
-                      <div>
-                        <h4 className="text-sm font-bold text-white leading-tight line-clamp-1">{offer.game}</h4>
-                        <p className="text-xs text-muted-foreground mt-1 line-clamp-1">{offer.type}</p>
+                    </div>
+
+                    {/* Description */}
+                    <div>
+                      <p className="text-[13px] font-semibold text-white leading-snug">{offer.type}</p>
+                      <div className="flex items-center gap-1 mt-1">
+                        <Star className="w-3 h-3 fill-primary text-primary" />
+                        <span className="text-[11px] text-white/50">{offer.rating}</span>
                       </div>
                     </div>
-                    
-                    <div className="flex items-center justify-between mt-4">
-                      <div>
-                        <p className="text-lg font-bold text-primary font-heading">${offer.price}</p>
-                        <div className="flex items-center gap-1 mt-0.5">
-                          <Star className="w-3 h-3 fill-primary text-primary" />
-                          <span className="text-xs font-medium text-card-foreground">{offer.rating}</span>
-                        </div>
-                      </div>
-                      <Button size="sm" variant="outline" className="border-primary/50 text-primary hover:bg-primary hover:text-primary-foreground h-8 text-xs glow-gold">
-                        Buy Now
-                      </Button>
-                    </div>
+
+                    {/* Price */}
+                    <p className="text-[20px] font-bold" style={{ color: "#D5AD68" }}>${offer.price}</p>
                   </div>
                 </motion.div>
               ))}
