@@ -740,8 +740,7 @@ export default function Home() {
                   animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
                   exit={{ opacity: 0, x: offerDirRef.current * 300, filter: "blur(4px)" }}
                   transition={{ type: "spring", stiffness: 300, damping: 30, opacity: { duration: 0.2 } }}
-                  className="shrink-0 cursor-pointer"
-                  style={{ width: "240px" }}
+                  className="flex-1 min-w-0 cursor-pointer"
                 >
                   {(() => {
                     const cat = offer.type.includes("Account") ? "Accounts"
