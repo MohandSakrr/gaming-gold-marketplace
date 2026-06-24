@@ -730,7 +730,7 @@ export default function Home() {
         </div>
 
         <div className="w-full overflow-hidden">
-          <div className="flex gap-4 px-8" style={{ maxWidth: "1100px", margin: "0 auto" }}>
+          <div className="flex gap-4 items-stretch px-8" style={{ maxWidth: "1100px", margin: "0 auto" }}>
             <AnimatePresence mode="popLayout" initial={false}>
               {visibleOffers.map((offer) => (
                 <motion.div
