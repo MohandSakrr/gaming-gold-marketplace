@@ -793,16 +793,32 @@ export default function Home() {
       {/* Recently Viewed */}
       <section className="pb-12 relative z-20">
         <div className="mx-auto px-8" style={{ maxWidth: "1100px" }}>
-          <div className="flex items-center gap-3 mb-6">
-            <Clock className="w-5 h-5" style={{ color: "rgba(255,255,255,0.5)" }} />
-            <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "Inter, sans-serif" }}>Recently Viewed</h2>
-            <div className="relative group">
-              <div className="w-5 h-5 rounded-full flex items-center justify-center cursor-default select-none text-[11px] font-bold" style={{ background: "rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.5)" }}>?</div>
-              <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-3 py-1.5 rounded-lg text-[12px] font-medium whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-50"
-                style={{ background: "#1e1e30", color: "rgba(255,255,255,0.8)", boxShadow: "0 4px 16px rgba(0,0,0,0.4)" }}>
-                Shows the offers you have recently viewed
-                <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0" style={{ borderLeft: "5px solid transparent", borderRight: "5px solid transparent", borderTop: "5px solid #1e1e30" }} />
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <Clock className="w-5 h-5" style={{ color: "rgba(255,255,255,0.5)" }} />
+              <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "Inter, sans-serif" }}>Recently Viewed</h2>
+              <div className="relative group">
+                <div className="w-5 h-5 rounded-full flex items-center justify-center cursor-default select-none text-[11px] font-bold" style={{ background: "rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.5)" }}>?</div>
+                <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-3 py-1.5 rounded-lg text-[12px] font-medium whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-50"
+                  style={{ background: "#1e1e30", color: "rgba(255,255,255,0.8)", boxShadow: "0 4px 16px rgba(0,0,0,0.4)" }}>
+                  Shows the offers you have recently viewed
+                  <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0" style={{ borderLeft: "5px solid transparent", borderRight: "5px solid transparent", borderTop: "5px solid #1e1e30" }} />
+                </div>
               </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <button className="w-8 h-8 rounded-full flex items-center justify-center transition-colors" style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.7)" }}
+                onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")}
+                onMouseLeave={e => (e.currentTarget.style.background = "rgba(255,255,255,0.08)")}
+              >
+                <svg viewBox="0 0 24 24" className="w-4 h-4 fill-none stroke-current stroke-2"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <button className="w-8 h-8 rounded-full flex items-center justify-center transition-colors" style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.7)" }}
+                onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")}
+                onMouseLeave={e => (e.currentTarget.style.background = "rgba(255,255,255,0.08)")}
+              >
+                <svg viewBox="0 0 24 24" className="w-4 h-4 fill-none stroke-current stroke-2"><path d="M9 18l6-6-6-6"/></svg>
+              </button>
             </div>
           </div>
           <div className="flex gap-4">
