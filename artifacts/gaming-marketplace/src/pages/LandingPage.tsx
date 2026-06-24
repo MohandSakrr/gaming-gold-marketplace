@@ -91,18 +91,18 @@ const CATEGORY_COLORS: Record<string, string> = {
 };
 
 const MOCK_OFFERS = [
-  { id: 1, game: "Elden Ring", type: "Max Level Account", price: "249.99", rating: "4.9", thumb: "/images/thumb-rpg.png" },
-  { id: 2, game: "Valorant", type: "Immortal Rank Boost", price: "89.00", rating: "5.0", thumb: "/images/thumb-fps.png" },
-  { id: 3, game: "WoW", type: "100K Gold", price: "12.99", rating: "4.8", thumb: "/images/thumb-mmo.png" },
-  { id: 4, game: "Apex Legends", type: "Predator Account", price: "150.00", rating: "4.7", thumb: "/images/thumb-br.png" },
-  { id: 5, game: "League of Legends", type: "Diamond Smurf", price: "45.00", rating: "4.9", thumb: "/images/thumb-moba.png" },
-  { id: 6, game: "FC 24", type: "1M Coins", price: "22.50", rating: "4.6", thumb: "/images/thumb-sports.png" },
-  { id: 7, game: "CS2", type: "Faceit Lvl 10 Boost", price: "110.00", rating: "5.0", thumb: "/images/thumb-fps.png" },
-  { id: 8, game: "Final Fantasy XIV", type: "Mythic Mount", price: "75.00", rating: "4.8", thumb: "/images/thumb-mmo.png" },
-  { id: 9, game: "Fortnite", type: "Master Rank Carry", price: "55.00", rating: "4.9", thumb: "/images/thumb-br.png" },
-  { id: 10, game: "Dota 2", type: "Grandmaster Coaching", price: "30.00", rating: "5.0", thumb: "/images/thumb-moba.png" },
-  { id: 11, game: "Rocket League", type: "Credits 10k", price: "15.99", rating: "4.7", thumb: "/images/thumb-sports.png" },
-  { id: 12, game: "Genshin Impact", type: "Savage Raid Clear", price: "40.00", rating: "4.8", thumb: "/images/thumb-mmo.png" },
+  { id: 1, game: "Elden Ring", type: "Max Level Account", price: "249.99", rating: "4.9", seller: "ShadowStriker" },
+  { id: 2, game: "Valorant", type: "Immortal Rank Boost", price: "89.00", rating: "5.0", seller: "ProBoostKing" },
+  { id: 3, game: "WoW", type: "100K Gold", price: "12.99", rating: "4.8", seller: "GoldFarmer99" },
+  { id: 4, game: "Apex Legends", type: "Predator Account", price: "150.00", rating: "4.7", seller: "NinjaBoosts" },
+  { id: 5, game: "League of Legends", type: "Diamond Smurf", price: "45.00", rating: "4.9", seller: "ElvenMerchant" },
+  { id: 6, game: "FC 24", type: "1M Coins", price: "22.50", rating: "4.6", seller: "TacticalGear" },
+  { id: 7, game: "CS2", type: "Faceit Lvl 10 Boost", price: "110.00", rating: "5.0", seller: "ProBoostKing" },
+  { id: 8, game: "Final Fantasy XIV", type: "Mythic Mount", price: "75.00", rating: "4.8", seller: "ElvenMerchant" },
+  { id: 9, game: "Fortnite", type: "Master Rank Carry", price: "55.00", rating: "4.9", seller: "NinjaBoosts" },
+  { id: 10, game: "Dota 2", type: "Grandmaster Coaching", price: "30.00", rating: "5.0", seller: "ShadowStriker" },
+  { id: 11, game: "Rocket League", type: "Credits 10k", price: "15.99", rating: "4.7", seller: "TacticalGear" },
+  { id: 12, game: "Genshin Impact", type: "Savage Raid Clear", price: "40.00", rating: "4.8", seller: "GoldFarmer99" },
 ];
 
 const CATEGORY_DATA: Record<string, { popular: string[]; all: string[] }> = {
@@ -771,14 +771,19 @@ export default function Home() {
                         {/* Divider */}
                         <div style={{ height: "1px", background: darkMode ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)" }} />
 
-                        {/* Bottom: offer title + rating + price */}
+                        {/* Bottom: offer title, then seller+rating left / price right */}
                         <div className="px-4 pt-3 pb-4 flex flex-col gap-2">
                           <p className="text-[13px] font-semibold leading-snug" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>{offer.type}</p>
-                          <div className="flex items-center gap-1">
-                            <Star className="w-3 h-3 fill-primary text-primary" />
-                            <span className="text-[11px]" style={{ color: darkMode ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.4)" }}>{offer.rating}</span>
+                          <div className="flex items-end justify-between mt-1">
+                            <div>
+                              <p className="text-[11px] font-medium" style={{ color: darkMode ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.4)" }}>{offer.seller}</p>
+                              <div className="flex items-center gap-1 mt-0.5">
+                                <Star className="w-3 h-3 fill-primary text-primary" />
+                                <span className="text-[11px]" style={{ color: darkMode ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.4)" }}>{offer.rating}</span>
+                              </div>
+                            </div>
+                            <p className="text-[20px] font-bold leading-none" style={{ color: "#D5AD68" }}>${offer.price}</p>
                           </div>
-                          <p className="text-[20px] font-bold mt-1" style={{ color: "#D5AD68" }}>${offer.price}</p>
                         </div>
                       </div>
                     );
