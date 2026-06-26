@@ -880,43 +880,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Categories Grid */}
-      <section className="py-20 bg-card/10">
-        <div className="container mx-auto px-6">
-          <h2 className="text-3xl font-bold font-heading text-white mb-10">Featured Categories</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              { name: "FPS Games", count: "12,450", img: "/images/cat-fps.png" },
-              { name: "MMORPGs", count: "8,920", img: "/images/cat-mmo.png" },
-              { name: "Battle Royale", count: "15,300", img: "/images/cat-br.png" },
-              { name: "Fighting Games", count: "4,100", img: "/images/cat-fight.png" },
-              { name: "Sports Games", count: "9,850", img: "/images/cat-sports.png" },
-              { name: "Strategy Games", count: "3,200", img: "/images/cat-strategy.png" },
-            ].map((cat, i) => (
-              <motion.div
-                key={cat.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="group relative h-48 rounded-2xl overflow-hidden border border-border cursor-pointer"
-              >
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent z-10" />
-                <img src={cat.img} alt={cat.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                <div className="absolute inset-0 z-20 p-6 flex flex-col justify-end">
-                  <h3 className="text-2xl font-bold text-white font-heading mb-2">{cat.name}</h3>
-                  <div className="inline-block px-3 py-1 bg-primary/20 border border-primary/30 rounded-full text-xs font-semibold text-primary self-start backdrop-blur-sm">
-                    {cat.count} listings
-                  </div>
-                </div>
-                <div className="absolute inset-0 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none glow-gold" />
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Trust / Stats Bar */}
+{/* Trust / Stats Bar */}
       <section className="py-16 bg-card border-y border-border/50">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-border/50">
