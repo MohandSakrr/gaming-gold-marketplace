@@ -880,30 +880,47 @@ export default function Home() {
         </div>
       </section>
 
-{/* Trust / Stats Bar */}
+      {/* Trust Features */}
       <section className="py-16 bg-card border-y border-border/50">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-border/50">
             {[
-              { val: "12M+", label: "Active Players" },
-              { val: "500K+", label: "Listings" },
-              { val: "99.2%", label: "Positive Reviews" },
-              { val: "< 5min", label: "Avg. Delivery" },
-            ].map((stat, i) => (
-              <motion.div 
-                key={stat.label}
+              {
+                icon: "M12 15l-2 5L9 9l11 4-5 2zm0 0l4.5 4.5M5.4 5.4l1.8 1.8M3 12H1m11-9V1m7.6 3.4l-1.8 1.8M21 12h2",
+                title: "Trusted 10+ Years",
+                desc: "Growing with millions of gamers worldwide, your journey, our shared story.",
+              },
+              {
+                icon: "M13 2L3 14h9l-1 8 10-12h-9l1-8z",
+                title: "Lightning Fast Delivery",
+                desc: "Smooth delivery in minutes, you just play harder, wait less. Get your game account information instantly.",
+              },
+              {
+                icon: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z",
+                title: "Enhanced Security",
+                desc: "All data and transactions are securely encrypted, shielded from click to cloud.",
+              },
+              {
+                icon: "M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zM12 6v6l4 2",
+                title: "24/7 Support",
+                desc: "Our pro agent is ready to respond around the clock. All real humans help you solve any issues.",
+              },
+            ].map((item, i) => (
+              <motion.div
+                key={item.title}
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="text-center px-4"
+                className="px-4"
               >
-                <div className="text-4xl md:text-5xl font-bold font-heading text-primary mb-2 drop-shadow-[0_0_10px_rgba(213,173,104,0.3)]">
-                  {stat.val}
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style={{ background: "rgba(213,173,104,0.12)" }}>
+                  <svg viewBox="0 0 24 24" className="w-5 h-5 fill-none stroke-2" style={{ stroke: "#D5AD68" }} strokeLinecap="round" strokeLinejoin="round">
+                    <path d={item.icon} />
+                  </svg>
                 </div>
-                <div className="text-sm font-medium text-card-foreground uppercase tracking-wider">
-                  {stat.label}
-                </div>
+                <h3 className="text-[15px] font-bold mb-2" style={{ color: darkMode ? "#ffffff" : "#1a1a2e", fontFamily: "Inter, sans-serif" }}>{item.title}</h3>
+                <p className="text-[12px] leading-relaxed" style={{ color: darkMode ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.5)" }}>{item.desc}</p>
               </motion.div>
             ))}
           </div>
