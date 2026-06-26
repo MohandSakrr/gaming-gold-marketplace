@@ -880,46 +880,31 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Metrics Row */}
-      <section className="py-14 relative z-20">
-        <div className="mx-auto px-8" style={{ maxWidth: "1100px" }}>
-          <div className="flex items-center">
+{/* Trust / Stats Bar */}
+      <section className="py-16 bg-card border-y border-border/50">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-border/50">
             {[
               { val: "12M+", label: "Active Players" },
               { val: "500K+", label: "Listings" },
               { val: "99.2%", label: "Positive Reviews" },
               { val: "< 5min", label: "Avg. Delivery" },
             ].map((stat, i) => (
-              <>
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1, duration: 0.5 }}
-                  className="flex-1 text-center py-2"
-                >
-                  <div
-                    className="text-5xl font-bold tracking-tight mb-2"
-                    style={{
-                      fontFamily: "Inter, sans-serif",
-                      background: "linear-gradient(160deg, #f0d080 0%, #D5AD68 45%, #a8792a 100%)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      backgroundClip: "text",
-                      filter: "drop-shadow(0 0 18px rgba(213,173,104,0.25))",
-                    }}
-                  >
-                    {stat.val}
-                  </div>
-                  <div className="text-[11px] font-semibold tracking-[0.18em] uppercase" style={{ color: "rgba(255,255,255,0.35)" }}>
-                    {stat.label}
-                  </div>
-                </motion.div>
-                {i < 3 && (
-                  <div key={`div-${i}`} style={{ width: "1px", alignSelf: "stretch", background: "rgba(255,255,255,0.06)", margin: "0 8px" }} />
-                )}
-              </>
+              <motion.div 
+                key={stat.label}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="text-center px-4"
+              >
+                <div className="text-4xl md:text-5xl font-bold font-heading text-primary mb-2 drop-shadow-[0_0_10px_rgba(213,173,104,0.3)]">
+                  {stat.val}
+                </div>
+                <div className="text-sm font-medium text-card-foreground uppercase tracking-wider">
+                  {stat.label}
+                </div>
+              </motion.div>
             ))}
           </div>
         </div>
