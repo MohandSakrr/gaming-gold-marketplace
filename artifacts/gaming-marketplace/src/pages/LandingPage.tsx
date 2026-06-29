@@ -240,22 +240,22 @@ export default function Home() {
       
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 border-b border-border/50" style={{ background: darkMode ? "#0a0a12" : "#1a1a2e" }}>
-        <div className="w-full px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-14 h-14 relative">
+        <div className="w-full px-4 md:px-6 h-16 md:h-20 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2 shrink-0">
+            <div className="w-10 h-10 md:w-14 md:h-14 relative">
               <svg viewBox="0 0 100 100" className="w-full h-full text-primary fill-current">
                 <polygon points="50 5 95 27.5 95 72.5 50 95 5 72.5 5 27.5" />
                 <polygon points="50 20 80 37 80 63 50 80 20 63 20 37" className="fill-background" />
                 <polygon points="50 35 65 45 65 55 50 65 35 55 35 45" />
               </svg>
             </div>
-            <span className="font-heading font-bold text-3xl tracking-tight text-white">
+            <span className="font-heading font-bold text-xl md:text-3xl tracking-tight text-white">
               RaRumble
             </span>
           </div>
 
           {/* Search bar */}
-          <div className="flex-1 max-w-6xl mx-8 relative" ref={searchRef}>
+          <div className="flex-1 min-w-0 max-w-6xl mx-2 md:mx-8 relative" ref={searchRef}>
             <div
               className="relative flex items-center h-11 bg-[#1a1a2e] overflow-visible transition-all"
               ref={dropdownRef}
@@ -275,7 +275,7 @@ export default function Home() {
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 onFocus={() => { setSearchFocused(true); setDropdownOpen(false); }}
-                placeholder="Search for game, titles, and Top Sellers..."
+                placeholder="Search games, items, sellers..."
                 className="flex-1 bg-transparent h-full text-sm text-white placeholder:text-muted-foreground outline-none"
                 style={{ paddingLeft: searchFocused ? "16px" : "36px", paddingRight: "8px" }}
               />
@@ -395,7 +395,7 @@ export default function Home() {
           </div>
 
           <div className="flex items-center shrink-0">
-            <button className="h-10 px-6 font-semibold text-sm rounded-xl transition-opacity hover:opacity-90" style={{ background: "#D5AD68", color: "#1a1100" }}>
+            <button className="h-9 md:h-10 px-4 md:px-6 font-semibold text-xs md:text-sm rounded-xl transition-opacity hover:opacity-90 whitespace-nowrap" style={{ background: "#D5AD68", color: "#1a1100" }}>
               Log in
             </button>
           </div>
@@ -403,7 +403,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-20" style={{ height: "680px", background: "#020818" }}>
+      <section className="relative overflow-hidden pt-16 md:pt-20" style={{ minHeight: "clamp(420px, 60vw, 680px)", background: "#020818" }}>
         {/* Full-width background image */}
         <div className="absolute inset-0 z-0">
           <img
@@ -421,24 +421,24 @@ export default function Home() {
         </div>
 
         {/* Left text */}
-        <div className="relative z-20 h-full flex items-center px-40">
+        <div className="relative z-20 h-full flex items-center px-6 sm:px-12 md:px-24 lg:px-40">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             style={{ maxWidth: "560px" }}
           >
-            <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight mb-5 font-heading">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4 md:mb-5 font-heading">
               Rule Vice City's<br />
               <span style={{ color: "#D5AD68" }}>Economy</span>
             </h1>
-            <p className="text-base mb-8 font-medium" style={{ color: "rgba(255,255,255,0.6)" }}>
+            <p className="text-sm md:text-base mb-6 md:mb-8 font-medium" style={{ color: "rgba(255,255,255,0.6)" }}>
               Buy & sell GTA VI money, accounts, and items.<br />
               Trusted by 12M+ players · Instant delivery.
             </p>
             <button
-              className="px-10 rounded-full text-base font-bold transition-opacity hover:opacity-90"
-              style={{ background: "#D5AD68", color: "#0a0a12", height: "52px" }}
+              className="px-7 md:px-10 rounded-full text-sm md:text-base font-bold transition-opacity hover:opacity-90"
+              style={{ background: "#D5AD68", color: "#0a0a12", height: "46px" }}
             >
               Shop Now
             </button>
@@ -447,11 +447,11 @@ export default function Home() {
       </section>
 
       {/* Categories Bar */}
-      <section className="-mt-6" style={{ zIndex: 100, position: "relative", overflow: "visible" }} ref={catBarRef}>
-        <div className="mx-auto px-8" style={{ maxWidth: "1100px", position: "relative", overflow: "visible" }}>
+      <section className="-mt-4 md:-mt-6" style={{ zIndex: 100, position: "relative", overflow: "visible" }} ref={catBarRef}>
+        <div className="mx-auto px-4 md:px-8" style={{ maxWidth: "1100px", position: "relative", overflow: "visible" }}>
           <div
             ref={catBarInnerRef}
-            className="flex items-center justify-between gap-2 px-6 py-4"
+            className="flex items-center justify-between gap-1 md:gap-2 px-2 md:px-6 py-3 md:py-4 overflow-x-auto"
             style={{
               background: "rgba(10,10,22,0.97)",
               border: "1px solid rgba(213,173,104,0.35)",
@@ -482,7 +482,7 @@ export default function Home() {
                   setActiveCat(next);
                   setCatSearch("");
                 }}
-                className="flex flex-col items-center gap-2 px-5 py-2 rounded-xl group transition-all cursor-pointer"
+                className="flex flex-col items-center gap-1 md:gap-2 px-2 md:px-5 py-2 rounded-xl group transition-all cursor-pointer"
                 style={{
                   flex: 1,
                   background: activeCat === cat.label ? "rgba(213,173,104,0.1)" : "transparent",
@@ -490,7 +490,7 @@ export default function Home() {
               >
                 <svg
                   viewBox="0 0 24 24"
-                  style={{ width: "32px", height: "32px", color: activeCat === cat.label ? "#D5AD68" : "rgba(213,173,104,0.7)" }}
+                  style={{ width: "clamp(22px, 3vw, 32px)", height: "clamp(22px, 3vw, 32px)", color: activeCat === cat.label ? "#D5AD68" : "rgba(213,173,104,0.7)" }}
                   className="fill-none stroke-current stroke-[1.6] group-hover:scale-110 transition-transform duration-200"
                   strokeLinecap="round" strokeLinejoin="round"
                 >
@@ -610,11 +610,11 @@ export default function Home() {
       )}
 
       {/* Popular Categories Grid — layout: [Accounts big | Items small] / [Boosting full width] */}
-      <section className="py-10 relative z-20">
-        <div className="mx-auto px-8" style={{ maxWidth: "1100px" }}>
+      <section className="py-6 md:py-10 relative z-20">
+        <div className="mx-auto px-4 md:px-8" style={{ maxWidth: "1100px" }}>
 
           {/* Top row */}
-          <div className="flex gap-5 mb-5">
+          <div className="flex flex-col md:flex-row gap-5 mb-5">
 
             {/* Popular Accounts — large, 2-col inner grid */}
             {(() => {
@@ -646,7 +646,7 @@ export default function Home() {
             {(() => {
               const games = ["Grow a Garden 2","Steal a Brainrot","Adopt Me","Old School RuneScape","Roblox Limiteds"];
               return (
-                <div className="flex flex-col" style={{ width: "340px", flexShrink: 0 }}>
+                <div className="flex flex-col w-full md:w-[340px] md:shrink-0">
                   <h3 className="text-[18px] mb-3" style={{ color: darkMode ? "#ffffff" : "#1a1a2e", fontFamily: "Inter, sans-serif", fontWeight: 700 }}>Popular Items</h3>
                   <div className="rounded-2xl p-4 flex-1" style={{ background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(213,173,104,0.15)" : "1px solid rgba(0,0,0,0.08)", boxShadow: darkMode ? "none" : "0 2px 12px rgba(0,0,0,0.06)" }}>
                   <div className="flex flex-col gap-y-0.5">
@@ -676,7 +676,7 @@ export default function Home() {
               <div>
                 <h3 className="text-[18px] mb-3" style={{ color: darkMode ? "#ffffff" : "#1a1a2e", fontFamily: "Inter, sans-serif", fontWeight: 700 }}>Popular Boosting Services</h3>
                 <div className="rounded-2xl p-4" style={{ background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(213,173,104,0.15)" : "1px solid rgba(0,0,0,0.08)", boxShadow: darkMode ? "none" : "0 2px 12px rgba(0,0,0,0.06)" }}>
-                <div className="grid grid-cols-3 gap-y-0.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-0.5">
                   {games.map(game => (
                     <button key={game} className="flex items-center gap-3 px-2 py-2.5 rounded-lg text-left transition-colors"
                       onMouseEnter={e => (e.currentTarget.style.background = darkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)")}
@@ -699,8 +699,8 @@ export default function Home() {
       </section>
 
       {/* Live Offers Feed */}
-      <section className="py-16 relative z-20">
-        <div className="mx-auto px-8 mb-6 flex items-center justify-between" style={{ maxWidth: "1100px" }}>
+      <section className="py-8 md:py-16 relative z-20">
+        <div className="mx-auto px-4 md:px-8 mb-6 flex items-center justify-between" style={{ maxWidth: "1100px" }}>
           <div className="flex items-center gap-3">
             <div className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
             <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "Inter, sans-serif" }}>Live Offers</h2>
@@ -730,7 +730,7 @@ export default function Home() {
         </div>
 
         <div className="w-full overflow-hidden">
-          <div className="flex gap-4 items-stretch px-8" style={{ maxWidth: "1100px", margin: "0 auto" }}>
+          <div className="flex gap-3 md:gap-4 items-stretch px-4 md:px-8 overflow-x-auto pb-2" style={{ maxWidth: "1100px", margin: "0 auto" }}>
             <AnimatePresence mode="popLayout" initial={false}>
               {visibleOffers.map((offer) => (
                 <motion.div
@@ -740,7 +740,8 @@ export default function Home() {
                   animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
                   exit={{ opacity: 0, x: offerDirRef.current * 300, filter: "blur(4px)" }}
                   transition={{ type: "spring", stiffness: 300, damping: 30, opacity: { duration: 0.2 } }}
-                  className="flex-1 min-w-0 cursor-pointer"
+                  className="cursor-pointer shrink-0 flex-1"
+                  style={{ minWidth: "220px" }}
                 >
                   {(() => {
                     const cat = offer.type.includes("Account") ? "Accounts"
@@ -795,8 +796,8 @@ export default function Home() {
       </section>
 
       {/* Recently Viewed */}
-      <section className="pb-12 relative z-20">
-        <div className="mx-auto px-8" style={{ maxWidth: "1100px" }}>
+      <section className="pb-8 md:pb-12 relative z-20">
+        <div className="mx-auto px-4 md:px-8" style={{ maxWidth: "1100px" }}>
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
               <Clock className="w-5 h-5" style={{ color: "rgba(255,255,255,0.5)" }} />
@@ -825,7 +826,7 @@ export default function Home() {
               </button>
             </div>
           </div>
-          <div className="flex gap-4">
+          <div className="flex gap-3 md:gap-4 overflow-x-auto pb-2">
             {[
               { game: "Valorant", type: "Immortal Rank Boost", price: "89.00", rating: "5.0", seller: "ProBoostKing" },
               { game: "Elden Ring", type: "Max Level Account", price: "249.99", rating: "4.9", seller: "ShadowStriker" },
@@ -837,7 +838,7 @@ export default function Home() {
                 : offer.type.includes("Gold") || offer.type.includes("Coins") || offer.type.includes("Credits") ? "Currency"
                 : "Items";
               return (
-                <div key={offer.game} className="flex-1 rounded-2xl flex flex-col overflow-hidden cursor-pointer transition-all"
+                <div key={offer.game} className="rounded-2xl flex flex-col overflow-hidden cursor-pointer transition-all shrink-0 flex-1" style={{ minWidth: "220px" }}
                   style={{ background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(0,0,0,0.08)" }}
                   onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(213,173,104,0.4)")}
                   onMouseLeave={e => (e.currentTarget.style.borderColor = darkMode ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.08)")}
@@ -883,7 +884,7 @@ export default function Home() {
 {/* Trust / Stats Bar */}
       <section className="py-16 bg-card border-y border-border/50">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-border/50">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 md:divide-x divide-border/50">
             {[
               { val: "12M+", label: "Active Players" },
               { val: "500K+", label: "Listings" },
@@ -911,8 +912,8 @@ export default function Home() {
       </section>
 
       {/* Top Sellers Leaderboard */}
-      <section className="py-20">
-        <div className="container mx-auto px-6 max-w-5xl">
+      <section className="py-10 md:py-20">
+        <div className="container mx-auto px-4 md:px-6 max-w-5xl">
           <h2 className="text-3xl font-bold font-heading text-white mb-10 text-center">Top Verified Sellers This Week</h2>
           <div className="bg-card rounded-2xl border border-border overflow-hidden">
             <div className="grid grid-cols-[auto_1fr_auto_auto] gap-4 p-4 border-b border-border/50 bg-background/50 text-xs font-bold text-muted-foreground uppercase tracking-wider">
