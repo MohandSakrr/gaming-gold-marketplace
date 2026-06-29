@@ -240,81 +240,56 @@ export default function Home() {
       
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 border-b border-border/50" style={{ background: darkMode ? "#0a0a12" : "#1a1a2e" }}>
-        <div className="w-full px-4 md:px-6 h-16 md:h-20 flex items-center justify-between gap-3">
+
+        {/* ── DESKTOP row (md+): logo | search | login ── */}
+        <div className="hidden md:flex w-full px-6 h-20 items-center justify-between gap-3">
           <div className="flex items-center gap-2 shrink-0">
-            <div className="w-10 h-10 md:w-14 md:h-14 relative">
+            <div className="w-14 h-14 relative">
               <svg viewBox="0 0 100 100" className="w-full h-full text-primary fill-current">
                 <polygon points="50 5 95 27.5 95 72.5 50 95 5 72.5 5 27.5" />
                 <polygon points="50 20 80 37 80 63 50 80 20 63 20 37" className="fill-background" />
                 <polygon points="50 35 65 45 65 55 50 65 35 55 35 45" />
               </svg>
             </div>
-            <span className="font-heading font-bold text-xl md:text-3xl tracking-tight text-white">
-              RaRumble
-            </span>
+            <span className="font-heading font-bold text-3xl tracking-tight text-white">RaRumble</span>
           </div>
 
-          {/* Search bar */}
-          <div className="flex-1 min-w-0 max-w-6xl mx-2 md:mx-8 relative" ref={searchRef}>
-            <div
-              className="relative flex items-center h-11 bg-[#1a1a2e] overflow-visible transition-all"
-              ref={dropdownRef}
-              style={{
-                border: searchFocused ? "2px solid #D5AD68" : "1px solid rgba(255,255,255,0.15)",
-                borderRadius: "999px",
-              }}
-            >
-              {/* Search icon left (only when not focused) */}
-              {!searchFocused && (
-                searchLoading
-                  ? <Loader2 className="absolute left-4 w-4 h-4 text-primary animate-spin pointer-events-none" />
-                  : <Search className="absolute left-4 w-4 h-4 pointer-events-none" style={{ color: "rgba(255,255,255,0.4)" }} />
+          {/* Desktop search bar */}
+          <div className="flex-1 min-w-0 max-w-6xl mx-8 relative" ref={searchRef}>
+            <div className="relative flex items-center h-11 bg-[#1a1a2e] overflow-visible transition-all" ref={dropdownRef}
+              style={{ border: searchFocused ? "2px solid #D5AD68" : "1px solid rgba(255,255,255,0.15)", borderRadius: "999px" }}>
+              {!searchFocused && (searchLoading
+                ? <Loader2 className="absolute left-4 w-4 h-4 text-primary animate-spin pointer-events-none" />
+                : <Search className="absolute left-4 w-4 h-4 pointer-events-none" style={{ color: "rgba(255,255,255,0.4)" }} />
               )}
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
+              <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
                 onFocus={() => { setSearchFocused(true); setDropdownOpen(false); }}
                 placeholder="Search games, items, sellers..."
                 className="flex-1 bg-transparent h-full text-sm text-white placeholder:text-muted-foreground outline-none"
-                style={{ paddingLeft: searchFocused ? "16px" : "36px", paddingRight: "8px" }}
-              />
+                style={{ paddingLeft: searchFocused ? "16px" : "36px", paddingRight: "8px" }} />
               {searchQuery && (
                 <button onClick={() => { setSearchQuery(""); setSuggestions([]); }} className="p-1 mr-1 text-muted-foreground hover:text-white transition-colors">
                   <X className="w-3.5 h-3.5" />
                 </button>
               )}
-              {/* Divider */}
               <div className="w-px h-6 bg-border/50 shrink-0" />
-              {/* Category trigger */}
-              <button
-                onClick={() => { setDropdownOpen(o => !o); setSearchFocused(false); }}
-                className="flex items-center gap-2 px-4 h-full text-sm font-medium text-card-foreground hover:text-white transition-colors whitespace-nowrap"
-              >
+              <button onClick={() => { setDropdownOpen(o => !o); setSearchFocused(false); }}
+                className="flex items-center gap-2 px-4 h-full text-sm font-medium text-card-foreground hover:text-white transition-colors whitespace-nowrap">
                 {selectedService}
                 <ChevronDown className={`w-4 h-4 transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
               </button>
-              {/* Search icon right (only when focused) */}
               {searchFocused && (
                 <button className="h-full px-4 flex items-center justify-center" style={{ color: "rgba(255,255,255,0.5)" }}>
-                  {searchLoading
-                    ? <Loader2 className="w-4 h-4 text-primary animate-spin" />
-                    : <Search className="w-4 h-4" />
-                  }
+                  {searchLoading ? <Loader2 className="w-4 h-4 text-primary animate-spin" /> : <Search className="w-4 h-4" />}
                 </button>
               )}
-
-              {/* Category dropdown */}
               {dropdownOpen && (
                 <div className="absolute top-full right-0 mt-2 rounded-2xl shadow-2xl z-50 p-6" style={{ background: "#1c1c2e", border: "1px solid rgba(255,255,255,0.08)", width: "700px" }}>
                   <p className="text-[11px] text-white/40 font-semibold uppercase tracking-widest mb-5">Search in service</p>
                   <div className="grid grid-cols-4 gap-1">
                     {SERVICES.map(service => (
-                      <button
-                        key={service.label}
-                        onClick={() => { setSelectedService(service.label); setDropdownOpen(false); }}
-                        className={`flex flex-col items-center gap-2 px-2 py-3 rounded-xl transition-all hover:bg-white/5 group ${selectedService === service.label ? "bg-white/10" : ""}`}
-                      >
+                      <button key={service.label} onClick={() => { setSelectedService(service.label); setDropdownOpen(false); }}
+                        className={`flex flex-col items-center gap-2 px-2 py-3 rounded-xl transition-all hover:bg-white/5 group ${selectedService === service.label ? "bg-white/10" : ""}`}>
                         <div className="rounded-2xl flex items-center justify-center" style={{ background: service.bg, width: "52px", height: "52px" }}>
                           <svg viewBox="0 0 24 24" style={{ width: "24px", height: "24px" }} className="stroke-[1.8] fill-none stroke-white" strokeLinecap="round" strokeLinejoin="round">
                             <path d={service.icon} />
@@ -327,19 +302,13 @@ export default function Home() {
                 </div>
               )}
             </div>
-
-            {/* Search results panel */}
             {searchFocused && !dropdownOpen && (
               <div className="absolute top-full left-0 right-0 z-50 mt-2" style={{ background: "#1a1a2e", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "12px", maxHeight: "400px", overflowY: "auto", scrollbarWidth: "thin", scrollbarColor: "#D5AD68 transparent" }}>
                 {searchQuery && suggestions.length > 0 ? (
                   suggestions.slice(0, 7).map((item, i) => (
-                    <button key={i}
-                      onClick={() => { setSearchQuery(item.label); setSearchFocused(false); setRecentSearches(r => [item.label, ...r.filter(x => x !== item.label)].slice(0, 5)); }}
+                    <button key={i} onClick={() => { setSearchQuery(item.label); setSearchFocused(false); setRecentSearches(r => [item.label, ...r.filter(x => x !== item.label)].slice(0, 5)); }}
                       className="w-full flex items-center gap-3 px-5 py-3 transition-colors group"
-                      style={{  }}
-                      onMouseEnter={e=>(e.currentTarget.style.background="rgba(255,255,255,0.04)")}
-                      onMouseLeave={e=>(e.currentTarget.style.background="transparent")}
-                    >
+                      onMouseEnter={e=>(e.currentTarget.style.background="rgba(255,255,255,0.04)")} onMouseLeave={e=>(e.currentTarget.style.background="transparent")}>
                       <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 font-bold text-[10px]" style={{ background: CATEGORY_COLORS[item.category]+"25", color: CATEGORY_COLORS[item.category] }}>
                         {item.category.slice(0,2).toUpperCase()}
                       </div>
@@ -350,44 +319,31 @@ export default function Home() {
                   <p className="text-sm text-white/40 text-center py-5">No results for "<span className="text-white/60">{searchQuery}</span>"</p>
                 ) : (
                   <>
-                    {recentSearches.length > 0 && (
-                      <>
-                        <div className="flex items-center justify-between px-5 pt-3 pb-1">
-                          <p className="text-[11px] text-white/35 font-bold uppercase tracking-widest">Recently searched</p>
-                          <button onClick={() => setRecentSearches([])} className="text-[11px] text-white/35 hover:text-white transition-colors">Clear all</button>
-                        </div>
-                        {recentSearches.slice(0, 2).map((r, i) => (
-                          <button key={i} onClick={() => setSearchQuery(r)}
-                            className="w-full flex items-center gap-3 px-5 py-3 transition-colors group"
-                            onMouseEnter={e=>(e.currentTarget.style.background="rgba(255,255,255,0.04)")}
-                            onMouseLeave={e=>(e.currentTarget.style.background="transparent")}
-                          >
-                            <Clock className="w-4 h-4 shrink-0" style={{ color: "rgba(255,255,255,0.25)" }} />
-                            <span className="text-[14px] text-white/60 group-hover:text-white font-medium">{r}</span>
-                          </button>
-                        ))}
-                        <div className="mx-5" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }} />
-                      </>
-                    )}
-                    <p className="text-[11px] text-white/35 font-bold uppercase tracking-widest px-5 pt-3 pb-1">Popular categories</p>
-                    {POPULAR_CATEGORIES
-                      .filter(p => selectedService === "All Categories" || p.category === selectedService)
-                      .slice(0, 10)
-                      .map((item, i, arr) => (
-                        <button key={i}
-                          onClick={() => { setSearchQuery(item.label); setRecentSearches(r => [item.label, ...r.filter(x => x !== item.label)].slice(0, 5)); }}
-                          className="w-full flex items-center gap-3 px-5 py-3 transition-colors group"
-                          style={{  }}
-                          onMouseEnter={e=>(e.currentTarget.style.background="rgba(255,255,255,0.04)")}
-                          onMouseLeave={e=>(e.currentTarget.style.background="transparent")}
-                        >
-                          <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 font-bold text-[10px]" style={{ background: item.color+"25", color: item.color }}>
-                            {item.category.slice(0,2).toUpperCase()}
-                          </div>
-                          <span className="text-[14px] text-white/80 group-hover:text-white font-medium">{item.label}</span>
+                    {recentSearches.length > 0 && (<>
+                      <div className="flex items-center justify-between px-5 pt-3 pb-1">
+                        <p className="text-[11px] text-white/35 font-bold uppercase tracking-widest">Recently searched</p>
+                        <button onClick={() => setRecentSearches([])} className="text-[11px] text-white/35 hover:text-white transition-colors">Clear all</button>
+                      </div>
+                      {recentSearches.slice(0, 2).map((r, i) => (
+                        <button key={i} onClick={() => setSearchQuery(r)} className="w-full flex items-center gap-3 px-5 py-3 transition-colors group"
+                          onMouseEnter={e=>(e.currentTarget.style.background="rgba(255,255,255,0.04)")} onMouseLeave={e=>(e.currentTarget.style.background="transparent")}>
+                          <Clock className="w-4 h-4 shrink-0" style={{ color: "rgba(255,255,255,0.25)" }} />
+                          <span className="text-[14px] text-white/60 group-hover:text-white font-medium">{r}</span>
                         </button>
-                      ))
-                    }
+                      ))}
+                      <div className="mx-5" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }} />
+                    </>)}
+                    <p className="text-[11px] text-white/35 font-bold uppercase tracking-widest px-5 pt-3 pb-1">Popular categories</p>
+                    {POPULAR_CATEGORIES.filter(p => selectedService === "All Categories" || p.category === selectedService).slice(0, 10).map((item, i) => (
+                      <button key={i} onClick={() => { setSearchQuery(item.label); setRecentSearches(r => [item.label, ...r.filter(x => x !== item.label)].slice(0, 5)); }}
+                        className="w-full flex items-center gap-3 px-5 py-3 transition-colors group"
+                        onMouseEnter={e=>(e.currentTarget.style.background="rgba(255,255,255,0.04)")} onMouseLeave={e=>(e.currentTarget.style.background="transparent")}>
+                        <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 font-bold text-[10px]" style={{ background: item.color+"25", color: item.color }}>
+                          {item.category.slice(0,2).toUpperCase()}
+                        </div>
+                        <span className="text-[14px] text-white/80 group-hover:text-white font-medium">{item.label}</span>
+                      </button>
+                    ))}
                   </>
                 )}
               </div>
@@ -395,11 +351,84 @@ export default function Home() {
           </div>
 
           <div className="flex items-center shrink-0">
-            <button className="h-9 md:h-10 px-4 md:px-6 font-semibold text-xs md:text-sm rounded-xl transition-opacity hover:opacity-90 whitespace-nowrap" style={{ background: "#D5AD68", color: "#1a1100" }}>
+            <button className="h-10 px-6 font-semibold text-sm rounded-xl transition-opacity hover:opacity-90 whitespace-nowrap" style={{ background: "#D5AD68", color: "#1a1100" }}>
               Log in
             </button>
           </div>
         </div>
+
+        {/* ── MOBILE layout (< md): two rows ── */}
+        <div className="flex md:hidden flex-col" style={{ background: darkMode ? "#0a0a12" : "#1a1a2e" }}>
+          {/* Row 1: hamburger | logo+name | login */}
+          <div className="flex items-center justify-between px-4 h-14">
+            {/* Hamburger */}
+            <button className="flex flex-col gap-1.5 p-1" style={{ color: "rgba(255,255,255,0.7)" }}>
+              <span className="block w-5 h-0.5 rounded bg-current" />
+              <span className="block w-5 h-0.5 rounded bg-current" />
+              <span className="block w-4 h-0.5 rounded bg-current" />
+            </button>
+            {/* Logo + name */}
+            <div className="flex items-center gap-2">
+              <div className="w-9 h-9">
+                <svg viewBox="0 0 100 100" className="w-full h-full text-primary fill-current">
+                  <polygon points="50 5 95 27.5 95 72.5 50 95 5 72.5 5 27.5" />
+                  <polygon points="50 20 80 37 80 63 50 80 20 63 20 37" className="fill-background" />
+                  <polygon points="50 35 65 45 65 55 50 65 35 55 35 45" />
+                </svg>
+              </div>
+              <span className="font-heading font-bold text-lg tracking-tight text-white">RaRumble</span>
+            </div>
+            {/* Login */}
+            <button className="h-9 px-5 font-bold text-sm rounded-xl whitespace-nowrap" style={{ background: "#D5AD68", color: "#1a1100" }}>
+              Log in
+            </button>
+          </div>
+
+          {/* Row 2: full-width search bar */}
+          <div className="px-3 pb-3 relative" ref={searchRef}>
+            <div className="relative flex items-center h-11" ref={dropdownRef}
+              style={{ background: "rgba(255,255,255,0.07)", border: searchFocused ? "1.5px solid #D5AD68" : "1px solid rgba(255,255,255,0.12)", borderRadius: "12px" }}>
+              <Search className="absolute left-3 w-4 h-4 pointer-events-none" style={{ color: "rgba(255,255,255,0.4)" }} />
+              <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
+                onFocus={() => { setSearchFocused(true); setDropdownOpen(false); }}
+                placeholder="Search games, items, sellers..."
+                className="flex-1 bg-transparent h-full text-sm text-white placeholder:text-muted-foreground outline-none pl-9 pr-3" />
+              {searchQuery && (
+                <button onClick={() => { setSearchQuery(""); setSuggestions([]); }} className="p-1 mr-2 text-muted-foreground hover:text-white">
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
+            {searchFocused && (
+              <div className="absolute top-full left-3 right-3 z-50 mt-1" style={{ background: "#1a1a2e", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "12px", maxHeight: "320px", overflowY: "auto" }}>
+                {searchQuery && suggestions.length > 0 ? (
+                  suggestions.slice(0, 6).map((item, i) => (
+                    <button key={i} onClick={() => { setSearchQuery(item.label); setSearchFocused(false); }}
+                      className="w-full flex items-center gap-3 px-4 py-3 transition-colors"
+                      onMouseEnter={e=>(e.currentTarget.style.background="rgba(255,255,255,0.04)")} onMouseLeave={e=>(e.currentTarget.style.background="transparent")}>
+                      <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 font-bold text-[10px]" style={{ background: CATEGORY_COLORS[item.category]+"25", color: CATEGORY_COLORS[item.category] }}>
+                        {item.category.slice(0,2).toUpperCase()}
+                      </div>
+                      <span className="text-[13px] text-white/85 font-medium">{item.label}</span>
+                    </button>
+                  ))
+                ) : !searchQuery ? (
+                  POPULAR_CATEGORIES.slice(0, 8).map((item, i) => (
+                    <button key={i} onClick={() => { setSearchQuery(item.label); setSearchFocused(false); }}
+                      className="w-full flex items-center gap-3 px-4 py-3 transition-colors"
+                      onMouseEnter={e=>(e.currentTarget.style.background="rgba(255,255,255,0.04)")} onMouseLeave={e=>(e.currentTarget.style.background="transparent")}>
+                      <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 font-bold text-[10px]" style={{ background: item.color+"25", color: item.color }}>
+                        {item.category.slice(0,2).toUpperCase()}
+                      </div>
+                      <span className="text-[13px] text-white/80 font-medium">{item.label}</span>
+                    </button>
+                  ))
+                ) : null}
+              </div>
+            )}
+          </div>
+        </div>
+
       </nav>
 
       {/* Hero Section */}
