@@ -421,24 +421,31 @@ export default function Home() {
         </div>
 
         {/* Left text */}
-        <div className="relative z-20 h-full flex items-center px-6 sm:px-12 md:px-24 lg:px-40">
+        <div className="relative z-20 h-full flex items-center" style={{ paddingLeft: "clamp(24px, 8vw, 160px)" }}>
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            style={{ maxWidth: "560px" }}
+            style={{ maxWidth: "520px" }}
           >
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4 md:mb-5 font-heading">
+            <h1 className="font-bold text-white leading-tight font-heading mb-3 md:mb-4" style={{ fontSize: "clamp(28px, 5vw, 64px)" }}>
               Rule Vice City's<br />
               <span style={{ color: "#D5AD68" }}>Economy</span>
             </h1>
-            <p className="text-sm md:text-base mb-6 md:mb-8 font-medium" style={{ color: "rgba(255,255,255,0.6)" }}>
+            <p className="mb-6 md:mb-8 font-medium" style={{ fontSize: "clamp(13px, 1.5vw, 16px)", color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>
               Buy & sell GTA VI money, accounts, and items.<br />
               Trusted by 12M+ players · Instant delivery.
             </p>
             <button
-              className="px-7 md:px-10 rounded-full text-sm md:text-base font-bold transition-opacity hover:opacity-90"
-              style={{ background: "#D5AD68", color: "#0a0a12", height: "46px" }}
+              className="font-bold transition-all hover:opacity-90 hover:scale-[1.02]"
+              style={{
+                background: "#D5AD68",
+                color: "#0a0a12",
+                height: "clamp(40px, 5vw, 52px)",
+                padding: "0 clamp(20px, 3vw, 36px)",
+                borderRadius: "10px",
+                fontSize: "clamp(13px, 1.4vw, 15px)",
+              }}
             >
               Shop Now
             </button>
