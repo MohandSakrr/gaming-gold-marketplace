@@ -838,8 +838,8 @@ export default function Home() {
                 : offer.type.includes("Gold") || offer.type.includes("Coins") || offer.type.includes("Credits") ? "Currency"
                 : "Items";
               return (
-                <div key={offer.game} className="rounded-2xl flex flex-col overflow-hidden cursor-pointer transition-all shrink-0 flex-1" style={{ minWidth: "220px" }}
-                  style={{ background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(0,0,0,0.08)" }}
+                <div key={offer.game} className="rounded-2xl flex flex-col overflow-hidden cursor-pointer transition-all shrink-0 flex-1"
+                  style={{ minWidth: "220px", background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(0,0,0,0.08)" }}
                   onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(213,173,104,0.4)")}
                   onMouseLeave={e => (e.currentTarget.style.borderColor = darkMode ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.08)")}
                 >
