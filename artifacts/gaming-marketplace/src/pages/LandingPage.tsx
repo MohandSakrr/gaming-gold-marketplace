@@ -359,14 +359,8 @@ export default function Home() {
 
         {/* ── MOBILE layout (< md): two rows ── */}
         <div className="flex md:hidden flex-col" style={{ background: darkMode ? "#0a0a12" : "#1a1a2e" }}>
-          {/* Row 1: hamburger | logo+name | login */}
+          {/* Row 1: logo+name (left) | login (right) */}
           <div className="flex items-center justify-between px-4 h-14">
-            {/* Hamburger */}
-            <button className="flex flex-col gap-1.5 p-1" style={{ color: "rgba(255,255,255,0.7)" }}>
-              <span className="block w-5 h-0.5 rounded bg-current" />
-              <span className="block w-5 h-0.5 rounded bg-current" />
-              <span className="block w-4 h-0.5 rounded bg-current" />
-            </button>
             {/* Logo + name */}
             <div className="flex items-center gap-2">
               <div className="w-9 h-9">
@@ -1016,16 +1010,16 @@ export default function Home() {
 
         {/* Top bar — payment icons + language */}
         <div style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
-          <div className="flex items-center justify-between px-10 py-3" style={{ maxWidth: "1280px", margin: "0 auto" }}>
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 px-4 md:px-10 py-3" style={{ maxWidth: "1280px", margin: "0 auto" }}>
             <div className="flex items-center gap-2 flex-wrap">
               {[
-                { label: "VISA",   bg: "#1a1f71", color: "#fff" },
-                { label: "MC",     bg: "#eb001b", color: "#fff" },
-                { label: "AMEX",   bg: "#2e77bc", color: "#fff" },
-                { label: "DISC",   bg: "#ff6600", color: "#fff" },
-                { label: "BTC",    bg: "#f7931a", color: "#fff" },
-                { label: "GPay",   bg: "#fff",    color: "#333" },
-                { label: "Pay",    bg: "#111",    color: "#fff" },
+                { label: "VISA", bg: "#1a1f71", color: "#fff" },
+                { label: "MC",   bg: "#eb001b", color: "#fff" },
+                { label: "AMEX", bg: "#2e77bc", color: "#fff" },
+                { label: "DISC", bg: "#ff6600", color: "#fff" },
+                { label: "BTC",  bg: "#f7931a", color: "#fff" },
+                { label: "GPay", bg: "#fff",    color: "#333" },
+                { label: "Pay",  bg: "#111",    color: "#fff" },
               ].map(p => (
                 <div key={p.label} className="px-3 h-7 flex items-center justify-center rounded text-[11px] font-bold tracking-wide" style={{ background: p.bg, color: p.color, minWidth: "46px" }}>
                   {p.label}
@@ -1033,18 +1027,15 @@ export default function Home() {
               ))}
               <span className="text-[12px] font-medium ml-1" style={{ color: "rgba(255,255,255,0.35)" }}>+15 more</span>
             </div>
-            <div className="flex items-center gap-5">
-              {/* Dark/Light toggle — no box */}
+            <div className="flex items-center gap-4">
               <button onClick={() => setDarkMode(d => !d)} className="flex items-center gap-2.5">
-                <span className="text-[13px] font-medium" style={{ color: "rgba(255,255,255,0.65)" }}>
-                  {darkMode ? "Dark Theme" : "Light Theme"}
-                </span>
+                <span className="text-[13px] font-medium" style={{ color: "rgba(255,255,255,0.65)" }}>{darkMode ? "Dark Theme" : "Light Theme"}</span>
                 <div className="relative shrink-0" style={{ width: "36px", height: "20px" }}>
                   <div className="absolute inset-0 rounded-full transition-colors" style={{ background: darkMode ? "#D5AD68" : "rgba(255,255,255,0.25)" }} />
                   <div className="absolute top-[3px] rounded-full transition-all" style={{ width: "14px", height: "14px", background: "#fff", left: darkMode ? "19px" : "3px", boxShadow: "0 1px 3px rgba(0,0,0,0.4)" }} />
                 </div>
               </button>
-              <div className="flex items-center gap-2 text-[13px] font-medium px-4 py-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.7)" }}>
+              <div className="flex items-center gap-2 text-[13px] font-medium px-3 py-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.7)" }}>
                 <svg viewBox="0 0 24 24" className="w-4 h-4 fill-none stroke-current stroke-[1.5]"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
                 English | USD - $
               </div>
@@ -1053,12 +1044,12 @@ export default function Home() {
         </div>
 
         {/* Main body */}
-        <div className="px-10 pt-14 pb-10" style={{ maxWidth: "1280px", margin: "0 auto" }}>
-          <div className="flex gap-16">
+        <div className="px-4 md:px-10 pt-10 md:pt-14 pb-8 md:pb-10" style={{ maxWidth: "1280px", margin: "0 auto" }}>
+          <div className="flex flex-col md:flex-row gap-8 md:gap-16">
 
             {/* Brand column */}
-            <div style={{ minWidth: "220px" }}>
-              <div className="flex items-center gap-2.5 mb-5">
+            <div className="md:shrink-0" style={{ minWidth: "220px" }}>
+              <div className="flex items-center gap-2.5 mb-4">
                 <div className="w-10 h-10">
                   <svg viewBox="0 0 100 100" className="w-full h-full" style={{ fill: "#D5AD68" }}>
                     <polygon points="50 5 95 27.5 95 72.5 50 95 5 72.5 5 27.5" />
@@ -1066,63 +1057,45 @@ export default function Home() {
                     <polygon points="50 35 65 45 65 55 50 65 35 55 35 45" style={{ fill: "#D5AD68" }} />
                   </svg>
                 </div>
-                <span className="font-heading font-bold text-2xl tracking-tight text-white">
-                  Ra<span style={{ color: "#D5AD68" }}>Rumble</span>
-                </span>
+                <span className="font-heading font-bold text-2xl tracking-tight text-white">Ra<span style={{ color: "#D5AD68" }}>Rumble</span></span>
               </div>
-              <p className="text-[14px] mb-7" style={{ color: "rgba(255,255,255,0.45)", lineHeight: "1.7" }}>
-                Join us today to level up your<br />gaming experience!
+              <p className="text-[14px] mb-6" style={{ color: "rgba(255,255,255,0.45)", lineHeight: "1.7" }}>
+                Join us today to level up your gaming experience!
               </p>
-              {/* Social icons — plain, no box */}
-              <div className="flex items-center gap-5">
+              <div className="flex items-center gap-5 flex-wrap">
                 {[
-                  { label: "Reddit",   path: "M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-3.11-8.83c-.384.345-.537.852-.406 1.327.13.475.5.849.97.993.47.144.98.02 1.334-.325.61-.556 1.524-.556 2.134 0 .354.346.864.47 1.334.325.47-.144.84-.518.97-.993.13-.475-.022-.982-.406-1.327-.994-.905-2.53-.905-3.93 0zm.77-3.17a.75.75 0 100 1.5.75.75 0 000-1.5zm4.68 0a.75.75 0 100 1.5.75.75 0 000-1.5z" },
-                  { label: "TikTok",   path: "M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z" },
-                  { label: "X",        path: "M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" },
-                  { label: "Facebook", path: "M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" },
-                  { label: "Instagram",path: "M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zM17.5 6.5h.01M7.5 2h9A5.5 5.5 0 0122 7.5v9A5.5 5.5 0 0116.5 22h-9A5.5 5.5 0 012 16.5v-9A5.5 5.5 0 017.5 2z" },
-                  { label: "YouTube",  path: "M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z" },
+                  { label: "Reddit",    path: "M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-3.11-8.83c-.384.345-.537.852-.406 1.327.13.475.5.849.97.993.47.144.98.02 1.334-.325.61-.556 1.524-.556 2.134 0 .354.346.864.47 1.334.325.47-.144.84-.518.97-.993.13-.475-.022-.982-.406-1.327-.994-.905-2.53-.905-3.93 0zm.77-3.17a.75.75 0 100 1.5.75.75 0 000-1.5zm4.68 0a.75.75 0 100 1.5.75.75 0 000-1.5z" },
+                  { label: "TikTok",    path: "M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z" },
+                  { label: "X",         path: "M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" },
+                  { label: "Facebook",  path: "M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" },
+                  { label: "Instagram", path: "M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zM17.5 6.5h.01M7.5 2h9A5.5 5.5 0 0122 7.5v9A5.5 5.5 0 0116.5 22h-9A5.5 5.5 0 012 16.5v-9A5.5 5.5 0 017.5 2z" },
+                  { label: "YouTube",   path: "M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z" },
                 ].map(s => (
-                  <a key={s.label} href="#" title={s.label} className="transition-opacity hover:opacity-100" style={{ opacity: 0.45 }}
+                  <a key={s.label} href="#" title={s.label} style={{ opacity: 0.45 }}
                     onMouseEnter={e => (e.currentTarget.style.opacity = "1")}
-                    onMouseLeave={e => (e.currentTarget.style.opacity = "0.45")}
-                  >
+                    onMouseLeave={e => (e.currentTarget.style.opacity = "0.45")}>
                     <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current text-white"><path d={s.path} /></svg>
                   </a>
                 ))}
               </div>
             </div>
 
-            {/* Link columns */}
-            <div className="flex-1 grid grid-cols-4 gap-8">
+            {/* Link columns — 2 col on mobile, 4 on desktop */}
+            <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
               {[
-                {
-                  title: "Help Center",
-                  links: ["Contact us", "About us", "Bug Bounty", "Blog", "Become a Partner", "Become an Affiliate", "Become a Seller"],
-                },
-                {
-                  title: "Account Warranty",
-                  links: ["TradeShield (Buying)", "TradeShield (Selling)", "Withdrawals", "Account Seller Rules"],
-                },
-                {
-                  title: "Seller Rules",
-                  links: ["Changing Username", "Fees", "Refund Policy"],
-                },
-                {
-                  title: "Currency",
-                  links: ["Accounts", "Top Up", "Items", "Boosting", "Gift Cards"],
-                },
+                { title: "Help Center",       links: ["Contact us", "About us", "Bug Bounty", "Blog", "Become a Partner", "Become an Affiliate", "Become a Seller"] },
+                { title: "Account Warranty",  links: ["TradeShield (Buying)", "TradeShield (Selling)", "Withdrawals", "Account Seller Rules"] },
+                { title: "Seller Rules",      links: ["Changing Username", "Fees", "Refund Policy"] },
+                { title: "Currency",          links: ["Accounts", "Top Up", "Items", "Boosting", "Gift Cards"] },
               ].map(col => (
                 <div key={col.title}>
-                  <h4 className="text-[14px] font-semibold mb-5 text-white">{col.title}</h4>
-                  <ul className="space-y-3.5">
+                  <h4 className="text-[14px] font-semibold mb-4 text-white">{col.title}</h4>
+                  <ul className="space-y-3">
                     {col.links.map(link => (
                       <li key={link}>
-                        <a href="#" className="text-[13px] transition-colors"
-                          style={{ color: "rgba(255,255,255,0.45)" }}
+                        <a href="#" className="text-[13px] transition-colors" style={{ color: "rgba(255,255,255,0.45)" }}
                           onMouseEnter={e => (e.currentTarget.style.color = "#fff")}
-                          onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.45)")}
-                        >{link}</a>
+                          onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.45)")}>{link}</a>
                       </li>
                     ))}
                   </ul>
@@ -1135,16 +1108,15 @@ export default function Home() {
 
         {/* Bottom bar */}
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
-          <div className="flex items-center justify-between px-10 py-5" style={{ maxWidth: "1280px", margin: "0 auto" }}>
-            <p className="text-[13px]" style={{ color: "rgba(255,255,255,0.35)" }}>
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 px-4 md:px-10 py-4 md:py-5" style={{ maxWidth: "1280px", margin: "0 auto" }}>
+            <p className="text-[12px] md:text-[13px]" style={{ color: "rgba(255,255,255,0.35)" }}>
               © 2026. The RaRumble website is operated by RaRumble FZCO.
             </p>
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-4 flex-wrap">
               {["Terms of Service", "Privacy Policy", "DMCA", "DSA"].map(l => (
-                <a key={l} href="#" className="text-[13px] transition-colors" style={{ color: "rgba(255,255,255,0.45)" }}
+                <a key={l} href="#" className="text-[12px] md:text-[13px] transition-colors" style={{ color: "rgba(255,255,255,0.45)" }}
                   onMouseEnter={e => (e.currentTarget.style.color = "#fff")}
-                  onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.45)")}
-                >{l}</a>
+                  onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.45)")}>{l}</a>
               ))}
             </div>
           </div>
