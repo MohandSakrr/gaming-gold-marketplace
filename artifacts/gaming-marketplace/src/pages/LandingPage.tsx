@@ -963,10 +963,10 @@ export default function Home() {
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 md:divide-x divide-border/50">
             {[
-              { val: "12M+", label: "Active Players" },
-              { val: "500K+", label: "Listings" },
-              { val: "99.2%", label: "Positive Reviews" },
-              { val: "< 5min", label: "Avg. Delivery" },
+              { val: "50+", label: "Games Supported" },
+              { val: "100%", label: "Verified Sellers" },
+              { val: "0%", label: "Buyer Fraud Rate" },
+              { val: "24/7", label: "Live Support" },
             ].map((stat, i) => (
               <motion.div 
                 key={stat.label}
