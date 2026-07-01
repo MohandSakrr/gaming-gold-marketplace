@@ -992,14 +992,20 @@ export default function Home() {
       <section className="py-10 md:py-20">
         <div className="container mx-auto px-4 md:px-6 max-w-5xl">
           <h2 className="text-3xl font-bold font-heading mb-10 text-center" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>Top Verified Sellers This Week</h2>
-          <div className="bg-card rounded-2xl border border-border overflow-hidden">
-            <div className="grid grid-cols-[auto_1fr_auto_auto] gap-4 p-4 border-b border-border/50 bg-background/50 text-xs font-bold text-muted-foreground uppercase tracking-wider">
+          <div className="rounded-2xl overflow-hidden"
+            style={{
+              background: darkMode ? "#111120" : "#ffffff",
+              border: darkMode ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.08)",
+              boxShadow: darkMode ? "none" : "0 4px 24px rgba(0,0,0,0.06)",
+            }}>
+            <div className="grid grid-cols-[auto_1fr_auto_auto] gap-4 p-4 text-xs font-bold uppercase tracking-wider"
+              style={{ borderBottom: darkMode ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.07)", background: darkMode ? "rgba(10,10,18,0.5)" : "rgba(0,0,0,0.03)", color: darkMode ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.45)" }}>
               <div className="w-12 text-center">Rank</div>
               <div>Seller</div>
               <div className="hidden sm:block text-right w-24">Sales</div>
               <div className="w-24 text-right pr-4">Action</div>
             </div>
-            <div className="divide-y divide-border/30">
+            <div className={darkMode ? "divide-y divide-border/30" : "divide-y divide-black/[0.06]"}>
               {[
                 { name: "ShadowStriker", spec: "Valorant Specialist", sales: "1,204", rating: "5.0", avatar: "/images/avatar-1.png" },
                 { name: "ElvenMerchant", spec: "WoW Gold Farmer", sales: "982", rating: "4.9", avatar: "/images/avatar-2.png" },
@@ -1013,13 +1019,13 @@ export default function Home() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className="grid grid-cols-[auto_1fr_auto_auto] gap-4 p-4 items-center hover:bg-white/5 transition-colors group"
+                  className={`grid grid-cols-[auto_1fr_auto_auto] gap-4 p-4 items-center transition-colors group ${darkMode ? "hover:bg-white/5" : "hover:bg-black/[0.03]"}`}
                 >
                   <div className="w-12 flex justify-center items-center">
                     {i === 0 ? (
                       <Crown className="w-6 h-6 text-primary drop-shadow-[0_0_8px_rgba(213,173,104,0.5)]" />
                     ) : (
-                      <span className="text-lg font-bold font-heading text-muted-foreground">{i + 1}</span>
+                      <span className="text-lg font-bold font-heading" style={{ color: darkMode ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.45)" }}>{i + 1}</span>
                     )}
                   </div>
                   <div className="flex items-center gap-4">
@@ -1028,16 +1034,16 @@ export default function Home() {
                       <img src={seller.avatar} alt={seller.name} className="w-full h-full object-cover bg-background" />
                     </div>
                     <div>
-                      <div className="font-bold text-white flex items-center gap-2">
+                      <div className="font-bold flex items-center gap-2" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>
                         {seller.name}
                         <div className="flex items-center gap-1 bg-primary/10 px-1.5 py-0.5 rounded text-[10px] text-primary">
                           <Star className="w-3 h-3 fill-primary" /> {seller.rating}
                         </div>
                       </div>
-                      <div className="text-xs text-muted-foreground mt-1">{seller.spec}</div>
+                      <div className="text-xs mt-1" style={{ color: darkMode ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.45)" }}>{seller.spec}</div>
                     </div>
                   </div>
-                  <div className="hidden sm:block text-right w-24 font-medium text-card-foreground">
+                  <div className="hidden sm:block text-right w-24 font-medium" style={{ color: darkMode ? "#e5e5e5" : "#1a1a2e" }}>
                     {seller.sales}
                   </div>
                   <div className="w-24 text-right">
