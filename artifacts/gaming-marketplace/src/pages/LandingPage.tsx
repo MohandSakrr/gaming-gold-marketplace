@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { Search, Star, Crown, ChevronRight, ChevronDown, X, Clock, TrendingUp, Loader2 } from "lucide-react";
+import { Search, Star, Crown, ChevronRight, ChevronDown, X, Clock, TrendingUp, Loader2, BadgeCheck } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -1008,52 +1008,75 @@ export default function Home() {
             </div>
             <div className={darkMode ? "divide-y divide-border/30" : "divide-y divide-black/[0.06]"}>
               {[
-                { name: "ShadowStriker", spec: "Valorant Specialist", sales: "1,204", rating: "5.0", avatar: "/images/avatar-1.png" },
-                { name: "ElvenMerchant", spec: "WoW Gold Farmer", sales: "982", rating: "4.9", avatar: "/images/avatar-2.png" },
-                { name: "TacticalGear", spec: "CS2 Items", sales: "845", rating: "4.8", avatar: "/images/avatar-3.png" },
-                { name: "NinjaBoosts", spec: "Apex Predator Carries", sales: "721", rating: "5.0", avatar: "/images/avatar-4.png" },
-                { name: "KingSlayer", spec: "Elden Ring Accounts", sales: "650", rating: "4.9", avatar: "/images/avatar-5.png" },
-              ].map((seller, i) => (
-                <motion.div 
-                  key={seller.name}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className={`grid grid-cols-[auto_1fr_auto_auto] gap-4 p-4 items-center transition-colors group ${darkMode ? "hover:bg-white/5" : "hover:bg-black/[0.03]"}`}
-                >
-                  <div className="w-12 flex justify-center items-center">
-                    {i === 0 ? (
-                      <Crown className="w-6 h-6 text-primary drop-shadow-[0_0_8px_rgba(213,173,104,0.5)]" />
-                    ) : (
-                      <span className="text-lg font-bold font-heading" style={{ color: darkMode ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.45)" }}>{i + 1}</span>
-                    )}
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full border-2 border-border group-hover:border-primary/50 transition-colors overflow-hidden">
-                      {/* Fallback to generic icon if image is missing */}
-                      <img src={seller.avatar} alt={seller.name} className="w-full h-full object-cover bg-background" />
-                    </div>
-                    <div>
-                      <div className="font-bold flex items-center gap-2" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>
-                        {seller.name}
-                        <div className="flex items-center gap-1 bg-primary/10 px-1.5 py-0.5 rounded text-[10px] text-primary">
-                          <Star className="w-3 h-3 fill-primary" /> {seller.rating}
+                { name: "ShadowStriker", spec: "Valorant Specialist", sales: "1,204", trend: "+18%", rating: "5.0", grad: "linear-gradient(135deg,#7c3aed,#c026d3)" },
+                { name: "ElvenMerchant", spec: "WoW Gold Farmer", sales: "982", trend: "+12%", rating: "4.9", grad: "linear-gradient(135deg,#059669,#10b981)" },
+                { name: "TacticalGear", spec: "CS2 Items", sales: "845", trend: "+9%", rating: "4.8", grad: "linear-gradient(135deg,#ea580c,#f59e0b)" },
+                { name: "NinjaBoosts", spec: "Apex Predator Carries", sales: "721", trend: "+15%", rating: "5.0", grad: "linear-gradient(135deg,#0284c7,#06b6d4)" },
+                { name: "KingSlayer", spec: "Elden Ring Accounts", sales: "650", trend: "+7%", rating: "4.9", grad: "linear-gradient(135deg,#dc2626,#f43f5e)" },
+              ].map((seller, i) => {
+                const medal =
+                  i === 0 ? { bg: "linear-gradient(135deg,#D5AD68,#f0d9a8)", ring: "rgba(213,173,104,0.5)", text: "#1a1100" }
+                  : i === 1 ? { bg: "linear-gradient(135deg,#9ca3af,#e5e7eb)", ring: "rgba(156,163,175,0.4)", text: "#1f2937" }
+                  : i === 2 ? { bg: "linear-gradient(135deg,#b45309,#d97706)", ring: "rgba(180,83,9,0.4)", text: "#fff7ed" }
+                  : null;
+                return (
+                  <motion.div
+                    key={seller.name}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.08 }}
+                    className={`grid grid-cols-[auto_1fr_auto_auto] gap-3 md:gap-4 p-4 items-center transition-colors group ${darkMode ? "hover:bg-white/[0.04]" : "hover:bg-black/[0.02]"}`}
+                  >
+                    {/* Rank medal */}
+                    <div className="w-12 flex justify-center items-center">
+                      {medal ? (
+                        <div className="relative w-9 h-9 rounded-full flex items-center justify-center font-bold text-[13px] font-heading"
+                          style={{ background: medal.bg, color: medal.text, boxShadow: `0 0 0 3px ${medal.ring}` }}>
+                          {i === 0 ? <Crown className="w-4.5 h-4.5" style={{ width: "18px", height: "18px" }} /> : i + 1}
                         </div>
-                      </div>
-                      <div className="text-xs mt-1" style={{ color: darkMode ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.45)" }}>{seller.spec}</div>
+                      ) : (
+                        <span className="text-[15px] font-bold font-heading" style={{ color: darkMode ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.35)" }}>{i + 1}</span>
+                      )}
                     </div>
-                  </div>
-                  <div className="hidden sm:block text-right w-24 font-medium" style={{ color: darkMode ? "#e5e5e5" : "#1a1a2e" }}>
-                    {seller.sales}
-                  </div>
-                  <div className="w-24 text-right">
-                    <Button size="sm" variant="ghost" className="text-primary hover:text-primary hover:bg-primary/10 w-full justify-center">
-                      View Shop
-                    </Button>
-                  </div>
-                </motion.div>
-              ))}
+                    {/* Seller */}
+                    <div className="flex items-center gap-3 md:gap-4 min-w-0">
+                      <div className="w-11 h-11 md:w-12 md:h-12 rounded-full shrink-0 flex items-center justify-center font-bold text-[14px] text-white transition-transform group-hover:scale-105"
+                        style={{ background: seller.grad, boxShadow: i === 0 ? "0 0 0 2px rgba(213,173,104,0.6), 0 0 16px rgba(213,173,104,0.25)" : darkMode ? "0 0 0 2px rgba(255,255,255,0.1)" : "0 0 0 2px rgba(0,0,0,0.06)" }}>
+                        {seller.name.slice(0, 2).toUpperCase()}
+                      </div>
+                      <div className="min-w-0">
+                        <div className="font-bold flex items-center gap-1.5 flex-wrap" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>
+                          <span className="truncate">{seller.name}</span>
+                          <BadgeCheck className="w-4 h-4 shrink-0" style={{ color: "#D5AD68" }} />
+                          <div className="flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] shrink-0" style={{ background: "rgba(213,173,104,0.12)", color: "#D5AD68" }}>
+                            <Star className="w-3 h-3" style={{ fill: "#D5AD68" }} /> {seller.rating}
+                          </div>
+                        </div>
+                        <div className="text-xs mt-1 truncate" style={{ color: darkMode ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.45)" }}>{seller.spec}</div>
+                      </div>
+                    </div>
+                    {/* Sales + trend */}
+                    <div className="hidden sm:flex flex-col items-end w-24">
+                      <span className="font-bold text-[15px]" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>{seller.sales}</span>
+                      <span className="flex items-center gap-0.5 text-[11px] font-semibold mt-0.5" style={{ color: "#22c55e" }}>
+                        <TrendingUp className="w-3 h-3" /> {seller.trend}
+                      </span>
+                    </div>
+                    {/* Action */}
+                    <div className="w-24 md:w-28 flex justify-end">
+                      <button
+                        className="text-[12px] md:text-[13px] font-semibold px-3 md:px-4 py-2 rounded-full transition-all whitespace-nowrap cursor-pointer"
+                        style={{ color: "#D5AD68", border: "1px solid rgba(213,173,104,0.35)", background: "transparent" }}
+                        onMouseEnter={e => { e.currentTarget.style.background = "#D5AD68"; e.currentTarget.style.color = "#1a1100"; }}
+                        onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#D5AD68"; }}
+                      >
+                        View Shop
+                      </button>
+                    </div>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </div>
