@@ -148,6 +148,7 @@ export default function Home() {
   const searchRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [activeCat, setActiveCat] = useState<string | null>(null);
   const [catSearch, setCatSearch] = useState("");
   const catBarRef = useRef<HTMLDivElement>(null);
@@ -1054,6 +1055,102 @@ export default function Home() {
                 </motion.div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="py-12 md:py-20">
+        <div className="container mx-auto px-4 md:px-6" style={{ maxWidth: "1150px" }}>
+          <div className="flex flex-col md:flex-row gap-8 md:gap-14">
+
+            {/* Left: intro */}
+            <div className="md:w-[38%] md:shrink-0 md:pt-4">
+              <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
+                <h2 className="text-3xl md:text-4xl font-bold font-heading leading-tight mb-2" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>
+                  Discover <span style={{ color: "#D5AD68" }}>RaRumble:</span>
+                </h2>
+                <h2 className="text-3xl md:text-4xl font-bold font-heading leading-tight mb-5" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>
+                  Your Gaming Paradise!
+                </h2>
+                <p className="text-[14px] leading-relaxed" style={{ color: darkMode ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.55)" }}>
+                  Hey gamers! Welcome to RaRumble, your go-to spot for snagging epic in-game goodies like
+                  currencies, top ups, rare items, and top-tier accounts with ease. Plus, you can make some
+                  cash by listing your own offers! Jump in and boost your gaming fun!
+                </p>
+              </motion.div>
+            </div>
+
+            {/* Right: accordion */}
+            <div className="flex-1 flex flex-col gap-4">
+              {[
+                {
+                  q: "What is RaRumble?",
+                  a: "RaRumble is your one-stop shop for awesome in-game stuff like top up, coins, rare items, premium accounts, and boosting services. We offer a huge variety of high-quality products for all games and platforms. Our fast, secure, and affordable platform makes gaming better with easy transactions and 24/7 support. Join RaRumble to level up your adventure with ease!",
+                },
+                {
+                  q: "What can I buy and sell at RaRumble?",
+                  a: "RaRumble has almost everything you need in games! If it exists in a game's store, or is tradeable between players, you can find and buy it here. Our diverse selection fuels your gaming passion. If you are looking to sell, both individual players with valuable items and professional companies with legitimate supply can make money here. RaRumble is your bridge to endless gaming fun — buy, sell, and thrive with us!",
+                },
+                {
+                  q: "Is RaRumble a legit and reliable platform?",
+                  a: "Absolutely yes! Every seller on RaRumble is verified before they can list, and every purchase is protected by TradeShield — your money is held safely until you confirm delivery. With a 0% buyer fraud rate and thousands of positive reviews, we focus on customer satisfaction, delivering exceptional service and building an outstanding reputation.",
+                },
+                {
+                  q: "How can I get help from RaRumble?",
+                  a: "We offer 24/7 online customer support. No matter how late it is, our dedicated 1-on-1 team is ready to help — all real humans. You can also email our support team for assistance, and we'll respond lightning-fast. Anytime, anywhere — don't hesitate to reach out, and we'll solve your issues!",
+                },
+              ].map((faq, i) => {
+                const open = openFaq === i;
+                return (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.08, duration: 0.4 }}
+                    className="rounded-2xl overflow-hidden transition-all"
+                    style={{
+                      background: darkMode ? "#111120" : "#ffffff",
+                      border: open
+                        ? "1px solid rgba(213,173,104,0.45)"
+                        : darkMode ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.08)",
+                      boxShadow: darkMode ? "none" : "0 2px 16px rgba(0,0,0,0.05)",
+                    }}
+                  >
+                    <button
+                      onClick={() => setOpenFaq(open ? null : i)}
+                      className="w-full flex items-center justify-between gap-4 px-5 md:px-6 py-4 md:py-5 text-left cursor-pointer"
+                    >
+                      <span className="text-[15px] font-semibold" style={{ color: open ? "#D5AD68" : darkMode ? "#ffffff" : "#1a1a2e" }}>
+                        {faq.q}
+                      </span>
+                      <motion.span animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.25 }} className="shrink-0">
+                        <ChevronDown className="w-5 h-5" style={{ color: open ? "#D5AD68" : darkMode ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.4)" }} />
+                      </motion.span>
+                    </button>
+                    <AnimatePresence initial={false}>
+                      {open && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3, ease: "easeInOut" }}
+                          style={{ overflow: "hidden" }}
+                        >
+                          <div className="px-5 md:px-6 pb-5" style={{ borderTop: darkMode ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.06)" }}>
+                            <p className="text-[14px] leading-relaxed pt-4" style={{ color: darkMode ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.55)" }}>
+                              {faq.a}
+                            </p>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                );
+              })}
+            </div>
+
           </div>
         </div>
       </section>
