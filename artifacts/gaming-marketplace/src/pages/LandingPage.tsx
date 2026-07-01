@@ -1053,7 +1053,6 @@ export default function Home() {
                             <Star className="w-3 h-3" style={{ fill: "#D5AD68" }} /> {seller.rating}
                           </div>
                         </div>
-                        <div className="text-xs mt-1 truncate" style={{ color: darkMode ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.45)" }}>{seller.spec}</div>
                       </div>
                     </div>
                     {/* Sales + trend */}
