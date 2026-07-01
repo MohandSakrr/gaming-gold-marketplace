@@ -529,11 +529,11 @@ export default function Home() {
             ref={catBarInnerRef}
             className="flex items-center md:justify-between gap-1 md:gap-2 px-2 md:px-6 py-3 md:py-4 overflow-x-auto"
             style={{
-              background: "rgba(10,10,22,0.97)",
-              border: "1px solid rgba(213,173,104,0.35)",
+              background: darkMode ? "rgba(10,10,22,0.97)" : "#ffffff",
+              border: darkMode ? "1px solid rgba(213,173,104,0.35)" : "1px solid rgba(0,0,0,0.08)",
               borderRadius: activeCat ? (catOpenUpRef.current ? "0 0 16px 16px" : "16px 16px 0 0") : "16px",
               backdropFilter: "blur(12px)",
-              boxShadow: "0 4px 32px rgba(0,0,0,0.6)",
+              boxShadow: darkMode ? "0 4px 32px rgba(0,0,0,0.6)" : "0 4px 24px rgba(0,0,0,0.08)",
               scrollbarWidth: "none",
             }}
           >
@@ -574,7 +574,7 @@ export default function Home() {
                   <path d={cat.icon} />
                 </svg>
                 <span className="text-[12px] md:text-[13px] font-semibold transition-colors text-center leading-tight"
-                  style={{ color: activeCat === cat.label ? "#D5AD68" : "#ffffff" }}>
+                  style={{ color: activeCat === cat.label ? "#D5AD68" : darkMode ? "#ffffff" : "#1a1a2e" }}>
                   {cat.label}
                 </span>
               </motion.button>
