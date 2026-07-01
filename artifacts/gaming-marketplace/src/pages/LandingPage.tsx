@@ -90,19 +90,22 @@ const CATEGORY_COLORS: Record<string, string> = {
   "Sellers":    "#0ea5e9",
 };
 
+// Eldorado-style rating tiers: 90-100% green, 50-89.9% yellow, <50% red
+const ratingColor = (pct: number) => (pct >= 90 ? "#22c55e" : pct >= 50 ? "#eab308" : "#ef4444");
+
 const MOCK_OFFERS = [
-  { id: 1, game: "Elden Ring", type: "Max Level Account", price: "249.99", rating: "4.9", seller: "ShadowStriker" },
-  { id: 2, game: "Valorant", type: "Immortal Rank Boost", price: "89.00", rating: "5.0", seller: "ProBoostKing" },
-  { id: 3, game: "WoW", type: "100K Gold", price: "12.99", rating: "4.8", seller: "GoldFarmer99" },
-  { id: 4, game: "Apex Legends", type: "Predator Account", price: "150.00", rating: "4.7", seller: "NinjaBoosts" },
-  { id: 5, game: "League of Legends", type: "Diamond Smurf", price: "45.00", rating: "4.9", seller: "ElvenMerchant" },
-  { id: 6, game: "FC 24", type: "1M Coins", price: "22.50", rating: "4.6", seller: "TacticalGear" },
-  { id: 7, game: "CS2", type: "Faceit Lvl 10 Boost", price: "110.00", rating: "5.0", seller: "ProBoostKing" },
-  { id: 8, game: "Final Fantasy XIV", type: "Mythic Mount", price: "75.00", rating: "4.8", seller: "ElvenMerchant" },
-  { id: 9, game: "Fortnite", type: "Master Rank Carry", price: "55.00", rating: "4.9", seller: "NinjaBoosts" },
-  { id: 10, game: "Dota 2", type: "Grandmaster Coaching", price: "30.00", rating: "5.0", seller: "ShadowStriker" },
-  { id: 11, game: "Rocket League", type: "Credits 10k", price: "15.99", rating: "4.7", seller: "TacticalGear" },
-  { id: 12, game: "Genshin Impact", type: "Savage Raid Clear", price: "40.00", rating: "4.8", seller: "GoldFarmer99" },
+  { id: 1, game: "Elden Ring", type: "Max Level Account", price: "249.99", rating: "98.4", seller: "ShadowStriker" },
+  { id: 2, game: "Valorant", type: "Immortal Rank Boost", price: "89.00", rating: "100", seller: "ProBoostKing" },
+  { id: 3, game: "WoW", type: "100K Gold", price: "12.99", rating: "96.2", seller: "GoldFarmer99" },
+  { id: 4, game: "Apex Legends", type: "Predator Account", price: "150.00", rating: "94.5", seller: "NinjaBoosts" },
+  { id: 5, game: "League of Legends", type: "Diamond Smurf", price: "45.00", rating: "97.7", seller: "ElvenMerchant" },
+  { id: 6, game: "FC 24", type: "1M Coins", price: "22.50", rating: "91.8", seller: "TacticalGear" },
+  { id: 7, game: "CS2", type: "Faceit Lvl 10 Boost", price: "110.00", rating: "99.1", seller: "ProBoostKing" },
+  { id: 8, game: "Final Fantasy XIV", type: "Mythic Mount", price: "75.00", rating: "95.6", seller: "ElvenMerchant" },
+  { id: 9, game: "Fortnite", type: "Master Rank Carry", price: "55.00", rating: "98.0", seller: "NinjaBoosts" },
+  { id: 10, game: "Dota 2", type: "Grandmaster Coaching", price: "30.00", rating: "100", seller: "ShadowStriker" },
+  { id: 11, game: "Rocket League", type: "Credits 10k", price: "15.99", rating: "93.4", seller: "TacticalGear" },
+  { id: 12, game: "Genshin Impact", type: "Savage Raid Clear", price: "40.00", rating: "96.9", seller: "GoldFarmer99" },
 ];
 
 const CATEGORY_DATA: Record<string, { popular: string[]; all: string[] }> = {
@@ -856,8 +859,8 @@ export default function Home() {
                             <div>
                               <p className="text-[11px] font-medium" style={{ color: darkMode ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.4)" }}>{offer.seller}</p>
                               <div className="flex items-center gap-1 mt-0.5">
-                                <Star className="w-3 h-3 fill-primary text-primary" />
-                                <span className="text-[11px]" style={{ color: darkMode ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.4)" }}>{offer.rating}</span>
+                                <Star className="w-3 h-3" style={{ fill: ratingColor(parseFloat(offer.rating)), color: ratingColor(parseFloat(offer.rating)) }} />
+                                <span className="text-[11px] font-semibold" style={{ color: ratingColor(parseFloat(offer.rating)) }}>{offer.rating}%</span>
                               </div>
                             </div>
                             <p className="text-[20px] font-bold leading-none" style={{ color: "#D5AD68" }}>${offer.price}</p>
@@ -906,10 +909,10 @@ export default function Home() {
           </div>
           <div className="flex gap-3 md:gap-4 overflow-x-auto pb-2">
             {[
-              { game: "Valorant", type: "Immortal Rank Boost", price: "89.00", rating: "5.0", seller: "ProBoostKing" },
-              { game: "Elden Ring", type: "Max Level Account", price: "249.99", rating: "4.9", seller: "ShadowStriker" },
-              { game: "WoW", type: "100K Gold", price: "12.99", rating: "4.8", seller: "GoldFarmer99" },
-              { game: "Apex Legends", type: "Predator Account", price: "150.00", rating: "4.7", seller: "NinjaBoosts" },
+              { game: "Valorant", type: "Immortal Rank Boost", price: "89.00", rating: "100", seller: "ProBoostKing" },
+              { game: "Elden Ring", type: "Max Level Account", price: "249.99", rating: "98.4", seller: "ShadowStriker" },
+              { game: "WoW", type: "100K Gold", price: "12.99", rating: "96.2", seller: "GoldFarmer99" },
+              { game: "Apex Legends", type: "Predator Account", price: "150.00", rating: "94.5", seller: "NinjaBoosts" },
             ].map((offer) => {
               const cat = offer.type.includes("Account") ? "Accounts"
                 : offer.type.includes("Boost") || offer.type.includes("Coaching") ? "Boosting"
@@ -945,8 +948,8 @@ export default function Home() {
                       <div>
                         <p className="text-[11px] font-medium" style={{ color: darkMode ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.4)" }}>{offer.seller}</p>
                         <div className="flex items-center gap-1 mt-0.5">
-                          <Star className="w-3 h-3 fill-primary text-primary" />
-                          <span className="text-[11px]" style={{ color: darkMode ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.4)" }}>{offer.rating}</span>
+                          <Star className="w-3 h-3" style={{ fill: ratingColor(parseFloat(offer.rating)), color: ratingColor(parseFloat(offer.rating)) }} />
+                          <span className="text-[11px] font-semibold" style={{ color: ratingColor(parseFloat(offer.rating)) }}>{offer.rating}%</span>
                         </div>
                       </div>
                       <p className="text-[20px] font-bold leading-none" style={{ color: "#D5AD68" }}>${offer.price}</p>
@@ -1008,11 +1011,11 @@ export default function Home() {
             </div>
             <div className={darkMode ? "divide-y divide-border/30" : "divide-y divide-black/[0.06]"}>
               {[
-                { name: "ShadowStriker", spec: "Valorant Specialist", sales: "1,204", trend: "+18%", rating: "5.0", grad: "linear-gradient(135deg,#7c3aed,#c026d3)" },
-                { name: "ElvenMerchant", spec: "WoW Gold Farmer", sales: "982", trend: "+12%", rating: "4.9", grad: "linear-gradient(135deg,#059669,#10b981)" },
-                { name: "TacticalGear", spec: "CS2 Items", sales: "845", trend: "+9%", rating: "4.8", grad: "linear-gradient(135deg,#ea580c,#f59e0b)" },
-                { name: "NinjaBoosts", spec: "Apex Predator Carries", sales: "721", trend: "+15%", rating: "5.0", grad: "linear-gradient(135deg,#0284c7,#06b6d4)" },
-                { name: "KingSlayer", spec: "Elden Ring Accounts", sales: "650", trend: "+7%", rating: "4.9", grad: "linear-gradient(135deg,#dc2626,#f43f5e)" },
+                { name: "ShadowStriker", spec: "Valorant Specialist", sales: "1,204", trend: "+18%", rating: "100", grad: "linear-gradient(135deg,#7c3aed,#c026d3)" },
+                { name: "ElvenMerchant", spec: "WoW Gold Farmer", sales: "982", trend: "+12%", rating: "98.7", grad: "linear-gradient(135deg,#059669,#10b981)" },
+                { name: "TacticalGear", spec: "CS2 Items", sales: "845", trend: "+9%", rating: "97.3", grad: "linear-gradient(135deg,#ea580c,#f59e0b)" },
+                { name: "NinjaBoosts", spec: "Apex Predator Carries", sales: "721", trend: "+15%", rating: "99.2", grad: "linear-gradient(135deg,#0284c7,#06b6d4)" },
+                { name: "KingSlayer", spec: "Elden Ring Accounts", sales: "650", trend: "+7%", rating: "98.1", grad: "linear-gradient(135deg,#dc2626,#f43f5e)" },
               ].map((seller, i) => {
                 const medal =
                   i === 0 ? { bg: "linear-gradient(135deg,#D5AD68,#f0d9a8)", ring: "rgba(213,173,104,0.5)", text: "#1a1100" }
@@ -1049,8 +1052,8 @@ export default function Home() {
                         <div className="font-bold flex items-center gap-1.5 flex-wrap" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>
                           <span className="truncate">{seller.name}</span>
                           <BadgeCheck className="w-4 h-4 shrink-0" style={{ color: "#D5AD68" }} />
-                          <div className="flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] shrink-0" style={{ background: "rgba(213,173,104,0.12)", color: "#D5AD68" }}>
-                            <Star className="w-3 h-3" style={{ fill: "#D5AD68" }} /> {seller.rating}
+                          <div className="flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-semibold shrink-0" style={{ background: `${ratingColor(parseFloat(seller.rating))}1f`, color: ratingColor(parseFloat(seller.rating)) }}>
+                            <Star className="w-3 h-3" style={{ fill: ratingColor(parseFloat(seller.rating)), color: ratingColor(parseFloat(seller.rating)) }} /> {seller.rating}%
                           </div>
                         </div>
                       </div>
