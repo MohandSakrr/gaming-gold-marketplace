@@ -1096,12 +1096,13 @@ export default function Home() {
                   Discover <span style={{ color: "#D5AD68" }}>RaRumble:</span>
                 </h2>
                 <h2 className="text-3xl md:text-4xl font-bold font-heading leading-tight mb-5" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>
-                  Your Gaming Paradise!
+                  Your Gaming Platform
                 </h2>
                 <p className="text-[14px] leading-relaxed" style={{ color: darkMode ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.55)" }}>
-                  Hey gamers! Welcome to RaRumble, your go-to spot for snagging epic in-game goodies like
-                  currencies, top ups, rare items, and top-tier accounts with ease. Plus, you can make some
-                  cash by listing your own offers! Jump in and boost your gaming fun!
+                  Got anymore questions? Feel free to{" "}
+                  <a href="#" className="font-semibold underline underline-offset-2 transition-colors" style={{ color: "#D5AD68" }}>contact us</a>
+                  {" "}or visit our{" "}
+                  <a href="#" className="font-semibold underline underline-offset-2 transition-colors" style={{ color: "#D5AD68" }}>help center</a>.
                 </p>
               </motion.div>
             </div>
@@ -1111,19 +1112,23 @@ export default function Home() {
               {[
                 {
                   q: "What is RaRumble?",
-                  a: "RaRumble is your one-stop shop for awesome in-game stuff like top up, coins, rare items, premium accounts, and boosting services. We offer a huge variety of high-quality products for all games and platforms. Our fast, secure, and affordable platform makes gaming better with easy transactions and 24/7 support. Join RaRumble to level up your adventure with ease!",
+                  a: "RaRumble is your one-stop shop for awesome in-game stuff like top up, coins, rare items, premium accounts, and boosting services. We offer a huge variety of high-quality products for all games and platforms, with easy transactions and 24/7 support. Join RaRumble to level up your adventure with ease!",
                 },
                 {
-                  q: "What can I buy and sell at RaRumble?",
-                  a: "RaRumble has almost everything you need in games! If it exists in a game's store, or is tradeable between players, you can find and buy it here. Our diverse selection fuels your gaming passion. If you are looking to sell, both individual players with valuable items and professional companies with legitimate supply can make money here. RaRumble is your bridge to endless gaming fun — buy, sell, and thrive with us!",
+                  q: "Why should I choose RaRumble?",
+                  a: "RaRumble is committed to delivering a complete gaming experience in one place, with instant account delivery, secure top-ups, verified sellers, and other premium services — all protected by TradeShield with a 0% buyer fraud rate.",
                 },
                 {
                   q: "Is RaRumble a legit and reliable platform?",
-                  a: "Absolutely yes! Every seller on RaRumble is verified before they can list, and every purchase is protected by TradeShield — your money is held safely until you confirm delivery. With a 0% buyer fraud rate and thousands of positive reviews, we focus on customer satisfaction, delivering exceptional service and building an outstanding reputation.",
+                  a: "Absolutely yes! Every seller on RaRumble is verified before they can list, and every purchase is protected by TradeShield — your money is held safely until you confirm delivery. We focus on customer satisfaction, delivering exceptional service and building an outstanding reputation.",
                 },
                 {
-                  q: "How can I get help from RaRumble?",
-                  a: "We offer 24/7 online customer support. No matter how late it is, our dedicated 1-on-1 team is ready to help — all real humans. You can also email our support team for assistance, and we'll respond lightning-fast. Anytime, anywhere — don't hesitate to reach out, and we'll solve your issues!",
+                  q: "How can I work with you?",
+                  a: "We're always on the lookout for new sellers. If you're interested, just head over to our Become a Seller page and send in your application — both individual players with valuable items and professional companies with legitimate supply can make money here.",
+                },
+                {
+                  q: "How can I get help?",
+                  a: "Simply visit our Help Center and open a ticket — our team will get back to you within minutes. We offer 24/7 online customer support with real humans, anytime, anywhere.",
                 },
               ].map((faq, i) => {
                 const open = openFaq === i;
