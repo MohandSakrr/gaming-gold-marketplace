@@ -991,7 +991,7 @@ export default function Home() {
       {/* Top Sellers Leaderboard */}
       <section className="py-10 md:py-20">
         <div className="container mx-auto px-4 md:px-6 max-w-5xl">
-          <h2 className="text-3xl font-bold font-heading text-white mb-10 text-center">Top Verified Sellers This Week</h2>
+          <h2 className="text-3xl font-bold font-heading mb-10 text-center" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>Top Verified Sellers This Week</h2>
           <div className="bg-card rounded-2xl border border-border overflow-hidden">
             <div className="grid grid-cols-[auto_1fr_auto_auto] gap-4 p-4 border-b border-border/50 bg-background/50 text-xs font-bold text-muted-foreground uppercase tracking-wider">
               <div className="w-12 text-center">Rank</div>
