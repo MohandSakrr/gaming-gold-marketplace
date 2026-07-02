@@ -150,6 +150,8 @@ export default function Home() {
   const [recentSearches, setRecentSearches] = useState<string[]>(["Fortnite Accounts", "WoW Gold"]);
   const searchRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const mobileSearchRef = useRef<HTMLDivElement>(null);
+  const mobileDropdownRef = useRef<HTMLDivElement>(null);
 
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [activeCat, setActiveCat] = useState<string | null>(null);
@@ -161,10 +163,14 @@ export default function Home() {
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+      const inDropdownEl = (dropdownRef.current && dropdownRef.current.contains(e.target as Node))
+        || (mobileDropdownRef.current && mobileDropdownRef.current.contains(e.target as Node));
+      if (!inDropdownEl) {
         setDropdownOpen(false);
       }
-      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+      const inSearchEl = (searchRef.current && searchRef.current.contains(e.target as Node))
+        || (mobileSearchRef.current && mobileSearchRef.current.contains(e.target as Node));
+      if (!inSearchEl) {
         setSearchFocused(false);
       }
       const inBar = catBarRef.current && catBarRef.current.contains(e.target as Node);
@@ -383,8 +389,8 @@ export default function Home() {
           </div>
 
           {/* Row 2: full-width search bar */}
-          <div className="px-3 pb-3 relative" ref={searchRef}>
-            <div className="relative flex items-center h-11" ref={dropdownRef}
+          <div className="px-3 pb-3 relative" ref={mobileSearchRef}>
+            <div className="relative flex items-center h-11" ref={mobileDropdownRef}
               style={{ background: "rgba(255,255,255,0.07)", border: searchFocused ? "1.5px solid #D5AD68" : "1px solid rgba(255,255,255,0.12)", borderRadius: "12px" }}>
               <Search className="absolute left-3 w-4 h-4 pointer-events-none shrink-0" style={{ color: "rgba(255,255,255,0.4)" }} />
               <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
