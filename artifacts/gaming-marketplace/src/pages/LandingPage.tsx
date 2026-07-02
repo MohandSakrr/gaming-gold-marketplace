@@ -220,11 +220,13 @@ export default function Home() {
     return { ...MOCK_OFFERS[idx], uid: `${offerStart}-${i}` };
   });
 
+  // New offers always enter at the LEFTMOST slot: moving the window start
+  // backwards puts the incoming offer at visibleOffers[0] and pushes the rest right.
   const startAutoPlay = () => {
     if (autoRef.current) clearInterval(autoRef.current);
     autoRef.current = setInterval(() => {
       offerDirRef.current = 1;
-      setOfferStart(prev => (prev + 1) % MOCK_OFFERS.length);
+      setOfferStart(prev => (prev - 1 + MOCK_OFFERS.length) % MOCK_OFFERS.length);
     }, 2500);
   };
 
@@ -235,13 +237,13 @@ export default function Home() {
 
   const handlePrev = () => {
     offerDirRef.current = -1;
-    setOfferStart(prev => (prev - 1 + MOCK_OFFERS.length) % MOCK_OFFERS.length);
+    setOfferStart(prev => (prev + 1) % MOCK_OFFERS.length);
     startAutoPlay();
   };
 
   const handleNext = () => {
     offerDirRef.current = 1;
-    setOfferStart(prev => (prev + 1) % MOCK_OFFERS.length);
+    setOfferStart(prev => (prev - 1 + MOCK_OFFERS.length) % MOCK_OFFERS.length);
     startAutoPlay();
   };
 
