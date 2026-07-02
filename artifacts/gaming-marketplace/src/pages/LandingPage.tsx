@@ -819,7 +819,7 @@ export default function Home() {
         </div>
 
         <div className="w-full overflow-hidden">
-          <div className="flex gap-3 md:gap-4 items-stretch px-4 md:px-8 overflow-x-auto pb-2" style={{ maxWidth: "1100px", margin: "0 auto" }}>
+          <div className="flex gap-3 md:gap-4 items-stretch px-4 md:px-8 overflow-x-auto pb-2 [&::-webkit-scrollbar]:hidden" style={{ maxWidth: "1100px", margin: "0 auto", scrollbarWidth: "none", msOverflowStyle: "none" }}>
             <AnimatePresence mode="popLayout" initial={false}>
               {visibleOffers.map((offer) => (
                 <motion.div
@@ -915,7 +915,7 @@ export default function Home() {
               </button>
             </div>
           </div>
-          <div className="flex gap-3 md:gap-4 overflow-x-auto pb-2">
+          <div className="flex gap-3 md:gap-4 overflow-x-auto pb-2 [&::-webkit-scrollbar]:hidden" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
             {[
               { game: "Valorant", type: "Immortal Rank Boost", price: "89.00", rating: "100", seller: "ProBoostKing" },
               { game: "Elden Ring", type: "Max Level Account", price: "249.99", rating: "98.4", seller: "ShadowStriker" },
