@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "wouter";
-import { Eye, EyeOff, Loader2, Check, ShieldCheck, BadgeCheck, Headphones } from "lucide-react";
+import { Eye, EyeOff, Loader2, Check, ShieldCheck, BadgeCheck, Headphones, LogIn, UserPlus, ChevronRight } from "lucide-react";
 import { useLocale } from "@/lib/locale";
 
 function Field({
@@ -151,23 +151,50 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
             <p className="text-[15px] mb-10" style={{ color: "rgba(255,255,255,0.5)", lineHeight: 1.7, maxWidth: "380px" }}>
               {t("footerJoin")}
             </p>
-            <div className="flex flex-col gap-5">
+            {/* Login / Sign up switcher cards */}
+            <div className="flex flex-col gap-4" style={{ maxWidth: "380px" }}>
               {[
-                { icon: BadgeCheck, big: "100%", label: t("statVerified") },
-                { icon: ShieldCheck, big: "0%", label: t("statFraud") },
-                { icon: Headphones, big: "24/7", label: t("statSupport") },
-              ].map(({ icon: Icon, big, label }, i) => (
-                <motion.div key={label} className="flex items-center gap-4"
-                  initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 + i * 0.15 }}>
-                  <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
-                    style={{ background: "rgba(213,173,104,0.12)", border: "1px solid rgba(213,173,104,0.25)" }}>
+                { active: !isSignup, path: "/login", icon: LogIn, title: t("authLoginTitle"), sub: t("authLoginSub") },
+                { active: isSignup, path: "/signup", icon: UserPlus, title: t("authSignupTitle"), sub: t("authSignupSub") },
+              ].map(({ active, path, icon: Icon, title, sub }, i) => (
+                <motion.button
+                  key={path}
+                  onClick={() => navigate(path)}
+                  initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 + i * 0.15 }}
+                  className="flex items-center gap-4 p-4 rounded-2xl text-left transition-all cursor-pointer group"
+                  style={{
+                    background: active ? "rgba(213,173,104,0.10)" : "rgba(255,255,255,0.03)",
+                    border: active ? "1px solid rgba(213,173,104,0.55)" : "1px solid rgba(255,255,255,0.08)",
+                    boxShadow: active ? "0 0 28px rgba(213,173,104,0.10)" : "none",
+                  }}
+                  onMouseEnter={e => { if (!active) e.currentTarget.style.borderColor = "rgba(213,173,104,0.3)"; }}
+                  onMouseLeave={e => { if (!active) e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)"; }}
+                >
+                  <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-105"
+                    style={{ background: active ? "rgba(213,173,104,0.2)" : "rgba(213,173,104,0.10)", border: active ? "1px solid rgba(213,173,104,0.5)" : "1px solid rgba(213,173,104,0.2)" }}>
                     <Icon className="w-5 h-5" style={{ color: "#D5AD68" }} />
                   </div>
-                  <div>
-                    <p className="text-[17px] font-bold leading-tight" style={{ color: "#D5AD68" }}>{big}</p>
-                    <p className="text-[13px]" style={{ color: "rgba(255,255,255,0.55)" }}>{label}</p>
+                  <div className="min-w-0">
+                    <p className="text-[15px] font-bold leading-tight" style={{ color: active ? "#D5AD68" : "#ffffff" }}>{title}</p>
+                    <p className="text-[12px] mt-0.5 leading-snug" style={{ color: "rgba(255,255,255,0.5)" }}>{sub}</p>
                   </div>
-                </motion.div>
+                  <ChevronRight className="w-4 h-4 ml-auto shrink-0 transition-transform group-hover:translate-x-0.5"
+                    style={{ color: active ? "#D5AD68" : "rgba(255,255,255,0.3)" }} />
+                </motion.button>
+              ))}
+            </div>
+
+            {/* Trust row */}
+            <div className="flex items-center gap-6 mt-10">
+              {[
+                { icon: BadgeCheck, label: t("statVerified") },
+                { icon: ShieldCheck, label: t("statFraud") },
+                { icon: Headphones, label: t("statSupport") },
+              ].map(({ icon: Icon, label }) => (
+                <div key={label} className="flex items-center gap-2">
+                  <Icon className="w-4 h-4 shrink-0" style={{ color: "rgba(213,173,104,0.7)" }} />
+                  <span className="text-[11px] font-medium" style={{ color: "rgba(255,255,255,0.45)" }}>{label}</span>
+                </div>
               ))}
             </div>
           </motion.div>
