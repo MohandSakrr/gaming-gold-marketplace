@@ -154,15 +154,16 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
   };
 
   return (
-    <div className="min-h-screen flex relative overflow-hidden" style={{ background: "#0a0a12" }}>
+    <div className="min-h-screen flex flex-row-reverse relative overflow-hidden" style={{ background: "#0a0a12" }}>
 
-      {/* ── Left greeting panel — distinct rounded surface, U7BUY-style ── */}
-      <div className="hidden lg:flex flex-col relative overflow-hidden p-10"
-        style={{ width: "42%", background: "linear-gradient(165deg, #15151f 0%, #101018 100%)", borderRadius: "0 36px 36px 0", boxShadow: "8px 0 60px rgba(0,0,0,0.5)" }}>
+      {/* ── Greeting panel on the RIGHT with a slanted diagonal edge ── */}
+      <div className="hidden lg:flex flex-col relative overflow-hidden p-10 pl-20"
+        style={{ width: "44%", background: "linear-gradient(200deg, #16161f 0%, #101018 100%)", clipPath: "polygon(12% 0, 100% 0, 100% 100%, 0 100%)" }}>
 
         {/* Panel decorations */}
-        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(600px 400px at 30% 100%, rgba(213,173,104,0.07), transparent)" }} />
-        <motion.svg viewBox="0 0 100 100" className="absolute pointer-events-none" style={{ width: "300px", top: "-70px", right: "-80px", opacity: 0.05, fill: "#D5AD68" }}
+        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(600px 400px at 70% 100%, rgba(213,173,104,0.08), transparent)" }} />
+        <div className="absolute pointer-events-none" style={{ top: 0, bottom: 0, left: "8%", width: "2px", background: "linear-gradient(180deg, transparent, rgba(213,173,104,0.35), transparent)", transform: "skewX(6deg)" }} />
+        <motion.svg viewBox="0 0 100 100" className="absolute pointer-events-none" style={{ width: "300px", bottom: "-80px", right: "-80px", opacity: 0.05, fill: "#D5AD68" }}
           animate={{ rotate: [0, 6, 0] }} transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}>
           <polygon points="50 5 95 27.5 95 72.5 50 95 5 72.5 5 27.5" />
         </motion.svg>
@@ -186,7 +187,8 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: "easeOut" }}
             className="flex items-center gap-8 flex-wrap">
             <div>
-              <h2 className="font-heading font-black text-white leading-none mb-4" style={{ fontSize: "clamp(56px, 6vw, 88px)", letterSpacing: "-0.02em" }}>
+              <h2 className="font-heading font-black leading-none mb-4"
+                style={{ fontSize: "clamp(56px, 6vw, 88px)", letterSpacing: "-0.02em", backgroundImage: "linear-gradient(120deg, #ffffff 30%, #D5AD68 75%, #f0d9a8 100%)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
                 {t("authHello")}
               </h2>
               <p className="font-heading font-medium uppercase" style={{ fontSize: "clamp(18px, 2vw, 28px)", color: "rgba(255,255,255,0.85)", letterSpacing: "0.08em" }}>
@@ -194,7 +196,28 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
               </p>
               <div className="mt-4 h-1 w-24 rounded-full" style={{ background: "linear-gradient(90deg, #D5AD68, transparent)" }} />
             </div>
-            <HexMascot />
+            <div className="relative">
+              <HexMascot />
+              {/* Floating marketplace chips orbiting the mascot */}
+              <motion.div className="absolute flex items-center gap-1.5 px-2.5 py-1.5 rounded-full pointer-events-none"
+                style={{ top: "-26px", left: "-46px", background: "rgba(16,16,24,0.9)", border: "1px solid rgba(213,173,104,0.4)", boxShadow: "0 6px 20px rgba(0,0,0,0.5)" }}
+                animate={{ y: [0, -7, 0] }} transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}>
+                <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-none stroke-[2]" style={{ stroke: "#D5AD68" }} strokeLinecap="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg>
+                <span className="text-[11px] font-bold" style={{ color: "#D5AD68" }}>+100K</span>
+              </motion.div>
+              <motion.div className="absolute flex items-center gap-1.5 px-2.5 py-1.5 rounded-full pointer-events-none"
+                style={{ bottom: "-14px", right: "-52px", background: "rgba(16,16,24,0.9)", border: "1px solid rgba(213,173,104,0.4)", boxShadow: "0 6px 20px rgba(0,0,0,0.5)" }}
+                animate={{ y: [0, 8, 0] }} transition={{ duration: 4.2, repeat: Infinity, ease: "easeInOut", delay: 1.1 }}>
+                <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-none stroke-[2]" style={{ stroke: "#D5AD68" }} strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>
+                <span className="text-[11px] font-bold" style={{ color: "#D5AD68" }}>Rank Up</span>
+              </motion.div>
+              <motion.div className="absolute flex items-center gap-1.5 px-2.5 py-1.5 rounded-full pointer-events-none"
+                style={{ top: "38%", right: "-64px", background: "rgba(16,16,24,0.9)", border: "1px solid rgba(34,197,94,0.45)", boxShadow: "0 6px 20px rgba(0,0,0,0.5)" }}
+                animate={{ y: [0, -6, 0] }} transition={{ duration: 3.1, repeat: Infinity, ease: "easeInOut", delay: 1.8 }}>
+                <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-none stroke-[2.5]" style={{ stroke: "#22c55e" }} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5" /></svg>
+                <span className="text-[11px] font-bold" style={{ color: "#22c55e" }}>100%</span>
+              </motion.div>
+            </div>
           </motion.div>
         </div>
 
