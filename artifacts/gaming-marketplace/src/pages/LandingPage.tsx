@@ -155,7 +155,7 @@ export default function Home() {
   const mobileDropdownRef = useRef<HTMLDivElement>(null);
 
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const { lang, cur, setLocale, language, currency, formatPrice } = useLocale();
+  const { lang, cur, setLocale, language, currency, formatPrice, t, tLabel } = useLocale();
   const [langCurOpen, setLangCurOpen] = useState(false);
   const [draftLang, setDraftLang] = useState("EN");
   const [draftCur, setDraftCur] = useState("USD");
@@ -281,7 +281,7 @@ export default function Home() {
               )}
               <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
                 onFocus={() => { setSearchFocused(true); setDropdownOpen(false); }}
-                placeholder="Search games, items, sellers..."
+                placeholder={t("searchPlaceholder")}
                 className="flex-1 bg-transparent h-full text-sm text-white placeholder:text-muted-foreground outline-none"
                 style={{ paddingLeft: searchFocused ? "16px" : "36px", paddingRight: "8px" }} />
               {searchQuery && (
@@ -292,7 +292,7 @@ export default function Home() {
               <div className="w-px h-6 bg-border/50 shrink-0" />
               <button onClick={() => { setDropdownOpen(o => !o); setSearchFocused(false); }}
                 className="flex items-center gap-2 px-4 h-full text-sm font-medium text-card-foreground hover:text-white transition-colors whitespace-nowrap">
-                {selectedService}
+                {tLabel(selectedService)}
                 <ChevronDown className={`w-4 h-4 transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
               </button>
               {searchFocused && (
@@ -302,7 +302,7 @@ export default function Home() {
               )}
               {dropdownOpen && (
                 <div className="absolute top-full right-0 mt-2 rounded-2xl z-50 p-6" style={{ background: "#0e0e1a", border: "1px solid rgba(213,173,104,0.35)", width: "700px", boxShadow: "0 20px 60px rgba(0,0,0,0.8)" }}>
-                  <p className="text-[11px] font-bold uppercase tracking-widest mb-5" style={{ color: "#D5AD68" }}>Search in service</p>
+                  <p className="text-[11px] font-bold uppercase tracking-widest mb-5" style={{ color: "#D5AD68" }}>{t("searchInService")}</p>
                   <div className="grid grid-cols-4 gap-1">
                     {SERVICES.map(service => {
                       const active = selectedService === service.label;
@@ -319,7 +319,7 @@ export default function Home() {
                             </svg>
                           </div>
                           <span className="text-[12px] font-semibold leading-tight text-center transition-colors"
-                            style={{ color: active ? "#D5AD68" : "rgba(255,255,255,0.75)" }}>{service.label}</span>
+                            style={{ color: active ? "#D5AD68" : "rgba(255,255,255,0.75)" }}>{tLabel(service.label)}</span>
                         </button>
                       );
                     })}
@@ -341,13 +341,13 @@ export default function Home() {
                     </button>
                   ))
                 ) : searchQuery && !searchLoading ? (
-                  <p className="text-sm text-white/40 text-center py-5">No results for "<span className="text-white/60">{searchQuery}</span>"</p>
+                  <p className="text-sm text-white/40 text-center py-5">{t("noResults")} "<span className="text-white/60">{searchQuery}</span>"</p>
                 ) : (
                   <>
                     {recentSearches.length > 0 && (<>
                       <div className="flex items-center justify-between px-5 pt-3 pb-1">
-                        <p className="text-[11px] text-white/35 font-bold uppercase tracking-widest">Recently searched</p>
-                        <button onClick={() => setRecentSearches([])} className="text-[11px] text-white/35 hover:text-white transition-colors">Clear all</button>
+                        <p className="text-[11px] text-white/35 font-bold uppercase tracking-widest">{t("recentlySearched")}</p>
+                        <button onClick={() => setRecentSearches([])} className="text-[11px] text-white/35 hover:text-white transition-colors">{t("clearAll")}</button>
                       </div>
                       {recentSearches.slice(0, 2).map((r, i) => (
                         <button key={i} onClick={() => setSearchQuery(r)} className="w-full flex items-center gap-3 px-5 py-3 transition-colors group"
@@ -358,7 +358,7 @@ export default function Home() {
                       ))}
                       <div className="mx-5" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }} />
                     </>)}
-                    <p className="text-[11px] text-white/35 font-bold uppercase tracking-widest px-5 pt-3 pb-1">Popular categories</p>
+                    <p className="text-[11px] text-white/35 font-bold uppercase tracking-widest px-5 pt-3 pb-1">{t("popularCategories")}</p>
                     {POPULAR_CATEGORIES.filter(p => selectedService === "All Categories" || p.category === selectedService).slice(0, 10).map((item, i) => (
                       <button key={i} onClick={() => { setSearchQuery(item.label); setRecentSearches(r => [item.label, ...r.filter(x => x !== item.label)].slice(0, 5)); }}
                         className="w-full flex items-center gap-3 px-5 py-3 transition-colors group"
@@ -377,7 +377,7 @@ export default function Home() {
 
           <div className="flex items-center shrink-0">
             <button className="h-10 px-6 font-semibold text-sm rounded-xl transition-opacity hover:opacity-90 whitespace-nowrap" style={{ background: "#D5AD68", color: "#1a1100" }}>
-              Log in
+              {t("login")}
             </button>
           </div>
         </div>
@@ -399,7 +399,7 @@ export default function Home() {
             </div>
             {/* Login */}
             <button className="h-9 px-5 font-bold text-sm rounded-xl whitespace-nowrap" style={{ background: "#D5AD68", color: "#1a1100" }}>
-              Log in
+              {t("login")}
             </button>
           </div>
 
@@ -410,7 +410,7 @@ export default function Home() {
               <Search className="absolute left-3 w-4 h-4 pointer-events-none shrink-0" style={{ color: "rgba(255,255,255,0.4)" }} />
               <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
                 onFocus={() => { setSearchFocused(true); setDropdownOpen(false); }}
-                placeholder="Search games, items, sellers..."
+                placeholder={t("searchPlaceholder")}
                 className="flex-1 min-w-0 bg-transparent h-full text-sm text-white placeholder:text-muted-foreground outline-none pl-9 pr-2" />
               {searchQuery && (
                 <button onClick={() => { setSearchQuery(""); setSuggestions([]); }} className="p-1 shrink-0 text-muted-foreground hover:text-white">
@@ -423,12 +423,12 @@ export default function Home() {
                 className="flex items-center gap-1 pr-3 pl-2 h-full shrink-0 whitespace-nowrap"
                 style={{ color: "rgba(255,255,255,0.75)", fontSize: "12px", fontWeight: 600 }}
               >
-                {selectedService === "All Categories" ? "All Categories" : selectedService}
+                {tLabel(selectedService)}
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform shrink-0 ${dropdownOpen ? "rotate-180" : ""}`} />
               </button>
               {dropdownOpen && (
                 <div className="absolute top-full left-0 right-0 mt-2 rounded-2xl z-50 p-4" style={{ background: "#0e0e1a", border: "1px solid rgba(213,173,104,0.35)", boxShadow: "0 20px 60px rgba(0,0,0,0.8)" }}>
-                  <p className="text-[10px] font-bold uppercase tracking-widest mb-3" style={{ color: "#D5AD68" }}>Search in service</p>
+                  <p className="text-[10px] font-bold uppercase tracking-widest mb-3" style={{ color: "#D5AD68" }}>{t("searchInService")}</p>
                   <div className="grid grid-cols-3 gap-1">
                     {SERVICES.map(service => {
                       const active = selectedService === service.label;
@@ -442,7 +442,7 @@ export default function Home() {
                               <path d={service.icon} />
                             </svg>
                           </div>
-                          <span className="text-[11px] font-semibold leading-tight text-center" style={{ color: active ? "#D5AD68" : "rgba(255,255,255,0.75)" }}>{service.label}</span>
+                          <span className="text-[11px] font-semibold leading-tight text-center" style={{ color: active ? "#D5AD68" : "rgba(255,255,255,0.75)" }}>{tLabel(service.label)}</span>
                         </button>
                       );
                     })}
@@ -464,13 +464,13 @@ export default function Home() {
                     </button>
                   ))
                 ) : searchQuery && !searchLoading ? (
-                  <p className="text-sm text-white/40 text-center py-5">No results for "<span className="text-white/60">{searchQuery}</span>"</p>
+                  <p className="text-sm text-white/40 text-center py-5">{t("noResults")} "<span className="text-white/60">{searchQuery}</span>"</p>
                 ) : !searchQuery ? (
                   <>
                     {recentSearches.length > 0 && (<>
                       <div className="flex items-center justify-between px-4 pt-3 pb-1">
-                        <p className="text-[10px] text-white/35 font-bold uppercase tracking-widest">Recently searched</p>
-                        <button onClick={() => setRecentSearches([])} className="text-[10px] text-white/35 hover:text-white">Clear all</button>
+                        <p className="text-[10px] text-white/35 font-bold uppercase tracking-widest">{t("recentlySearched")}</p>
+                        <button onClick={() => setRecentSearches([])} className="text-[10px] text-white/35 hover:text-white">{t("clearAll")}</button>
                       </div>
                       {recentSearches.slice(0, 2).map((r, i) => (
                         <button key={i} onClick={() => setSearchQuery(r)} className="w-full flex items-center gap-3 px-4 py-3 transition-colors"
@@ -481,7 +481,7 @@ export default function Home() {
                       ))}
                       <div className="mx-4" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }} />
                     </>)}
-                    <p className="text-[10px] text-white/35 font-bold uppercase tracking-widest px-4 pt-3 pb-1">Popular categories</p>
+                    <p className="text-[10px] text-white/35 font-bold uppercase tracking-widest px-4 pt-3 pb-1">{t("popularCategories")}</p>
                     {POPULAR_CATEGORIES.filter(p => selectedService === "All Categories" || p.category === selectedService).slice(0, 8).map((item, i) => (
                       <button key={i} onClick={() => { setSearchQuery(item.label); setRecentSearches(r => [item.label, ...r.filter(x => x !== item.label)].slice(0, 5)); setSearchFocused(false); }}
                         className="w-full flex items-center gap-3 px-4 py-3 transition-colors"
@@ -528,12 +528,12 @@ export default function Home() {
             style={{ maxWidth: "520px" }}
           >
             <h1 className="font-bold text-white leading-tight font-heading mb-3 md:mb-4" style={{ fontSize: "clamp(28px, 5vw, 64px)" }}>
-              Rule Vice City's<br />
-              <span style={{ color: "#D5AD68" }}>Economy</span>
+              {t("heroTitle1")}<br />
+              <span style={{ color: "#D5AD68" }}>{t("heroTitle2")}</span>
             </h1>
             <p className="mb-6 md:mb-8 font-medium" style={{ fontSize: "clamp(13px, 1.5vw, 16px)", color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>
-              Buy & sell GTA VI money, accounts, and items.<br />
-              Trusted by 12M+ players · Instant delivery.
+              {t("heroSub1")}<br />
+              {t("heroSub2")}
             </p>
             <button
               className="font-bold transition-all hover:opacity-90 hover:scale-[1.02]"
@@ -547,7 +547,7 @@ export default function Home() {
                 boxShadow: "0 4px 24px rgba(213,173,104,0.35)",
               }}
             >
-              Shop Now
+              {t("shopNow")}
             </button>
           </motion.div>
         </div>
@@ -606,7 +606,7 @@ export default function Home() {
                 </svg>
                 <span className="text-[12px] md:text-[13px] font-semibold transition-colors text-center leading-tight"
                   style={{ color: activeCat === cat.label ? "#D5AD68" : darkMode ? "#ffffff" : "#1a1a2e" }}>
-                  {cat.label}
+                  {tLabel(cat.label)}
                 </span>
               </motion.button>
             ))}
@@ -640,7 +640,7 @@ export default function Home() {
         >
           {/* Left: Popular games */}
           <div className="flex-1 p-6 overflow-y-auto" style={{ borderRight: darkMode ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.07)", scrollbarWidth: "thin", scrollbarColor: "#D5AD68 transparent" }}>
-            <p className="text-[11px] font-bold uppercase tracking-widest mb-4" style={{ color: darkMode ? "#D5AD68" : "#9a7a3a" }}>Popular games</p>
+            <p className="text-[11px] font-bold uppercase tracking-widest mb-4" style={{ color: darkMode ? "#D5AD68" : "#9a7a3a" }}>{t("popularGames")}</p>
             <div className="grid grid-cols-2 gap-1.5">
               {CATEGORY_DATA[activeCat].popular.map((game) => {
                 const catColor = CATEGORY_COLORS[activeCat] || "#D5AD68";
@@ -670,14 +670,14 @@ export default function Home() {
 
           {/* Right: All games + search */}
           <div className="flex flex-col p-6" style={{ width: "300px" }}>
-            <p className="text-[11px] font-bold uppercase tracking-widest mb-4" style={{ color: darkMode ? "rgba(255,255,255,0.4)" : "rgba(26,26,46,0.45)" }}>All games</p>
+            <p className="text-[11px] font-bold uppercase tracking-widest mb-4" style={{ color: darkMode ? "rgba(255,255,255,0.4)" : "rgba(26,26,46,0.45)" }}>{t("allGames")}</p>
             <div className="relative mb-4">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: darkMode ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)" }} />
               <input
                 type="text"
                 value={catSearch}
                 onChange={e => setCatSearch(e.target.value)}
-                placeholder="Search for game"
+                placeholder={t("searchForGame")}
                 className="w-full pl-9 pr-3 py-2.5 text-sm outline-none rounded-xl"
                 style={{
                   border: darkMode ? "1px solid rgba(213,173,104,0.4)" : "1px solid rgba(0,0,0,0.15)",
@@ -729,7 +729,7 @@ export default function Home() {
               const games = ["Fortnite","Valorant","Roblox","Minecraft","Counter-Strike 2","Grand Theft Auto 5","Rainbow Six Siege X","League of Legends","Call of Duty","Pokemon Go"];
               return (
                 <div className="flex-1 flex flex-col">
-                  <h3 className="text-[18px] mb-3" style={{ color: darkMode ? "#ffffff" : "#1a1a2e", fontFamily: "Inter, sans-serif", fontWeight: 700 }}>Popular Accounts</h3>
+                  <h3 className="text-[18px] mb-3" style={{ color: darkMode ? "#ffffff" : "#1a1a2e", fontFamily: "Inter, sans-serif", fontWeight: 700 }}>{t("popularAccounts")}</h3>
                   <div className="rounded-2xl p-4 flex-1 transition-all duration-200"
                     style={{ background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(213,173,104,0.15)" : "1px solid rgba(0,0,0,0.08)", boxShadow: darkMode ? "none" : "0 2px 12px rgba(0,0,0,0.06)" }}
                     onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(213,173,104,0.4)")}
@@ -758,7 +758,7 @@ export default function Home() {
               const games = ["Grow a Garden 2","Steal a Brainrot","Adopt Me","Old School RuneScape","Roblox Limiteds"];
               return (
                 <div className="flex flex-col w-full md:w-[340px] md:shrink-0">
-                  <h3 className="text-[18px] mb-3" style={{ color: darkMode ? "#ffffff" : "#1a1a2e", fontFamily: "Inter, sans-serif", fontWeight: 700 }}>Popular Items</h3>
+                  <h3 className="text-[18px] mb-3" style={{ color: darkMode ? "#ffffff" : "#1a1a2e", fontFamily: "Inter, sans-serif", fontWeight: 700 }}>{t("popularItems")}</h3>
                   <div className="rounded-2xl p-4 flex-1 transition-all duration-200"
                     style={{ background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(213,173,104,0.15)" : "1px solid rgba(0,0,0,0.08)", boxShadow: darkMode ? "none" : "0 2px 12px rgba(0,0,0,0.06)" }}
                     onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(213,173,104,0.4)")}
@@ -788,7 +788,7 @@ export default function Home() {
             const games = ["Brawl Stars","EA Sports FC","Rainbow Six Siege X","Marvel Rivals","Apex Legends","Valorant"];
             return (
               <div>
-                <h3 className="text-[18px] mb-3" style={{ color: darkMode ? "#ffffff" : "#1a1a2e", fontFamily: "Inter, sans-serif", fontWeight: 700 }}>Popular Boosting Services</h3>
+                <h3 className="text-[18px] mb-3" style={{ color: darkMode ? "#ffffff" : "#1a1a2e", fontFamily: "Inter, sans-serif", fontWeight: 700 }}>{t("popularBoosting")}</h3>
                 <div className="rounded-2xl p-4 transition-all duration-200"
                   style={{ background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(213,173,104,0.15)" : "1px solid rgba(0,0,0,0.08)", boxShadow: darkMode ? "none" : "0 2px 12px rgba(0,0,0,0.06)" }}
                   onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(213,173,104,0.4)")}
@@ -820,12 +820,12 @@ export default function Home() {
         <div className="mx-auto px-4 md:px-8 mb-6 flex items-center justify-between" style={{ maxWidth: "1100px" }}>
           <div className="flex items-center gap-3">
             <div className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" style={{ boxShadow: "0 0 8px rgba(239,68,68,0.6)" }} />
-            <h2 className="text-2xl font-bold" style={{ fontFamily: "Inter, sans-serif", color: darkMode ? "#ffffff" : "#1a1a2e" }}>Live Offers</h2>
+            <h2 className="text-2xl font-bold" style={{ fontFamily: "Inter, sans-serif", color: darkMode ? "#ffffff" : "#1a1a2e" }}>{t("liveOffers")}</h2>
             <div className="relative group">
               <div className="w-5 h-5 rounded-full flex items-center justify-center cursor-default select-none text-[11px] font-bold" style={{ background: darkMode ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.08)", color: darkMode ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.45)" }}>?</div>
               <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-3 py-1.5 rounded-lg text-[12px] font-medium whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-50"
                 style={{ background: "#1e1e30", color: "rgba(255,255,255,0.8)", boxShadow: "0 4px 16px rgba(0,0,0,0.4)" }}>
-                Shows the latest offers listed by sellers in real time
+                {t("liveOffersTip")}
                 <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0" style={{ borderLeft: "5px solid transparent", borderRight: "5px solid transparent", borderTop: "5px solid #1e1e30" }} />
               </div>
             </div>
@@ -888,7 +888,7 @@ export default function Home() {
                           <div className="min-w-0">
                             <p className="text-[14px] font-bold leading-tight truncate" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>{offer.game}</p>
                             <span className="inline-block mt-1 text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: darkMode ? "rgba(255,255,255,0.09)" : "rgba(0,0,0,0.07)", color: darkMode ? "rgba(255,255,255,0.6)" : "#666" }}>
-                              {cat}
+                              {tLabel(cat)}
                             </span>
                           </div>
                         </div>
@@ -926,12 +926,12 @@ export default function Home() {
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
               <Clock className="w-5 h-5" style={{ color: darkMode ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.45)" }} />
-              <h2 className="text-2xl font-bold" style={{ fontFamily: "Inter, sans-serif", color: darkMode ? "#ffffff" : "#1a1a2e" }}>Recently Viewed</h2>
+              <h2 className="text-2xl font-bold" style={{ fontFamily: "Inter, sans-serif", color: darkMode ? "#ffffff" : "#1a1a2e" }}>{t("recentlyViewed")}</h2>
               <div className="relative group">
                 <div className="w-5 h-5 rounded-full flex items-center justify-center cursor-default select-none text-[11px] font-bold" style={{ background: darkMode ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.08)", color: darkMode ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.45)" }}>?</div>
                 <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-3 py-1.5 rounded-lg text-[12px] font-medium whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-50"
                   style={{ background: "#1e1e30", color: "rgba(255,255,255,0.8)", boxShadow: "0 4px 16px rgba(0,0,0,0.4)" }}>
-                  Shows the offers you have recently viewed
+                  {t("recentlyViewedTip")}
                   <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0" style={{ borderLeft: "5px solid transparent", borderRight: "5px solid transparent", borderTop: "5px solid #1e1e30" }} />
                 </div>
               </div>
@@ -985,7 +985,7 @@ export default function Home() {
                     <div className="min-w-0">
                       <p className="text-[14px] font-bold leading-tight" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>{offer.game}</p>
                       <span className="inline-block mt-1 text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: darkMode ? "rgba(255,255,255,0.09)" : "rgba(0,0,0,0.07)", color: darkMode ? "rgba(255,255,255,0.6)" : "#666" }}>
-                        {cat}
+                        {tLabel(cat)}
                       </span>
                     </div>
                   </div>
@@ -1019,10 +1019,10 @@ export default function Home() {
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 md:divide-x divide-border/50">
             {[
-              { val: "50+", label: "Games Supported" },
-              { val: "100%", label: "Verified Sellers" },
-              { val: "0%", label: "Buyer Fraud Rate" },
-              { val: "24/7", label: "Live Support" },
+              { val: "50+", label: t("statGames") },
+              { val: "100%", label: t("statVerified") },
+              { val: "0%", label: t("statFraud") },
+              { val: "24/7", label: t("statSupport") },
             ].map((stat, i) => (
               <motion.div 
                 key={stat.label}
@@ -1048,7 +1048,7 @@ export default function Home() {
       {/* Top Sellers Leaderboard */}
       <section className="py-10 md:py-20">
         <div className="container mx-auto px-4 md:px-6 max-w-5xl">
-          <h2 className="text-3xl font-bold font-heading mb-10 text-center" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>Top Verified Sellers This Week</h2>
+          <h2 className="text-3xl font-bold font-heading mb-10 text-center" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>{t("topSellers")}</h2>
           <div className="rounded-2xl overflow-hidden"
             style={{
               background: darkMode ? "#111120" : "#ffffff",
@@ -1057,10 +1057,10 @@ export default function Home() {
             }}>
             <div className="grid grid-cols-[auto_1fr_auto_auto] gap-4 p-4 text-xs font-bold uppercase tracking-wider"
               style={{ borderBottom: darkMode ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.07)", background: darkMode ? "rgba(10,10,18,0.5)" : "rgba(0,0,0,0.03)", color: darkMode ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.45)" }}>
-              <div className="w-12 text-center">Rank</div>
-              <div>Seller</div>
-              <div className="hidden sm:block text-right w-24">Sales</div>
-              <div className="w-24 text-right pr-4">Action</div>
+              <div className="w-12 text-center">{t("rank")}</div>
+              <div>{t("seller")}</div>
+              <div className="hidden sm:block text-right w-24">{t("sales")}</div>
+              <div className="w-24 text-right pr-4">{t("action")}</div>
             </div>
             <div className={darkMode ? "divide-y divide-border/30" : "divide-y divide-black/[0.06]"}>
               {[
@@ -1126,7 +1126,7 @@ export default function Home() {
                         onMouseEnter={e => { e.currentTarget.style.background = "#D5AD68"; e.currentTarget.style.color = "#1a1100"; }}
                         onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#D5AD68"; }}
                       >
-                        View Shop
+                        {t("viewShop")}
                       </button>
                     </div>
                   </motion.div>
@@ -1146,16 +1146,16 @@ export default function Home() {
             <div className="md:w-[38%] md:shrink-0 md:pt-4">
               <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
                 <h2 className="text-3xl md:text-4xl font-bold font-heading leading-tight mb-2" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>
-                  Discover <span style={{ color: "#D5AD68" }}>RaRumble:</span>
+                  {t("faqDiscover")} <span style={{ color: "#D5AD68" }}>RaRumble:</span>
                 </h2>
                 <h2 className="text-3xl md:text-4xl font-bold font-heading leading-tight mb-5" style={{ color: darkMode ? "#ffffff" : "#1a1a2e" }}>
-                  Your Gaming Platform
+                  {t("faqPlatform")}
                 </h2>
                 <p className="text-[14px] leading-relaxed" style={{ color: darkMode ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.55)" }}>
-                  Got anymore questions? Feel free to{" "}
-                  <a href="#" className="font-semibold underline underline-offset-2 transition-colors" style={{ color: "#D5AD68" }}>contact us</a>
-                  {" "}or visit our{" "}
-                  <a href="#" className="font-semibold underline underline-offset-2 transition-colors" style={{ color: "#D5AD68" }}>help center</a>.
+                  {t("faqIntro1")}{" "}
+                  <a href="#" className="font-semibold underline underline-offset-2 transition-colors" style={{ color: "#D5AD68" }}>{t("faqContact")}</a>
+                  {" "}{t("faqIntro2")}{" "}
+                  <a href="#" className="font-semibold underline underline-offset-2 transition-colors" style={{ color: "#D5AD68" }}>{t("faqHelp")}</a>.
                 </p>
               </motion.div>
             </div>
@@ -1163,26 +1163,11 @@ export default function Home() {
             {/* Right: accordion */}
             <div className="flex-1 flex flex-col gap-4">
               {[
-                {
-                  q: "What is RaRumble?",
-                  a: "RaRumble is your one-stop shop for awesome in-game stuff like top up, coins, rare items, premium accounts, and boosting services. We offer a huge variety of high-quality products for all games and platforms, with easy transactions and 24/7 support. Join RaRumble to level up your adventure with ease!",
-                },
-                {
-                  q: "Why should I choose RaRumble?",
-                  a: "RaRumble is committed to delivering a complete gaming experience in one place, with instant account delivery, secure top-ups, verified sellers, and other premium services — all protected by TradeShield with a 0% buyer fraud rate.",
-                },
-                {
-                  q: "Is RaRumble a legit and reliable platform?",
-                  a: "Absolutely yes! Every seller on RaRumble is verified before they can list, and every purchase is protected by TradeShield — your money is held safely until you confirm delivery. We focus on customer satisfaction, delivering exceptional service and building an outstanding reputation.",
-                },
-                {
-                  q: "How can I work with you?",
-                  a: "We're always on the lookout for new sellers. If you're interested, just head over to our Become a Seller page and send in your application — both individual players with valuable items and professional companies with legitimate supply can make money here.",
-                },
-                {
-                  q: "How can I get help?",
-                  a: "Simply visit our Help Center and open a ticket — our team will get back to you within minutes. We offer 24/7 online customer support with real humans, anytime, anywhere.",
-                },
+                { q: t("faqQ1"), a: t("faqA1") },
+                { q: t("faqQ2"), a: t("faqA2") },
+                { q: t("faqQ3"), a: t("faqA3") },
+                { q: t("faqQ4"), a: t("faqA4") },
+                { q: t("faqQ5"), a: t("faqA5") },
               ].map((faq, i) => {
                 const open = openFaq === i;
                 return (
@@ -1262,11 +1247,11 @@ export default function Home() {
                   {p.label}
                 </div>
               ))}
-              <span className="text-[12px] font-medium ml-1" style={{ color: "rgba(255,255,255,0.35)" }}>+15 more</span>
+              <span className="text-[12px] font-medium ml-1" style={{ color: "rgba(255,255,255,0.35)" }}>{t("more15")}</span>
             </div>
             <div className="flex items-center gap-4">
               <button onClick={() => setDarkMode(d => !d)} className="flex items-center gap-2.5">
-                <span className="text-[13px] font-medium" style={{ color: "rgba(255,255,255,0.65)" }}>{darkMode ? "Dark Theme" : "Light Theme"}</span>
+                <span className="text-[13px] font-medium" style={{ color: "rgba(255,255,255,0.65)" }}>{darkMode ? t("darkTheme") : t("lightTheme")}</span>
                 <div className="relative shrink-0" style={{ width: "36px", height: "20px" }}>
                   <div className="absolute inset-0 rounded-full transition-colors" style={{ background: darkMode ? "#D5AD68" : "rgba(255,255,255,0.25)" }} />
                   <div className="absolute top-[3px] rounded-full transition-all" style={{ width: "14px", height: "14px", background: "#fff", left: darkMode ? "19px" : "3px", boxShadow: "0 1px 3px rgba(0,0,0,0.4)" }} />
@@ -1303,7 +1288,7 @@ export default function Home() {
                 <span className="font-heading font-bold text-2xl tracking-tight text-white">Ra<span style={{ color: "#D5AD68" }}>Rumble</span></span>
               </div>
               <p className="text-[14px] mb-6" style={{ color: "rgba(255,255,255,0.45)", lineHeight: "1.7" }}>
-                Join us today to level up your gaming experience!
+                {t("footerJoin")}
               </p>
               <div className="flex items-center gap-5 flex-wrap">
                 {[
@@ -1326,10 +1311,10 @@ export default function Home() {
             {/* Link columns — 2 col on mobile, 4 on desktop */}
             <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
               {[
-                { title: "Help Center",       links: ["Contact us", "About us", "Bug Bounty", "Blog", "Become a Partner", "Become an Affiliate", "Become a Seller"] },
-                { title: "Account Warranty",  links: ["TradeShield (Buying)", "TradeShield (Selling)", "Withdrawals", "Account Seller Rules"] },
-                { title: "Seller Rules",      links: ["Changing Username", "Fees", "Refund Policy"] },
-                { title: "Currency",          links: ["Accounts", "Top Up", "Items", "Boosting", "Gift Cards"] },
+                { title: t("colHelpCenter"),  links: ["Contact us", "About us", "Bug Bounty", "Blog", "Become a Partner", "Become an Affiliate", "Become a Seller"] },
+                { title: t("colWarranty"),    links: ["TradeShield (Buying)", "TradeShield (Selling)", "Withdrawals", "Account Seller Rules"] },
+                { title: t("colSellerRules"), links: ["Changing Username", "Fees", "Refund Policy"] },
+                { title: t("currency"),       links: ["Accounts", "Top Up", "Items", "Boosting", "Gift Cards"] },
               ].map(col => (
                 <div key={col.title}>
                   <h4 className="text-[14px] font-semibold mb-4 text-white">{col.title}</h4>
@@ -1338,7 +1323,7 @@ export default function Home() {
                       <li key={link}>
                         <a href="#" className="text-[13px] transition-colors" style={{ color: "rgba(255,255,255,0.45)" }}
                           onMouseEnter={e => (e.currentTarget.style.color = "#fff")}
-                          onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.45)")}>{link}</a>
+                          onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.45)")}>{tLabel(link)}</a>
                       </li>
                     ))}
                   </ul>
@@ -1353,13 +1338,13 @@ export default function Home() {
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 px-4 md:px-10 py-4 md:py-5" style={{ maxWidth: "1280px", margin: "0 auto" }}>
             <p className="text-[12px] md:text-[13px]" style={{ color: "rgba(255,255,255,0.35)" }}>
-              © 2026. The RaRumble website is operated by RaRumble FZCO.
+              {t("copyright")}
             </p>
             <div className="flex items-center gap-4 flex-wrap">
               {["Terms of Service", "Privacy Policy", "DMCA", "DSA"].map(l => (
                 <a key={l} href="#" className="text-[12px] md:text-[13px] transition-colors" style={{ color: "rgba(255,255,255,0.45)" }}
                   onMouseEnter={e => (e.currentTarget.style.color = "#fff")}
-                  onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.45)")}>{l}</a>
+                  onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.45)")}>{tLabel(l)}</a>
               ))}
             </div>
           </div>
@@ -1395,7 +1380,7 @@ export default function Home() {
                     <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: "rgba(213,173,104,0.12)", border: "1px solid rgba(213,173,104,0.25)" }}>
                       <svg viewBox="0 0 24 24" className="w-5 h-5 fill-none stroke-[1.5]" style={{ stroke: "#D5AD68" }}><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
                     </div>
-                    <h3 className="text-[16px] md:text-[17px] font-bold text-white">Language & Currency</h3>
+                    <h3 className="text-[16px] md:text-[17px] font-bold text-white">{t("modalTitle")}</h3>
                   </div>
                   <button onClick={() => setLangCurOpen(false)} className="w-8 h-8 rounded-full flex items-center justify-center transition-colors"
                     style={{ color: "rgba(255,255,255,0.5)" }}
@@ -1407,7 +1392,7 @@ export default function Home() {
 
                 {/* Body */}
                 <div className="px-5 md:px-6 py-5 overflow-y-auto" style={{ scrollbarWidth: "thin", scrollbarColor: "#D5AD68 transparent" }}>
-                  <p className="text-[11px] font-bold uppercase tracking-widest mb-3" style={{ color: "#D5AD68" }}>Language</p>
+                  <p className="text-[11px] font-bold uppercase tracking-widest mb-3" style={{ color: "#D5AD68" }}>{t("modalLanguage")}</p>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-6">
                     {LANGUAGES.map(l => {
                       const active = draftLang === l.code;
@@ -1425,7 +1410,7 @@ export default function Home() {
                     })}
                   </div>
 
-                  <p className="text-[11px] font-bold uppercase tracking-widest mb-3" style={{ color: "#D5AD68" }}>Currency</p>
+                  <p className="text-[11px] font-bold uppercase tracking-widest mb-3" style={{ color: "#D5AD68" }}>{t("currency")}</p>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                     {CURRENCIES.map(c => {
                       const active = draftCur === c.code;
@@ -1454,7 +1439,7 @@ export default function Home() {
                     onClick={() => { setLocale({ lang: draftLang, cur: draftCur }); setLangCurOpen(false); }}
                     className="flex-1 h-11 rounded-xl font-bold text-[14px] transition-all hover:opacity-90"
                     style={{ background: "linear-gradient(135deg, #D5AD68 0%, #e8c586 100%)", color: "#1a1100", boxShadow: "0 4px 16px rgba(213,173,104,0.25)" }}>
-                    Save
+                    {t("save")}
                   </button>
                   <button
                     onClick={() => setLangCurOpen(false)}
@@ -1462,7 +1447,7 @@ export default function Home() {
                     style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.7)" }}
                     onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.09)"; e.currentTarget.style.color = "#fff"; }}
                     onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.05)"; e.currentTarget.style.color = "rgba(255,255,255,0.7)"; }}>
-                    Cancel
+                    {t("cancel")}
                   </button>
                 </div>
               </motion.div>

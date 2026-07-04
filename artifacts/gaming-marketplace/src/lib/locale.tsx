@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { TRANSLATIONS, LABEL_KEYS, type TranslationKey } from "./translations";
 
 export const LANGUAGES = [
   { code: "EN", label: "English",    flag: "🇬🇧" },
@@ -40,6 +41,8 @@ type LocaleContextValue = {
   language: (typeof LANGUAGES)[number];
   currency: (typeof CURRENCIES)[number];
   formatPrice: (usd: number | string) => string;
+  t: (key: TranslationKey) => string;
+  tLabel: (label: string) => string;
 };
 
 const STORAGE_KEY = "rarumble-locale";
@@ -81,8 +84,16 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     return currency.suffix ? `${amount} ${currency.symbol}` : `${currency.symbol}${amount}`;
   };
 
+  // t: translate by key. tLabel: translate an English UI label that doubles as
+  // an internal identifier (service names, footer links); unknown labels pass through.
+  const t = (key: TranslationKey) => TRANSLATIONS[locale.lang]?.[key] ?? TRANSLATIONS.EN[key];
+  const tLabel = (label: string) => {
+    const key = LABEL_KEYS[label];
+    return key ? t(key) : label;
+  };
+
   return (
-    <LocaleContext.Provider value={{ lang: locale.lang, cur: locale.cur, setLocale, language, currency, formatPrice }}>
+    <LocaleContext.Provider value={{ lang: locale.lang, cur: locale.cur, setLocale, language, currency, formatPrice, t, tLabel }}>
       {children}
     </LocaleContext.Provider>
   );
