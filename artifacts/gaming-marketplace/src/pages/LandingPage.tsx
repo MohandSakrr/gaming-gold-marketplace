@@ -93,6 +93,34 @@ const CATEGORY_COLORS: Record<string, string> = {
 // Eldorado-style rating tiers: 90-100% green, 50-89.9% yellow, <50% red
 const ratingColor = (pct: number) => (pct >= 90 ? "#22c55e" : pct >= 50 ? "#eab308" : "#ef4444");
 
+const LANGUAGES = [
+  { code: "EN", label: "English",    flag: "🇬🇧" },
+  { code: "ES", label: "Español",    flag: "🇪🇸" },
+  { code: "DE", label: "Deutsch",    flag: "🇩🇪" },
+  { code: "FR", label: "Français",   flag: "🇫🇷" },
+  { code: "IT", label: "Italiano",   flag: "🇮🇹" },
+  { code: "PT", label: "Português",  flag: "🇵🇹" },
+  { code: "NL", label: "Nederlands", flag: "🇳🇱" },
+  { code: "PL", label: "Polski",     flag: "🇵🇱" },
+  { code: "TR", label: "Türkçe",     flag: "🇹🇷" },
+  { code: "AR", label: "العربية",    flag: "🇸🇦" },
+];
+
+const CURRENCIES = [
+  { code: "USD", symbol: "$",    name: "US Dollar" },
+  { code: "EUR", symbol: "€",    name: "Euro" },
+  { code: "GBP", symbol: "£",    name: "British Pound" },
+  { code: "CAD", symbol: "C$",   name: "Canadian Dollar" },
+  { code: "AUD", symbol: "A$",   name: "Australian Dollar" },
+  { code: "BRL", symbol: "R$",   name: "Brazilian Real" },
+  { code: "TRY", symbol: "₺",    name: "Turkish Lira" },
+  { code: "EGP", symbol: "E£",   name: "Egyptian Pound" },
+  { code: "SAR", symbol: "ر.س",  name: "Saudi Riyal" },
+  { code: "AED", symbol: "د.إ",  name: "UAE Dirham" },
+  { code: "QAR", symbol: "ر.ق",  name: "Qatari Riyal" },
+  { code: "KWD", symbol: "د.ك",  name: "Kuwaiti Dinar" },
+];
+
 const MOCK_OFFERS = [
   { id: 1, game: "Elden Ring", type: "Max Level Account", price: "249.99", rating: "98.4", seller: "ShadowStriker" },
   { id: 2, game: "Valorant", type: "Immortal Rank Boost", price: "89.00", rating: "100", seller: "ProBoostKing" },
@@ -154,6 +182,10 @@ export default function Home() {
   const mobileDropdownRef = useRef<HTMLDivElement>(null);
 
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [langCurOpen, setLangCurOpen] = useState(false);
+  const [locale, setLocale] = useState({ lang: "EN", cur: "USD" });
+  const [draftLang, setDraftLang] = useState("EN");
+  const [draftCur, setDraftCur] = useState("USD");
   const [activeCat, setActiveCat] = useState<string | null>(null);
   const [catSearch, setCatSearch] = useState("");
   const catBarRef = useRef<HTMLDivElement>(null);
@@ -185,14 +217,14 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const locked = searchFocused || !!activeCat;
+    const locked = searchFocused || !!activeCat || langCurOpen;
     document.body.style.overflow = locked ? "hidden" : "";
     document.documentElement.style.overflow = locked ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
       document.documentElement.style.overflow = "";
     };
-  }, [searchFocused, activeCat]);
+  }, [searchFocused, activeCat, langCurOpen]);
 
   useEffect(() => {
     if (!searchQuery.trim()) { setSuggestions([]); setSearchLoading(false); return; }
@@ -1267,10 +1299,16 @@ export default function Home() {
                   <div className="absolute top-[3px] rounded-full transition-all" style={{ width: "14px", height: "14px", background: "#fff", left: darkMode ? "19px" : "3px", boxShadow: "0 1px 3px rgba(0,0,0,0.4)" }} />
                 </div>
               </button>
-              <div className="flex items-center gap-2 text-[13px] font-medium px-3 py-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.7)" }}>
+              <button
+                onClick={() => { setDraftLang(locale.lang); setDraftCur(locale.cur); setLangCurOpen(true); }}
+                className="flex items-center gap-2 text-[13px] font-medium px-3 py-1.5 rounded-full transition-all cursor-pointer"
+                style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.7)" }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(213,173,104,0.5)"; e.currentTarget.style.color = "#D5AD68"; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"; e.currentTarget.style.color = "rgba(255,255,255,0.7)"; }}
+              >
                 <svg viewBox="0 0 24 24" className="w-4 h-4 fill-none stroke-current stroke-[1.5]"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
-                English | USD - $
-              </div>
+                {LANGUAGES.find(l => l.code === locale.lang)?.label} | {locale.cur} - {CURRENCIES.find(c => c.code === locale.cur)?.symbol}
+              </button>
             </div>
           </div>
         </div>
@@ -1355,6 +1393,111 @@ export default function Home() {
         </div>
 
       </footer>
+
+      {/* Language & Currency modal */}
+      {createPortal(
+        <AnimatePresence>
+          {langCurOpen && (
+            <motion.div
+              key="langcur-overlay"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 flex items-center justify-center p-4"
+              style={{ zIndex: 10000, background: "rgba(0,0,0,0.7)", backdropFilter: "blur(6px)" }}
+              onMouseDown={e => { if (e.target === e.currentTarget) setLangCurOpen(false); }}
+            >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 12 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 12 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+                className="w-full rounded-2xl overflow-hidden flex flex-col"
+                style={{ maxWidth: "600px", maxHeight: "85vh", background: "#0e0e1a", border: "1px solid rgba(213,173,104,0.35)", boxShadow: "0 24px 80px rgba(0,0,0,0.8)" }}
+              >
+                {/* Header */}
+                <div className="flex items-center justify-between px-5 md:px-6 py-4 shrink-0" style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: "rgba(213,173,104,0.12)", border: "1px solid rgba(213,173,104,0.25)" }}>
+                      <svg viewBox="0 0 24 24" className="w-5 h-5 fill-none stroke-[1.5]" style={{ stroke: "#D5AD68" }}><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+                    </div>
+                    <h3 className="text-[16px] md:text-[17px] font-bold text-white">Language & Currency</h3>
+                  </div>
+                  <button onClick={() => setLangCurOpen(false)} className="w-8 h-8 rounded-full flex items-center justify-center transition-colors"
+                    style={{ color: "rgba(255,255,255,0.5)" }}
+                    onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.color = "#fff"; }}
+                    onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "rgba(255,255,255,0.5)"; }}>
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {/* Body */}
+                <div className="px-5 md:px-6 py-5 overflow-y-auto" style={{ scrollbarWidth: "thin", scrollbarColor: "#D5AD68 transparent" }}>
+                  <p className="text-[11px] font-bold uppercase tracking-widest mb-3" style={{ color: "#D5AD68" }}>Language</p>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-6">
+                    {LANGUAGES.map(l => {
+                      const active = draftLang === l.code;
+                      return (
+                        <button key={l.code} onClick={() => setDraftLang(l.code)}
+                          className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-left transition-all"
+                          style={{ background: active ? "rgba(213,173,104,0.12)" : "rgba(255,255,255,0.03)", border: active ? "1px solid rgba(213,173,104,0.6)" : "1px solid rgba(255,255,255,0.07)" }}
+                          onMouseEnter={e => { if (!active) e.currentTarget.style.borderColor = "rgba(213,173,104,0.3)"; }}
+                          onMouseLeave={e => { if (!active) e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)"; }}>
+                          <span className="text-[18px] leading-none shrink-0">{l.flag}</span>
+                          <span className="text-[13px] font-semibold truncate" style={{ color: active ? "#D5AD68" : "rgba(255,255,255,0.8)" }}>{l.label}</span>
+                          {active && <svg viewBox="0 0 24 24" className="w-4 h-4 ml-auto shrink-0 fill-none stroke-2" style={{ stroke: "#D5AD68" }}><path d="M20 6L9 17l-5-5"/></svg>}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <p className="text-[11px] font-bold uppercase tracking-widest mb-3" style={{ color: "#D5AD68" }}>Currency</p>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {CURRENCIES.map(c => {
+                      const active = draftCur === c.code;
+                      return (
+                        <button key={c.code} onClick={() => setDraftCur(c.code)}
+                          className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-left transition-all"
+                          style={{ background: active ? "rgba(213,173,104,0.12)" : "rgba(255,255,255,0.03)", border: active ? "1px solid rgba(213,173,104,0.6)" : "1px solid rgba(255,255,255,0.07)" }}
+                          onMouseEnter={e => { if (!active) e.currentTarget.style.borderColor = "rgba(213,173,104,0.3)"; }}
+                          onMouseLeave={e => { if (!active) e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)"; }}>
+                          <span className="w-8 h-8 rounded-lg flex items-center justify-center text-[12px] font-bold shrink-0"
+                            style={{ background: active ? "rgba(213,173,104,0.2)" : "rgba(213,173,104,0.1)", color: "#D5AD68" }}>{c.symbol}</span>
+                          <span className="min-w-0">
+                            <span className="block text-[13px] font-semibold leading-tight" style={{ color: active ? "#D5AD68" : "rgba(255,255,255,0.85)" }}>{c.code}</span>
+                            <span className="block text-[10px] leading-tight truncate" style={{ color: "rgba(255,255,255,0.4)" }}>{c.name}</span>
+                          </span>
+                          {active && <svg viewBox="0 0 24 24" className="w-4 h-4 ml-auto shrink-0 fill-none stroke-2" style={{ stroke: "#D5AD68" }}><path d="M20 6L9 17l-5-5"/></svg>}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Footer */}
+                <div className="flex items-center gap-3 px-5 md:px-6 py-4 shrink-0" style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
+                  <button
+                    onClick={() => { setLocale({ lang: draftLang, cur: draftCur }); setLangCurOpen(false); }}
+                    className="flex-1 h-11 rounded-xl font-bold text-[14px] transition-all hover:opacity-90"
+                    style={{ background: "linear-gradient(135deg, #D5AD68 0%, #e8c586 100%)", color: "#1a1100", boxShadow: "0 4px 16px rgba(213,173,104,0.25)" }}>
+                    Save
+                  </button>
+                  <button
+                    onClick={() => setLangCurOpen(false)}
+                    className="flex-1 h-11 rounded-xl font-semibold text-[14px] transition-colors"
+                    style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.7)" }}
+                    onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.09)"; e.currentTarget.style.color = "#fff"; }}
+                    onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.05)"; e.currentTarget.style.color = "rgba(255,255,255,0.7)"; }}>
+                    Cancel
+                  </button>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </div>
   );
 }
