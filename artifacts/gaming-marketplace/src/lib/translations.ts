@@ -112,6 +112,10 @@ const EN = {
   authMedium: "Medium",
   authStrong: "Strong",
   authSuccess: "Success! Redirecting...",
+  authHello: "HELLO!",
+  authWelcome: "Welcome to RaRumble",
+  authGoogle: "Log in with Google",
+  authOrEmail: "or continue with email",
 };
 
 const ES: Record<TranslationKey, string> = {
@@ -224,6 +228,10 @@ const ES: Record<TranslationKey, string> = {
   authMedium: "Media",
   authStrong: "Fuerte",
   authSuccess: "¡Listo! Redirigiendo...",
+  authHello: "¡HOLA!",
+  authWelcome: "Bienvenido a RaRumble",
+  authGoogle: "Iniciar sesión con Google",
+  authOrEmail: "o continúa con tu correo",
 };
 
 const DE: Record<TranslationKey, string> = {
@@ -336,6 +344,10 @@ const DE: Record<TranslationKey, string> = {
   authMedium: "Mittel",
   authStrong: "Stark",
   authSuccess: "Erfolgreich! Weiterleitung...",
+  authHello: "HALLO!",
+  authWelcome: "Willkommen bei RaRumble",
+  authGoogle: "Mit Google anmelden",
+  authOrEmail: "oder weiter mit E-Mail",
 };
 
 const FR: Record<TranslationKey, string> = {
@@ -448,6 +460,10 @@ const FR: Record<TranslationKey, string> = {
   authMedium: "Moyen",
   authStrong: "Fort",
   authSuccess: "Succès ! Redirection...",
+  authHello: "SALUT !",
+  authWelcome: "Bienvenue sur RaRumble",
+  authGoogle: "Se connecter avec Google",
+  authOrEmail: "ou continuez avec votre e-mail",
 };
 
 const IT: Record<TranslationKey, string> = {
@@ -560,6 +576,10 @@ const IT: Record<TranslationKey, string> = {
   authMedium: "Media",
   authStrong: "Forte",
   authSuccess: "Fatto! Reindirizzamento...",
+  authHello: "CIAO!",
+  authWelcome: "Benvenuto su RaRumble",
+  authGoogle: "Accedi con Google",
+  authOrEmail: "oppure continua con l'email",
 };
 
 const PT: Record<TranslationKey, string> = {
@@ -672,6 +692,10 @@ const PT: Record<TranslationKey, string> = {
   authMedium: "Média",
   authStrong: "Forte",
   authSuccess: "Sucesso! Redirecionando...",
+  authHello: "OLÁ!",
+  authWelcome: "Bem-vindo ao RaRumble",
+  authGoogle: "Entrar com o Google",
+  authOrEmail: "ou continue com o e-mail",
 };
 
 const NL: Record<TranslationKey, string> = {
@@ -784,6 +808,10 @@ const NL: Record<TranslationKey, string> = {
   authMedium: "Gemiddeld",
   authStrong: "Sterk",
   authSuccess: "Gelukt! Doorsturen...",
+  authHello: "HALLO!",
+  authWelcome: "Welkom bij RaRumble",
+  authGoogle: "Inloggen met Google",
+  authOrEmail: "of ga verder met e-mail",
 };
 
 const PL: Record<TranslationKey, string> = {
@@ -896,6 +924,10 @@ const PL: Record<TranslationKey, string> = {
   authMedium: "Średnie",
   authStrong: "Silne",
   authSuccess: "Sukces! Przekierowywanie...",
+  authHello: "CZEŚĆ!",
+  authWelcome: "Witamy w RaRumble",
+  authGoogle: "Zaloguj się przez Google",
+  authOrEmail: "lub kontynuuj przez e-mail",
 };
 
 const TR: Record<TranslationKey, string> = {
@@ -1008,6 +1040,10 @@ const TR: Record<TranslationKey, string> = {
   authMedium: "Orta",
   authStrong: "Güçlü",
   authSuccess: "Başarılı! Yönlendiriliyor...",
+  authHello: "MERHABA!",
+  authWelcome: "RaRumble'a hoş geldin",
+  authGoogle: "Google ile giriş yap",
+  authOrEmail: "veya e-posta ile devam et",
 };
 
 const AR: Record<TranslationKey, string> = {
@@ -1120,6 +1156,10 @@ const AR: Record<TranslationKey, string> = {
   authMedium: "متوسطة",
   authStrong: "قوية",
   authSuccess: "تم بنجاح! جارٍ التحويل...",
+  authHello: "أهلاً!",
+  authWelcome: "مرحباً بك في RaRumble",
+  authGoogle: "تسجيل الدخول عبر Google",
+  authOrEmail: "أو تابع بالبريد الإلكتروني",
 };
 
 export const TRANSLATIONS: Record<string, Record<TranslationKey, string>> = {
