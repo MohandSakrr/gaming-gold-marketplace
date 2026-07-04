@@ -156,15 +156,17 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
   return (
     <div className="min-h-screen flex flex-row-reverse relative overflow-hidden" style={{ background: "#0a0a12" }}>
 
-      {/* Page-wide decorations — seamless, no panel edge */}
-      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(800px 500px at 78% 90%, rgba(213,173,104,0.07), transparent), radial-gradient(700px 400px at 15% 10%, rgba(213,173,104,0.04), transparent)" }} />
-      <motion.svg viewBox="0 0 100 100" className="absolute pointer-events-none" style={{ width: "300px", bottom: "-80px", right: "-80px", opacity: 0.05, fill: "#D5AD68" }}
-        animate={{ rotate: [0, 6, 0] }} transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}>
-        <polygon points="50 5 95 27.5 95 72.5 50 95 5 72.5 5 27.5" />
-      </motion.svg>
+      {/* ── Greeting panel on the RIGHT with a slanted diagonal edge ── */}
+      <div className="hidden lg:flex flex-col relative overflow-hidden p-10 pl-20"
+        style={{ width: "44%", background: "linear-gradient(200deg, #16161f 0%, #101018 100%)", clipPath: "polygon(12% 0, 100% 0, 100% 100%, 0 100%)" }}>
 
-      {/* ── Greeting side on the RIGHT — transparent, blends with the page ── */}
-      <div className="hidden lg:flex flex-col relative p-10 pl-16" style={{ width: "44%" }}>
+        {/* Panel decorations */}
+        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(600px 400px at 70% 100%, rgba(213,173,104,0.08), transparent)" }} />
+        <div className="absolute pointer-events-none" style={{ top: 0, bottom: 0, left: "8%", width: "2px", background: "linear-gradient(180deg, transparent, rgba(213,173,104,0.35), transparent)", transform: "skewX(6deg)" }} />
+        <motion.svg viewBox="0 0 100 100" className="absolute pointer-events-none" style={{ width: "300px", bottom: "-80px", right: "-80px", opacity: 0.05, fill: "#D5AD68" }}
+          animate={{ rotate: [0, 6, 0] }} transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}>
+          <polygon points="50 5 95 27.5 95 72.5 50 95 5 72.5 5 27.5" />
+        </motion.svg>
 
         {/* Logo — prominent, with gold glow */}
         <Link href="/" className="relative flex items-center gap-3.5 cursor-pointer w-fit group">
