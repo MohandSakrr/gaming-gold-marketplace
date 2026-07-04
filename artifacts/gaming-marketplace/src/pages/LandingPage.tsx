@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import { useLocation } from "wouter";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { Search, Star, Crown, ChevronRight, ChevronDown, X, Clock, TrendingUp, Loader2, BadgeCheck } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -167,6 +168,7 @@ export default function Home() {
 
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const { lang, cur, setLocale, language, currency, formatPrice, t, tLabel } = useLocale();
+  const [, navigate] = useLocation();
   const [langCurOpen, setLangCurOpen] = useState(false);
   const [draftLang, setDraftLang] = useState("EN");
   const [draftCur, setDraftCur] = useState("USD");
@@ -387,7 +389,7 @@ export default function Home() {
           </div>
 
           <div className="flex items-center shrink-0">
-            <button className="h-10 px-6 font-semibold text-sm rounded-xl transition-opacity hover:opacity-90 whitespace-nowrap" style={{ background: "#D5AD68", color: "#1a1100" }}>
+            <button onClick={() => navigate("/login")} className="h-10 px-6 font-semibold text-sm rounded-xl transition-opacity hover:opacity-90 whitespace-nowrap cursor-pointer" style={{ background: "#D5AD68", color: "#1a1100" }}>
               {t("login")}
             </button>
           </div>
@@ -409,7 +411,7 @@ export default function Home() {
               <span className="font-heading font-bold text-lg tracking-tight text-white">RaRumble</span>
             </div>
             {/* Login */}
-            <button className="h-9 px-5 font-bold text-sm rounded-xl whitespace-nowrap" style={{ background: "#D5AD68", color: "#1a1100" }}>
+            <button onClick={() => navigate("/login")} className="h-9 px-5 font-bold text-sm rounded-xl whitespace-nowrap cursor-pointer" style={{ background: "#D5AD68", color: "#1a1100" }}>
               {t("login")}
             </button>
           </div>

@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { LocaleProvider } from "@/lib/locale";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
+import AuthPage from "@/pages/AuthPage";
 
 const queryClient = new QueryClient();
 
@@ -12,6 +13,8 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/login">{() => <AuthPage mode="login" />}</Route>
+      <Route path="/signup">{() => <AuthPage mode="signup" />}</Route>
       <Route component={NotFound} />
     </Switch>
   );
