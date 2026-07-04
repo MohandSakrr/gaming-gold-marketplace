@@ -141,7 +141,18 @@ export default function Home() {
   const heroY = useTransform(scrollY, [0, 500], [0, 150]);
   const heroOpacity = useTransform(scrollY, [0, 300], [1, 0]);
 
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(() => {
+    try {
+      const saved = localStorage.getItem("rarumble-theme");
+      if (saved === "light") return false;
+      if (saved === "dark") return true;
+    } catch { /* storage unavailable — default to dark */ }
+    return true;
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("rarumble-theme", darkMode ? "dark" : "light"); } catch { /* storage unavailable */ }
+  }, [darkMode]);
   const [selectedService, setSelectedService] = useState("All Categories");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
