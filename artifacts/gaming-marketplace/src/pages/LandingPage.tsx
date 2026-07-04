@@ -4,6 +4,7 @@ import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 import { Search, Star, Crown, ChevronRight, ChevronDown, X, Clock, TrendingUp, Loader2, BadgeCheck } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useLocale, LANGUAGES, CURRENCIES } from "@/lib/locale";
 
 const SERVICES = [
   { label: "All Categories", bg: "linear-gradient(135deg,#6366f1,#8b5cf6)", icon: "M4 6h16M4 12h16M4 18h10" },
@@ -93,34 +94,6 @@ const CATEGORY_COLORS: Record<string, string> = {
 // Eldorado-style rating tiers: 90-100% green, 50-89.9% yellow, <50% red
 const ratingColor = (pct: number) => (pct >= 90 ? "#22c55e" : pct >= 50 ? "#eab308" : "#ef4444");
 
-const LANGUAGES = [
-  { code: "EN", label: "English",    flag: "🇬🇧" },
-  { code: "ES", label: "Español",    flag: "🇪🇸" },
-  { code: "DE", label: "Deutsch",    flag: "🇩🇪" },
-  { code: "FR", label: "Français",   flag: "🇫🇷" },
-  { code: "IT", label: "Italiano",   flag: "🇮🇹" },
-  { code: "PT", label: "Português",  flag: "🇵🇹" },
-  { code: "NL", label: "Nederlands", flag: "🇳🇱" },
-  { code: "PL", label: "Polski",     flag: "🇵🇱" },
-  { code: "TR", label: "Türkçe",     flag: "🇹🇷" },
-  { code: "AR", label: "العربية",    flag: "🇸🇦" },
-];
-
-const CURRENCIES = [
-  { code: "USD", symbol: "$",    name: "US Dollar" },
-  { code: "EUR", symbol: "€",    name: "Euro" },
-  { code: "GBP", symbol: "£",    name: "British Pound" },
-  { code: "CAD", symbol: "C$",   name: "Canadian Dollar" },
-  { code: "AUD", symbol: "A$",   name: "Australian Dollar" },
-  { code: "BRL", symbol: "R$",   name: "Brazilian Real" },
-  { code: "TRY", symbol: "₺",    name: "Turkish Lira" },
-  { code: "EGP", symbol: "E£",   name: "Egyptian Pound" },
-  { code: "SAR", symbol: "ر.س",  name: "Saudi Riyal" },
-  { code: "AED", symbol: "د.إ",  name: "UAE Dirham" },
-  { code: "QAR", symbol: "ر.ق",  name: "Qatari Riyal" },
-  { code: "KWD", symbol: "د.ك",  name: "Kuwaiti Dinar" },
-];
-
 const MOCK_OFFERS = [
   { id: 1, game: "Elden Ring", type: "Max Level Account", price: "249.99", rating: "98.4", seller: "ShadowStriker" },
   { id: 2, game: "Valorant", type: "Immortal Rank Boost", price: "89.00", rating: "100", seller: "ProBoostKing" },
@@ -182,8 +155,8 @@ export default function Home() {
   const mobileDropdownRef = useRef<HTMLDivElement>(null);
 
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const { lang, cur, setLocale, language, currency, formatPrice } = useLocale();
   const [langCurOpen, setLangCurOpen] = useState(false);
-  const [locale, setLocale] = useState({ lang: "EN", cur: "USD" });
   const [draftLang, setDraftLang] = useState("EN");
   const [draftCur, setDraftCur] = useState("USD");
   const [activeCat, setActiveCat] = useState<string | null>(null);
@@ -934,7 +907,7 @@ export default function Home() {
                                 <span className="text-[11px] font-semibold" style={{ color: ratingColor(parseFloat(offer.rating)) }}>{offer.rating}%</span>
                               </div>
                             </div>
-                            <p className="text-[20px] font-bold leading-none" style={{ color: "#D5AD68" }}>${offer.price}</p>
+                            <p className="text-[20px] font-bold leading-none" style={{ color: "#D5AD68" }}>{formatPrice(offer.price)}</p>
                           </div>
                         </div>
                       </div>
@@ -1031,7 +1004,7 @@ export default function Home() {
                           <span className="text-[11px] font-semibold" style={{ color: ratingColor(parseFloat(offer.rating)) }}>{offer.rating}%</span>
                         </div>
                       </div>
-                      <p className="text-[20px] font-bold leading-none" style={{ color: "#D5AD68" }}>${offer.price}</p>
+                      <p className="text-[20px] font-bold leading-none" style={{ color: "#D5AD68" }}>{formatPrice(offer.price)}</p>
                     </div>
                   </div>
                 </div>
@@ -1300,14 +1273,14 @@ export default function Home() {
                 </div>
               </button>
               <button
-                onClick={() => { setDraftLang(locale.lang); setDraftCur(locale.cur); setLangCurOpen(true); }}
+                onClick={() => { setDraftLang(lang); setDraftCur(cur); setLangCurOpen(true); }}
                 className="flex items-center gap-2 text-[13px] font-medium px-3 py-1.5 rounded-full transition-all cursor-pointer"
                 style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.7)" }}
                 onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(213,173,104,0.5)"; e.currentTarget.style.color = "#D5AD68"; }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"; e.currentTarget.style.color = "rgba(255,255,255,0.7)"; }}
               >
                 <svg viewBox="0 0 24 24" className="w-4 h-4 fill-none stroke-current stroke-[1.5]"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
-                {LANGUAGES.find(l => l.code === locale.lang)?.label} | {locale.cur} - {CURRENCIES.find(c => c.code === locale.cur)?.symbol}
+                {language.label} | {currency.code} - {currency.symbol}
               </button>
             </div>
           </div>
