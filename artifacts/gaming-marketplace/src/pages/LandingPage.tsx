@@ -296,20 +296,28 @@ export default function Home() {
                 </button>
               )}
               {dropdownOpen && (
-                <div className="absolute top-full right-0 mt-2 rounded-2xl shadow-2xl z-50 p-6" style={{ background: "#1c1c2e", border: "1px solid rgba(255,255,255,0.08)", width: "700px" }}>
-                  <p className="text-[11px] text-white/40 font-semibold uppercase tracking-widest mb-5">Search in service</p>
+                <div className="absolute top-full right-0 mt-2 rounded-2xl z-50 p-6" style={{ background: "#0e0e1a", border: "1px solid rgba(213,173,104,0.35)", width: "700px", boxShadow: "0 20px 60px rgba(0,0,0,0.8)" }}>
+                  <p className="text-[11px] font-bold uppercase tracking-widest mb-5" style={{ color: "#D5AD68" }}>Search in service</p>
                   <div className="grid grid-cols-4 gap-1">
-                    {SERVICES.map(service => (
-                      <button key={service.label} onClick={() => { setSelectedService(service.label); setDropdownOpen(false); }}
-                        className={`flex flex-col items-center gap-2 px-2 py-3 rounded-xl transition-all hover:bg-white/5 group ${selectedService === service.label ? "bg-white/10" : ""}`}>
-                        <div className="rounded-2xl flex items-center justify-center" style={{ background: service.bg, width: "52px", height: "52px" }}>
-                          <svg viewBox="0 0 24 24" style={{ width: "24px", height: "24px" }} className="stroke-[1.8] fill-none stroke-white" strokeLinecap="round" strokeLinejoin="round">
-                            <path d={service.icon} />
-                          </svg>
-                        </div>
-                        <span className="text-[12px] font-semibold text-white/75 group-hover:text-white leading-tight text-center">{service.label}</span>
-                      </button>
-                    ))}
+                    {SERVICES.map(service => {
+                      const active = selectedService === service.label;
+                      return (
+                        <button key={service.label} onClick={() => { setSelectedService(service.label); setDropdownOpen(false); }}
+                          className="flex flex-col items-center gap-2 px-2 py-3 rounded-xl transition-all group"
+                          style={{ background: active ? "rgba(213,173,104,0.1)" : "transparent" }}
+                          onMouseEnter={e => { if (!active) e.currentTarget.style.background = "rgba(255,255,255,0.04)"; }}
+                          onMouseLeave={e => { if (!active) e.currentTarget.style.background = "transparent"; }}>
+                          <div className="rounded-2xl flex items-center justify-center transition-transform group-hover:scale-105"
+                            style={{ width: "52px", height: "52px", background: active ? "rgba(213,173,104,0.2)" : "rgba(213,173,104,0.12)", border: active ? "1px solid rgba(213,173,104,0.6)" : "1px solid rgba(213,173,104,0.25)" }}>
+                            <svg viewBox="0 0 24 24" style={{ width: "24px", height: "24px", color: "#D5AD68" }} className="stroke-[1.8] fill-none stroke-current" strokeLinecap="round" strokeLinejoin="round">
+                              <path d={service.icon} />
+                            </svg>
+                          </div>
+                          <span className="text-[12px] font-semibold leading-tight text-center transition-colors"
+                            style={{ color: active ? "#D5AD68" : "rgba(255,255,255,0.75)" }}>{service.label}</span>
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               )}
@@ -414,20 +422,25 @@ export default function Home() {
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform shrink-0 ${dropdownOpen ? "rotate-180" : ""}`} />
               </button>
               {dropdownOpen && (
-                <div className="absolute top-full left-0 right-0 mt-2 rounded-2xl shadow-2xl z-50 p-4" style={{ background: "#1c1c2e", border: "1px solid rgba(255,255,255,0.08)" }}>
-                  <p className="text-[10px] text-white/40 font-semibold uppercase tracking-widest mb-3">Search in service</p>
+                <div className="absolute top-full left-0 right-0 mt-2 rounded-2xl z-50 p-4" style={{ background: "#0e0e1a", border: "1px solid rgba(213,173,104,0.35)", boxShadow: "0 20px 60px rgba(0,0,0,0.8)" }}>
+                  <p className="text-[10px] font-bold uppercase tracking-widest mb-3" style={{ color: "#D5AD68" }}>Search in service</p>
                   <div className="grid grid-cols-3 gap-1">
-                    {SERVICES.map(service => (
-                      <button key={service.label} onClick={() => { setSelectedService(service.label); setDropdownOpen(false); }}
-                        className={`flex flex-col items-center gap-2 px-2 py-3 rounded-xl transition-all ${selectedService === service.label ? "bg-white/10" : "hover:bg-white/5"}`}>
-                        <div className="rounded-xl flex items-center justify-center" style={{ background: service.bg, width: "40px", height: "40px" }}>
-                          <svg viewBox="0 0 24 24" style={{ width: "18px", height: "18px" }} className="stroke-[1.8] fill-none stroke-white" strokeLinecap="round" strokeLinejoin="round">
-                            <path d={service.icon} />
-                          </svg>
-                        </div>
-                        <span className="text-[11px] font-semibold text-white/75 leading-tight text-center">{service.label}</span>
-                      </button>
-                    ))}
+                    {SERVICES.map(service => {
+                      const active = selectedService === service.label;
+                      return (
+                        <button key={service.label} onClick={() => { setSelectedService(service.label); setDropdownOpen(false); }}
+                          className="flex flex-col items-center gap-2 px-2 py-3 rounded-xl transition-all"
+                          style={{ background: active ? "rgba(213,173,104,0.1)" : "transparent" }}>
+                          <div className="rounded-xl flex items-center justify-center"
+                            style={{ width: "40px", height: "40px", background: active ? "rgba(213,173,104,0.2)" : "rgba(213,173,104,0.12)", border: active ? "1px solid rgba(213,173,104,0.6)" : "1px solid rgba(213,173,104,0.25)" }}>
+                            <svg viewBox="0 0 24 24" style={{ width: "18px", height: "18px", color: "#D5AD68" }} className="stroke-[1.8] fill-none stroke-current" strokeLinecap="round" strokeLinejoin="round">
+                              <path d={service.icon} />
+                            </svg>
+                          </div>
+                          <span className="text-[11px] font-semibold leading-tight text-center" style={{ color: active ? "#D5AD68" : "rgba(255,255,255,0.75)" }}>{service.label}</span>
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               )}
