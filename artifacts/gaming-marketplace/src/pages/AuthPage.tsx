@@ -112,21 +112,25 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
   };
 
   return (
-    <div className="min-h-screen flex" style={{ background: "#0a0a12" }}>
+    <div className="min-h-screen flex relative overflow-hidden" style={{ background: "#0a0a12" }}>
+
+      {/* Page-wide decorative layer — continuous across both halves, no seam */}
+      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(900px 500px at 15% 110%, rgba(213,173,104,0.08), transparent), radial-gradient(800px 400px at 75% -10%, rgba(213,173,104,0.06), transparent)" }} />
+      <motion.svg viewBox="0 0 100 100" className="absolute pointer-events-none" style={{ width: "380px", top: "-80px", left: "30%", opacity: 0.05, fill: "#D5AD68" }}
+        animate={{ y: [0, -14, 0], rotate: [0, 4, 0] }} transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}>
+        <polygon points="50 5 95 27.5 95 72.5 50 95 5 72.5 5 27.5" />
+      </motion.svg>
+      <motion.svg viewBox="0 0 100 100" className="absolute pointer-events-none" style={{ width: "240px", bottom: "-40px", left: "-70px", opacity: 0.04, fill: "#D5AD68" }}
+        animate={{ y: [0, 12, 0], rotate: [0, -5, 0] }} transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}>
+        <polygon points="50 5 95 27.5 95 72.5 50 95 5 72.5 5 27.5" />
+      </motion.svg>
+      <motion.svg viewBox="0 0 100 100" className="absolute pointer-events-none" style={{ width: "180px", top: "20%", right: "-60px", opacity: 0.04, fill: "#D5AD68" }}
+        animate={{ y: [0, 10, 0], rotate: [0, 6, 0] }} transition={{ duration: 13, repeat: Infinity, ease: "easeInOut" }}>
+        <polygon points="50 5 95 27.5 95 72.5 50 95 5 72.5 5 27.5" />
+      </motion.svg>
 
       {/* ── Left brand panel (desktop only) ── */}
-      <div className="hidden lg:flex flex-col justify-between relative overflow-hidden p-12" style={{ width: "44%", background: "linear-gradient(160deg, #10101f 0%, #0a0a12 60%), #0a0a12" }}>
-        {/* Decorative floating hexagons */}
-        <motion.svg viewBox="0 0 100 100" className="absolute" style={{ width: "340px", top: "-60px", right: "-90px", opacity: 0.06, fill: "#D5AD68" }}
-          animate={{ y: [0, -14, 0], rotate: [0, 4, 0] }} transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}>
-          <polygon points="50 5 95 27.5 95 72.5 50 95 5 72.5 5 27.5" />
-        </motion.svg>
-        <motion.svg viewBox="0 0 100 100" className="absolute" style={{ width: "220px", bottom: "10%", left: "-70px", opacity: 0.05, fill: "#D5AD68" }}
-          animate={{ y: [0, 12, 0], rotate: [0, -5, 0] }} transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}>
-          <polygon points="50 5 95 27.5 95 72.5 50 95 5 72.5 5 27.5" />
-        </motion.svg>
-        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(700px 400px at 20% 110%, rgba(213,173,104,0.10), transparent)" }} />
-
+      <div className="hidden lg:flex flex-col justify-between relative p-12" style={{ width: "44%" }}>
         {/* Logo */}
         <Link href="/" className="relative flex items-center gap-2.5 cursor-pointer w-fit">
           <div className="w-11 h-11">
@@ -205,8 +209,7 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
       </div>
 
       {/* ── Right: form ── */}
-      <div className="flex-1 flex flex-col items-center justify-center px-4 py-10"
-        style={{ background: "radial-gradient(800px 400px at 50% -10%, rgba(213,173,104,0.07), transparent)" }}>
+      <div className="flex-1 flex flex-col items-center justify-center px-4 py-10 relative">
 
         {/* Mobile logo */}
         <Link href="/" className="flex lg:hidden items-center gap-2.5 mb-8 cursor-pointer">
