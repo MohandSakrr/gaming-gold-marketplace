@@ -103,6 +103,15 @@ const EN = {
   authSignup: "Sign up",
   authTerms: "By continuing, you agree to our",
   authAnd: "and",
+  authRemember: "Remember me",
+  authErrUsername: "Username must be at least 3 characters",
+  authErrEmail: "Please enter a valid email address",
+  authErrPassword: "Password must be at least 8 characters",
+  authErrConfirm: "Passwords do not match",
+  authWeak: "Weak",
+  authMedium: "Medium",
+  authStrong: "Strong",
+  authSuccess: "Success! Redirecting...",
 };
 
 const ES: Record<TranslationKey, string> = {
@@ -206,6 +215,15 @@ const ES: Record<TranslationKey, string> = {
   authSignup: "Regístrate",
   authTerms: "Al continuar, aceptas nuestros",
   authAnd: "y",
+  authRemember: "Recuérdame",
+  authErrUsername: "El nombre de usuario debe tener al menos 3 caracteres",
+  authErrEmail: "Introduce un correo electrónico válido",
+  authErrPassword: "La contraseña debe tener al menos 8 caracteres",
+  authErrConfirm: "Las contraseñas no coinciden",
+  authWeak: "Débil",
+  authMedium: "Media",
+  authStrong: "Fuerte",
+  authSuccess: "¡Listo! Redirigiendo...",
 };
 
 const DE: Record<TranslationKey, string> = {
@@ -309,6 +327,15 @@ const DE: Record<TranslationKey, string> = {
   authSignup: "Registrieren",
   authTerms: "Indem du fortfährst, akzeptierst du unsere",
   authAnd: "und",
+  authRemember: "Angemeldet bleiben",
+  authErrUsername: "Der Benutzername muss mindestens 3 Zeichen lang sein",
+  authErrEmail: "Bitte gib eine gültige E-Mail-Adresse ein",
+  authErrPassword: "Das Passwort muss mindestens 8 Zeichen lang sein",
+  authErrConfirm: "Die Passwörter stimmen nicht überein",
+  authWeak: "Schwach",
+  authMedium: "Mittel",
+  authStrong: "Stark",
+  authSuccess: "Erfolgreich! Weiterleitung...",
 };
 
 const FR: Record<TranslationKey, string> = {
@@ -412,6 +439,15 @@ const FR: Record<TranslationKey, string> = {
   authSignup: "S'inscrire",
   authTerms: "En continuant, vous acceptez nos",
   authAnd: "et",
+  authRemember: "Se souvenir de moi",
+  authErrUsername: "Le nom d'utilisateur doit contenir au moins 3 caractères",
+  authErrEmail: "Veuillez saisir une adresse e-mail valide",
+  authErrPassword: "Le mot de passe doit contenir au moins 8 caractères",
+  authErrConfirm: "Les mots de passe ne correspondent pas",
+  authWeak: "Faible",
+  authMedium: "Moyen",
+  authStrong: "Fort",
+  authSuccess: "Succès ! Redirection...",
 };
 
 const IT: Record<TranslationKey, string> = {
@@ -515,6 +551,15 @@ const IT: Record<TranslationKey, string> = {
   authSignup: "Registrati",
   authTerms: "Continuando accetti i nostri",
   authAnd: "e",
+  authRemember: "Ricordami",
+  authErrUsername: "Il nome utente deve contenere almeno 3 caratteri",
+  authErrEmail: "Inserisci un indirizzo email valido",
+  authErrPassword: "La password deve contenere almeno 8 caratteri",
+  authErrConfirm: "Le password non coincidono",
+  authWeak: "Debole",
+  authMedium: "Media",
+  authStrong: "Forte",
+  authSuccess: "Fatto! Reindirizzamento...",
 };
 
 const PT: Record<TranslationKey, string> = {
@@ -618,6 +663,15 @@ const PT: Record<TranslationKey, string> = {
   authSignup: "Cadastre-se",
   authTerms: "Ao continuar, você concorda com nossos",
   authAnd: "e",
+  authRemember: "Lembrar de mim",
+  authErrUsername: "O nome de usuário deve ter pelo menos 3 caracteres",
+  authErrEmail: "Digite um e-mail válido",
+  authErrPassword: "A senha deve ter pelo menos 8 caracteres",
+  authErrConfirm: "As senhas não coincidem",
+  authWeak: "Fraca",
+  authMedium: "Média",
+  authStrong: "Forte",
+  authSuccess: "Sucesso! Redirecionando...",
 };
 
 const NL: Record<TranslationKey, string> = {
@@ -721,6 +775,15 @@ const NL: Record<TranslationKey, string> = {
   authSignup: "Registreren",
   authTerms: "Door verder te gaan, ga je akkoord met onze",
   authAnd: "en",
+  authRemember: "Onthoud mij",
+  authErrUsername: "De gebruikersnaam moet minstens 3 tekens bevatten",
+  authErrEmail: "Voer een geldig e-mailadres in",
+  authErrPassword: "Het wachtwoord moet minstens 8 tekens bevatten",
+  authErrConfirm: "De wachtwoorden komen niet overeen",
+  authWeak: "Zwak",
+  authMedium: "Gemiddeld",
+  authStrong: "Sterk",
+  authSuccess: "Gelukt! Doorsturen...",
 };
 
 const PL: Record<TranslationKey, string> = {
@@ -824,6 +887,15 @@ const PL: Record<TranslationKey, string> = {
   authSignup: "Zarejestruj się",
   authTerms: "Kontynuując, akceptujesz nasze",
   authAnd: "oraz",
+  authRemember: "Zapamiętaj mnie",
+  authErrUsername: "Nazwa użytkownika musi mieć co najmniej 3 znaki",
+  authErrEmail: "Wprowadź poprawny adres e-mail",
+  authErrPassword: "Hasło musi mieć co najmniej 8 znaków",
+  authErrConfirm: "Hasła nie są zgodne",
+  authWeak: "Słabe",
+  authMedium: "Średnie",
+  authStrong: "Silne",
+  authSuccess: "Sukces! Przekierowywanie...",
 };
 
 const TR: Record<TranslationKey, string> = {
@@ -927,6 +999,15 @@ const TR: Record<TranslationKey, string> = {
   authSignup: "Kayıt ol",
   authTerms: "Devam ederek şunları kabul etmiş olursun:",
   authAnd: "ve",
+  authRemember: "Beni hatırla",
+  authErrUsername: "Kullanıcı adı en az 3 karakter olmalı",
+  authErrEmail: "Geçerli bir e-posta adresi gir",
+  authErrPassword: "Şifre en az 8 karakter olmalı",
+  authErrConfirm: "Şifreler eşleşmiyor",
+  authWeak: "Zayıf",
+  authMedium: "Orta",
+  authStrong: "Güçlü",
+  authSuccess: "Başarılı! Yönlendiriliyor...",
 };
 
 const AR: Record<TranslationKey, string> = {
@@ -1030,6 +1111,15 @@ const AR: Record<TranslationKey, string> = {
   authSignup: "سجّل الآن",
   authTerms: "بالمتابعة فإنك توافق على",
   authAnd: "و",
+  authRemember: "تذكرني",
+  authErrUsername: "يجب أن يتكون اسم المستخدم من 3 أحرف على الأقل",
+  authErrEmail: "يرجى إدخال بريد إلكتروني صحيح",
+  authErrPassword: "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
+  authErrConfirm: "كلمتا المرور غير متطابقتين",
+  authWeak: "ضعيفة",
+  authMedium: "متوسطة",
+  authStrong: "قوية",
+  authSuccess: "تم بنجاح! جارٍ التحويل...",
 };
 
 export const TRANSLATIONS: Record<string, Record<TranslationKey, string>> = {
