@@ -1234,19 +1234,51 @@ export default function Home() {
         <div style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 px-4 md:px-10 py-3" style={{ maxWidth: "1280px", margin: "0 auto" }}>
             <div className="flex items-center gap-2 flex-wrap">
-              {[
-                { label: "VISA", bg: "#1a1f71", color: "#fff" },
-                { label: "MC",   bg: "#eb001b", color: "#fff" },
-                { label: "AMEX", bg: "#2e77bc", color: "#fff" },
-                { label: "DISC", bg: "#ff6600", color: "#fff" },
-                { label: "BTC",  bg: "#f7931a", color: "#fff" },
-                { label: "GPay", bg: "#fff",    color: "#333" },
-                { label: "Pay",  bg: "#111",    color: "#fff" },
-              ].map(p => (
-                <div key={p.label} className="px-3 h-7 flex items-center justify-center rounded text-[11px] font-bold tracking-wide" style={{ background: p.bg, color: p.color, minWidth: "46px" }}>
-                  {p.label}
-                </div>
-              ))}
+              {/* Visa */}
+              <div className="h-7 rounded flex items-center justify-center" style={{ background: "#1434CB", width: "50px" }}>
+                <svg viewBox="0 0 48 16" style={{ width: "38px", height: "13px" }}>
+                  <text x="24" y="12.5" textAnchor="middle" fontFamily="Arial, sans-serif" fontStyle="italic" fontWeight="800" fontSize="13" fill="#ffffff" letterSpacing="0.5">VISA</text>
+                </svg>
+              </div>
+              {/* Mastercard */}
+              <div className="h-7 rounded flex items-center justify-center" style={{ background: "#16161e", width: "50px", border: "1px solid rgba(255,255,255,0.08)" }}>
+                <svg viewBox="0 0 24 16" style={{ width: "26px", height: "17px" }}>
+                  <circle cx="9.2" cy="8" r="6.2" fill="#EB001B" />
+                  <circle cx="14.8" cy="8" r="6.2" fill="#F79E1B" />
+                  <path d="M12 3.15a6.2 6.2 0 010 9.7 6.2 6.2 0 010-9.7z" fill="#FF5F00" />
+                </svg>
+              </div>
+              {/* American Express */}
+              <div className="h-7 rounded flex items-center justify-center" style={{ background: "#006FCF", width: "50px" }}>
+                <svg viewBox="0 0 48 16" style={{ width: "40px", height: "13px" }}>
+                  <text x="24" y="12" textAnchor="middle" fontFamily="Arial, sans-serif" fontWeight="800" fontSize="10.5" fill="#ffffff" letterSpacing="0.5">AMEX</text>
+                </svg>
+              </div>
+              {/* Discover */}
+              <div className="h-7 rounded flex items-center justify-center" style={{ background: "#ffffff", width: "64px" }}>
+                <svg viewBox="0 0 60 14" style={{ width: "54px", height: "12px" }}>
+                  <text x="0" y="11" fontFamily="Arial, sans-serif" fontWeight="800" fontSize="9.5" fill="#231F20">DISC</text>
+                  <circle cx="30.8" cy="7.5" r="4.3" fill="#F76E20" />
+                  <text x="36" y="11" fontFamily="Arial, sans-serif" fontWeight="800" fontSize="9.5" fill="#231F20">VER</text>
+                </svg>
+              </div>
+              {/* Google Pay */}
+              <div className="h-7 rounded flex items-center justify-center gap-1" style={{ background: "#ffffff", width: "56px" }}>
+                <svg viewBox="0 0 18 18" style={{ width: "14px", height: "14px" }}>
+                  <path d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 01-1.8 2.72v2.26h2.92c1.7-1.57 2.68-3.88 2.68-6.62z" fill="#4285F4" />
+                  <path d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.8.54-1.84.86-3.04.86-2.34 0-4.32-1.58-5.03-3.7H.96v2.33A9 9 0 009 18z" fill="#34A853" />
+                  <path d="M3.97 10.72A5.41 5.41 0 013.68 9c0-.6.1-1.18.29-1.72V4.95H.96A9 9 0 000 9c0 1.45.35 2.83.96 4.05l3.01-2.33z" fill="#FBBC05" />
+                  <path d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.58C13.46.89 11.43 0 9 0A9 9 0 00.96 4.95l3.01 2.33C4.68 5.16 6.66 3.58 9 3.58z" fill="#EA4335" />
+                </svg>
+                <span style={{ fontSize: "12px", fontWeight: 600, color: "#5F6368", fontFamily: "Arial, sans-serif" }}>Pay</span>
+              </div>
+              {/* Apple Pay */}
+              <div className="h-7 rounded flex items-center justify-center gap-1" style={{ background: "#000000", width: "56px", border: "1px solid rgba(255,255,255,0.15)" }}>
+                <svg viewBox="0 0 384 512" style={{ width: "11px", height: "14px" }} fill="#ffffff">
+                  <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" />
+                </svg>
+                <span style={{ fontSize: "12px", fontWeight: 600, color: "#ffffff", fontFamily: "Arial, sans-serif" }}>Pay</span>
+              </div>
               <span className="text-[12px] font-medium ml-1" style={{ color: "rgba(255,255,255,0.35)" }}>{t("more15")}</span>
             </div>
             <div className="flex items-center gap-4">
