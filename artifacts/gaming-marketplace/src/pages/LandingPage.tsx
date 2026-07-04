@@ -520,12 +520,13 @@ export default function Home() {
             <button
               className="font-bold transition-all hover:opacity-90 hover:scale-[1.02]"
               style={{
-                background: "#D5AD68",
+                background: "linear-gradient(135deg, #D5AD68 0%, #e8c586 100%)",
                 color: "#0a0a12",
                 height: "clamp(40px, 5vw, 52px)",
                 padding: "0 clamp(20px, 3vw, 36px)",
                 borderRadius: "10px",
                 fontSize: "clamp(13px, 1.4vw, 15px)",
+                boxShadow: "0 4px 24px rgba(213,173,104,0.35)",
               }}
             >
               Shop Now
@@ -711,7 +712,10 @@ export default function Home() {
               return (
                 <div className="flex-1 flex flex-col">
                   <h3 className="text-[18px] mb-3" style={{ color: darkMode ? "#ffffff" : "#1a1a2e", fontFamily: "Inter, sans-serif", fontWeight: 700 }}>Popular Accounts</h3>
-                  <div className="rounded-2xl p-4 flex-1" style={{ background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(213,173,104,0.15)" : "1px solid rgba(0,0,0,0.08)", boxShadow: darkMode ? "none" : "0 2px 12px rgba(0,0,0,0.06)" }}>
+                  <div className="rounded-2xl p-4 flex-1 transition-all duration-200"
+                    style={{ background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(213,173,104,0.15)" : "1px solid rgba(0,0,0,0.08)", boxShadow: darkMode ? "none" : "0 2px 12px rgba(0,0,0,0.06)" }}
+                    onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(213,173,104,0.4)")}
+                    onMouseLeave={e => (e.currentTarget.style.borderColor = darkMode ? "rgba(213,173,104,0.15)" : "rgba(0,0,0,0.08)")}>
                   <div className="grid grid-cols-2 gap-y-0.5">
                     {games.map(game => (
                       <button key={game} className="flex items-center gap-3 px-2 py-2.5 rounded-lg text-left transition-colors"
@@ -737,7 +741,10 @@ export default function Home() {
               return (
                 <div className="flex flex-col w-full md:w-[340px] md:shrink-0">
                   <h3 className="text-[18px] mb-3" style={{ color: darkMode ? "#ffffff" : "#1a1a2e", fontFamily: "Inter, sans-serif", fontWeight: 700 }}>Popular Items</h3>
-                  <div className="rounded-2xl p-4 flex-1" style={{ background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(213,173,104,0.15)" : "1px solid rgba(0,0,0,0.08)", boxShadow: darkMode ? "none" : "0 2px 12px rgba(0,0,0,0.06)" }}>
+                  <div className="rounded-2xl p-4 flex-1 transition-all duration-200"
+                    style={{ background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(213,173,104,0.15)" : "1px solid rgba(0,0,0,0.08)", boxShadow: darkMode ? "none" : "0 2px 12px rgba(0,0,0,0.06)" }}
+                    onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(213,173,104,0.4)")}
+                    onMouseLeave={e => (e.currentTarget.style.borderColor = darkMode ? "rgba(213,173,104,0.15)" : "rgba(0,0,0,0.08)")}>
                   <div className="flex flex-col gap-y-0.5">
                     {games.map(game => (
                       <button key={game} className="flex items-center gap-3 px-2 py-2.5 rounded-lg text-left transition-colors"
@@ -764,7 +771,10 @@ export default function Home() {
             return (
               <div>
                 <h3 className="text-[18px] mb-3" style={{ color: darkMode ? "#ffffff" : "#1a1a2e", fontFamily: "Inter, sans-serif", fontWeight: 700 }}>Popular Boosting Services</h3>
-                <div className="rounded-2xl p-4" style={{ background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(213,173,104,0.15)" : "1px solid rgba(0,0,0,0.08)", boxShadow: darkMode ? "none" : "0 2px 12px rgba(0,0,0,0.06)" }}>
+                <div className="rounded-2xl p-4 transition-all duration-200"
+                  style={{ background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(213,173,104,0.15)" : "1px solid rgba(0,0,0,0.08)", boxShadow: darkMode ? "none" : "0 2px 12px rgba(0,0,0,0.06)" }}
+                  onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(213,173,104,0.4)")}
+                  onMouseLeave={e => (e.currentTarget.style.borderColor = darkMode ? "rgba(213,173,104,0.15)" : "rgba(0,0,0,0.08)")}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-0.5">
                   {games.map(game => (
                     <button key={game} className="flex items-center gap-3 px-2 py-2.5 rounded-lg text-left transition-colors"
@@ -791,10 +801,10 @@ export default function Home() {
       <section className="py-8 md:py-16 relative z-20">
         <div className="mx-auto px-4 md:px-8 mb-6 flex items-center justify-between" style={{ maxWidth: "1100px" }}>
           <div className="flex items-center gap-3">
-            <div className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
-            <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "Inter, sans-serif" }}>Live Offers</h2>
+            <div className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" style={{ boxShadow: "0 0 8px rgba(239,68,68,0.6)" }} />
+            <h2 className="text-2xl font-bold" style={{ fontFamily: "Inter, sans-serif", color: darkMode ? "#ffffff" : "#1a1a2e" }}>Live Offers</h2>
             <div className="relative group">
-              <div className="w-5 h-5 rounded-full flex items-center justify-center cursor-default select-none text-[11px] font-bold" style={{ background: "rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.5)" }}>?</div>
+              <div className="w-5 h-5 rounded-full flex items-center justify-center cursor-default select-none text-[11px] font-bold" style={{ background: darkMode ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.08)", color: darkMode ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.45)" }}>?</div>
               <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-3 py-1.5 rounded-lg text-[12px] font-medium whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-50"
                 style={{ background: "#1e1e30", color: "rgba(255,255,255,0.8)", boxShadow: "0 4px 16px rgba(0,0,0,0.4)" }}>
                 Shows the latest offers listed by sellers in real time
@@ -803,15 +813,15 @@ export default function Home() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <button onClick={handlePrev} className="w-8 h-8 rounded-full flex items-center justify-center transition-colors" style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.7)" }}
-              onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")}
-              onMouseLeave={e => (e.currentTarget.style.background = "rgba(255,255,255,0.08)")}
+            <button onClick={handlePrev} className="w-8 h-8 rounded-full flex items-center justify-center transition-all" style={{ background: darkMode ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)", color: darkMode ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.55)" }}
+              onMouseEnter={e => { e.currentTarget.style.background = "rgba(213,173,104,0.2)"; e.currentTarget.style.color = "#D5AD68"; }}
+              onMouseLeave={e => { e.currentTarget.style.background = darkMode ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"; e.currentTarget.style.color = darkMode ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.55)"; }}
             >
               <svg viewBox="0 0 24 24" className="w-4 h-4 fill-none stroke-current stroke-2"><path d="M15 18l-6-6 6-6"/></svg>
             </button>
-            <button onClick={handleNext} className="w-8 h-8 rounded-full flex items-center justify-center transition-colors" style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.7)" }}
-              onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")}
-              onMouseLeave={e => (e.currentTarget.style.background = "rgba(255,255,255,0.08)")}
+            <button onClick={handleNext} className="w-8 h-8 rounded-full flex items-center justify-center transition-all" style={{ background: darkMode ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)", color: darkMode ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.55)" }}
+              onMouseEnter={e => { e.currentTarget.style.background = "rgba(213,173,104,0.2)"; e.currentTarget.style.color = "#D5AD68"; }}
+              onMouseLeave={e => { e.currentTarget.style.background = darkMode ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"; e.currentTarget.style.color = darkMode ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.55)"; }}
             >
               <svg viewBox="0 0 24 24" className="w-4 h-4 fill-none stroke-current stroke-2"><path d="M9 18l6-6-6-6"/></svg>
             </button>
@@ -838,10 +848,18 @@ export default function Home() {
                       : offer.type.includes("Gold") || offer.type.includes("Coins") || offer.type.includes("Credits") ? "Currency"
                       : "Items";
                     return (
-                      <div className="rounded-2xl flex flex-col transition-all h-full overflow-hidden"
+                      <div className="rounded-2xl flex flex-col transition-all duration-200 h-full overflow-hidden"
                         style={{ background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(0,0,0,0.08)" }}
-                        onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(213,173,104,0.4)")}
-                        onMouseLeave={e => (e.currentTarget.style.borderColor = darkMode ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.08)")}
+                        onMouseEnter={e => {
+                          e.currentTarget.style.borderColor = "rgba(213,173,104,0.45)";
+                          e.currentTarget.style.transform = "translateY(-4px)";
+                          e.currentTarget.style.boxShadow = darkMode ? "0 12px 28px rgba(0,0,0,0.5), 0 0 20px rgba(213,173,104,0.08)" : "0 12px 28px rgba(213,173,104,0.18)";
+                        }}
+                        onMouseLeave={e => {
+                          e.currentTarget.style.borderColor = darkMode ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.08)";
+                          e.currentTarget.style.transform = "translateY(0)";
+                          e.currentTarget.style.boxShadow = "none";
+                        }}
                       >
                         {/* Top: icon + game name stacked + category badge below name */}
                         <div className="flex items-center gap-3 px-4 pt-4 pb-3">
@@ -889,10 +907,10 @@ export default function Home() {
         <div className="mx-auto px-4 md:px-8" style={{ maxWidth: "1100px" }}>
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <Clock className="w-5 h-5" style={{ color: "rgba(255,255,255,0.5)" }} />
-              <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "Inter, sans-serif" }}>Recently Viewed</h2>
+              <Clock className="w-5 h-5" style={{ color: darkMode ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.45)" }} />
+              <h2 className="text-2xl font-bold" style={{ fontFamily: "Inter, sans-serif", color: darkMode ? "#ffffff" : "#1a1a2e" }}>Recently Viewed</h2>
               <div className="relative group">
-                <div className="w-5 h-5 rounded-full flex items-center justify-center cursor-default select-none text-[11px] font-bold" style={{ background: "rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.5)" }}>?</div>
+                <div className="w-5 h-5 rounded-full flex items-center justify-center cursor-default select-none text-[11px] font-bold" style={{ background: darkMode ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.08)", color: darkMode ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.45)" }}>?</div>
                 <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-3 py-1.5 rounded-lg text-[12px] font-medium whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-50"
                   style={{ background: "#1e1e30", color: "rgba(255,255,255,0.8)", boxShadow: "0 4px 16px rgba(0,0,0,0.4)" }}>
                   Shows the offers you have recently viewed
@@ -901,15 +919,15 @@ export default function Home() {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <button className="w-8 h-8 rounded-full flex items-center justify-center transition-colors" style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.7)" }}
-                onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")}
-                onMouseLeave={e => (e.currentTarget.style.background = "rgba(255,255,255,0.08)")}
+              <button className="w-8 h-8 rounded-full flex items-center justify-center transition-all" style={{ background: darkMode ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)", color: darkMode ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.55)" }}
+                onMouseEnter={e => { e.currentTarget.style.background = "rgba(213,173,104,0.2)"; e.currentTarget.style.color = "#D5AD68"; }}
+                onMouseLeave={e => { e.currentTarget.style.background = darkMode ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"; e.currentTarget.style.color = darkMode ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.55)"; }}
               >
                 <svg viewBox="0 0 24 24" className="w-4 h-4 fill-none stroke-current stroke-2"><path d="M15 18l-6-6 6-6"/></svg>
               </button>
-              <button className="w-8 h-8 rounded-full flex items-center justify-center transition-colors" style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.7)" }}
-                onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")}
-                onMouseLeave={e => (e.currentTarget.style.background = "rgba(255,255,255,0.08)")}
+              <button className="w-8 h-8 rounded-full flex items-center justify-center transition-all" style={{ background: darkMode ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)", color: darkMode ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.55)" }}
+                onMouseEnter={e => { e.currentTarget.style.background = "rgba(213,173,104,0.2)"; e.currentTarget.style.color = "#D5AD68"; }}
+                onMouseLeave={e => { e.currentTarget.style.background = darkMode ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"; e.currentTarget.style.color = darkMode ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.55)"; }}
               >
                 <svg viewBox="0 0 24 24" className="w-4 h-4 fill-none stroke-current stroke-2"><path d="M9 18l6-6-6-6"/></svg>
               </button>
@@ -927,10 +945,18 @@ export default function Home() {
                 : offer.type.includes("Gold") || offer.type.includes("Coins") || offer.type.includes("Credits") ? "Currency"
                 : "Items";
               return (
-                <div key={offer.game} className="rounded-2xl flex flex-col overflow-hidden cursor-pointer transition-all shrink-0 flex-1"
+                <div key={offer.game} className="rounded-2xl flex flex-col overflow-hidden cursor-pointer transition-all duration-200 shrink-0 flex-1"
                   style={{ minWidth: "220px", background: darkMode ? "#111120" : "#ffffff", border: darkMode ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(0,0,0,0.08)" }}
-                  onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(213,173,104,0.4)")}
-                  onMouseLeave={e => (e.currentTarget.style.borderColor = darkMode ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.08)")}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.borderColor = "rgba(213,173,104,0.45)";
+                    e.currentTarget.style.transform = "translateY(-4px)";
+                    e.currentTarget.style.boxShadow = darkMode ? "0 12px 28px rgba(0,0,0,0.5), 0 0 20px rgba(213,173,104,0.08)" : "0 12px 28px rgba(213,173,104,0.18)";
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.borderColor = darkMode ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.08)";
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow = "none";
+                  }}
                 >
                   {/* Top: icon + game name + type badge inline */}
                   <div className="flex items-center gap-3 px-4 pt-4 pb-3">
@@ -988,7 +1014,8 @@ export default function Home() {
                 transition={{ delay: i * 0.1 }}
                 className="text-center px-4"
               >
-                <div className="text-4xl md:text-5xl font-bold font-heading text-primary mb-2 drop-shadow-[0_0_10px_rgba(213,173,104,0.3)]">
+                <div className="text-4xl md:text-5xl font-bold font-heading mb-2 drop-shadow-[0_0_10px_rgba(213,173,104,0.3)]"
+                  style={{ backgroundImage: "linear-gradient(135deg, #D5AD68 30%, #f0d9a8 70%)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
                   {stat.val}
                 </div>
                 <div className="text-sm font-medium text-card-foreground uppercase tracking-wider">
@@ -1007,8 +1034,8 @@ export default function Home() {
           <div className="rounded-2xl overflow-hidden"
             style={{
               background: darkMode ? "#111120" : "#ffffff",
-              border: darkMode ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.08)",
-              boxShadow: darkMode ? "none" : "0 4px 24px rgba(0,0,0,0.06)",
+              border: darkMode ? "1px solid rgba(213,173,104,0.15)" : "1px solid rgba(0,0,0,0.08)",
+              boxShadow: darkMode ? "0 8px 40px rgba(0,0,0,0.4)" : "0 4px 24px rgba(0,0,0,0.06)",
             }}>
             <div className="grid grid-cols-[auto_1fr_auto_auto] gap-4 p-4 text-xs font-bold uppercase tracking-wider"
               style={{ borderBottom: darkMode ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.07)", background: darkMode ? "rgba(10,10,18,0.5)" : "rgba(0,0,0,0.03)", color: darkMode ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.45)" }}>
@@ -1153,8 +1180,12 @@ export default function Home() {
                       border: open
                         ? "1px solid rgba(213,173,104,0.45)"
                         : darkMode ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.08)",
-                      boxShadow: darkMode ? "none" : "0 2px 16px rgba(0,0,0,0.05)",
+                      boxShadow: open
+                        ? (darkMode ? "0 0 24px rgba(213,173,104,0.07)" : "0 4px 20px rgba(213,173,104,0.15)")
+                        : (darkMode ? "none" : "0 2px 16px rgba(0,0,0,0.05)"),
                     }}
+                    onMouseEnter={e => { if (!open) e.currentTarget.style.borderColor = "rgba(213,173,104,0.3)"; }}
+                    onMouseLeave={e => { if (!open) e.currentTarget.style.borderColor = darkMode ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"; }}
                   >
                     <button
                       onClick={() => setOpenFaq(open ? null : i)}
