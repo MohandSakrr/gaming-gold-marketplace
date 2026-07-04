@@ -168,18 +168,25 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
           <polygon points="50 5 95 27.5 95 72.5 50 95 5 72.5 5 27.5" />
         </motion.svg>
 
-        {/* Logo */}
-        <Link href="/" className="relative flex items-center gap-2.5 cursor-pointer w-fit">
-          <div className="w-11 h-11">
+        {/* Logo — prominent, with gold glow */}
+        <Link href="/" className="relative flex items-center gap-3.5 cursor-pointer w-fit group">
+          <div className="w-14 h-14 transition-transform duration-300 group-hover:scale-105"
+            style={{ filter: "drop-shadow(0 0 14px rgba(213,173,104,0.45))" }}>
             <svg viewBox="0 0 100 100" className="w-full h-full" style={{ fill: "#D5AD68" }}>
               <polygon points="50 5 95 27.5 95 72.5 50 95 5 72.5 5 27.5" />
               <polygon points="50 20 80 37 80 63 50 80 20 63 20 37" style={{ fill: "#101018" }} />
               <polygon points="50 35 65 45 65 55 50 65 35 55 35 45" style={{ fill: "#D5AD68" }} />
             </svg>
           </div>
-          <span className="font-heading font-bold text-2xl tracking-tight text-white">
-            Ra<span style={{ color: "#D5AD68" }}>Rumble</span>
-          </span>
+          <div>
+            <span className="block font-heading font-bold text-[32px] leading-none tracking-tight text-white"
+              style={{ textShadow: "0 2px 20px rgba(0,0,0,0.6)" }}>
+              Ra<span style={{ color: "#D5AD68" }}>Rumble</span>
+            </span>
+            <span className="block text-[10px] font-semibold uppercase mt-1.5" style={{ color: "rgba(213,173,104,0.75)", letterSpacing: "0.32em" }}>
+              {t("faqPlatform")}
+            </span>
+          </div>
         </Link>
 
         {/* Center: HELLO + mascot */}
@@ -196,28 +203,7 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
               </p>
               <div className="mt-4 h-1 w-24 rounded-full" style={{ background: "linear-gradient(90deg, #D5AD68, transparent)" }} />
             </div>
-            <div className="relative">
-              <HexMascot />
-              {/* Floating marketplace chips orbiting the mascot */}
-              <motion.div className="absolute flex items-center gap-1.5 px-2.5 py-1.5 rounded-full pointer-events-none"
-                style={{ top: "-26px", left: "-46px", background: "rgba(16,16,24,0.9)", border: "1px solid rgba(213,173,104,0.4)", boxShadow: "0 6px 20px rgba(0,0,0,0.5)" }}
-                animate={{ y: [0, -7, 0] }} transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}>
-                <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-none stroke-[2]" style={{ stroke: "#D5AD68" }} strokeLinecap="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg>
-                <span className="text-[11px] font-bold" style={{ color: "#D5AD68" }}>+100K</span>
-              </motion.div>
-              <motion.div className="absolute flex items-center gap-1.5 px-2.5 py-1.5 rounded-full pointer-events-none"
-                style={{ bottom: "-14px", right: "-52px", background: "rgba(16,16,24,0.9)", border: "1px solid rgba(213,173,104,0.4)", boxShadow: "0 6px 20px rgba(0,0,0,0.5)" }}
-                animate={{ y: [0, 8, 0] }} transition={{ duration: 4.2, repeat: Infinity, ease: "easeInOut", delay: 1.1 }}>
-                <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-none stroke-[2]" style={{ stroke: "#D5AD68" }} strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>
-                <span className="text-[11px] font-bold" style={{ color: "#D5AD68" }}>Rank Up</span>
-              </motion.div>
-              <motion.div className="absolute flex items-center gap-1.5 px-2.5 py-1.5 rounded-full pointer-events-none"
-                style={{ top: "38%", right: "-64px", background: "rgba(16,16,24,0.9)", border: "1px solid rgba(34,197,94,0.45)", boxShadow: "0 6px 20px rgba(0,0,0,0.5)" }}
-                animate={{ y: [0, -6, 0] }} transition={{ duration: 3.1, repeat: Infinity, ease: "easeInOut", delay: 1.8 }}>
-                <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-none stroke-[2.5]" style={{ stroke: "#22c55e" }} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5" /></svg>
-                <span className="text-[11px] font-bold" style={{ color: "#22c55e" }}>100%</span>
-              </motion.div>
-            </div>
+            <HexMascot />
           </motion.div>
         </div>
 
