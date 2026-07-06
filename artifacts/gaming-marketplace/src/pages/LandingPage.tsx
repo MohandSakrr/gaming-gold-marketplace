@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useLocation } from "wouter";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { Search, Star, Crown, ChevronRight, ChevronDown, X, Clock, TrendingUp, Loader2, BadgeCheck } from "lucide-react";
+import { Search, Star, Crown, ChevronRight, ChevronDown, X, Clock, TrendingUp, Loader2, BadgeCheck, ArrowLeftRight, MessageSquare, Bell, LogOut } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useLocale, LANGUAGES, CURRENCIES } from "@/lib/locale";
@@ -166,6 +166,9 @@ export default function Home() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const mobileSearchRef = useRef<HTMLDivElement>(null);
   const mobileDropdownRef = useRef<HTMLDivElement>(null);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+  const mobileUserMenuRef = useRef<HTMLDivElement>(null);
 
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const { lang, cur, setLocale, language, currency, formatPrice, t, tLabel } = useLocale();
@@ -192,6 +195,11 @@ export default function Home() {
         || (mobileSearchRef.current && mobileSearchRef.current.contains(e.target as Node));
       if (!inSearchEl) {
         setSearchFocused(false);
+      }
+      const inUserMenu = (userMenuRef.current && userMenuRef.current.contains(e.target as Node))
+        || (mobileUserMenuRef.current && mobileUserMenuRef.current.contains(e.target as Node));
+      if (!inUserMenu) {
+        setUserMenuOpen(false);
       }
       const inBar = catBarRef.current && catBarRef.current.contains(e.target as Node);
       const inDropdown = catDropdownRef.current && catDropdownRef.current.contains(e.target as Node);
@@ -390,20 +398,53 @@ export default function Home() {
             )}
           </div>
 
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex items-center gap-1.5 shrink-0" ref={userMenuRef}>
             {user ? (
               <>
-                <div className="flex items-center gap-2.5">
-                  <div className="w-9 h-9 rounded-full flex items-center justify-center text-[13px] font-bold" style={{ background: "rgba(213,173,104,0.18)", border: "1px solid rgba(213,173,104,0.5)", color: "#D5AD68" }}>
-                    {user.email.slice(0, 2).toUpperCase()}
-                  </div>
-                  <span className="text-[13px] font-medium text-white/80 max-w-[160px] truncate">{user.email}</span>
-                </div>
-                <button onClick={logout} className="h-9 px-4 text-[13px] font-semibold rounded-xl transition-all cursor-pointer" style={{ color: "rgba(255,255,255,0.6)", border: "1px solid rgba(255,255,255,0.15)" }}
-                  onMouseEnter={e => { e.currentTarget.style.color = "#fff"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.35)"; }}
-                  onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.6)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; }}>
-                  {t("logout")}
+                {/* Transactions */}
+                <button className="w-10 h-10 rounded-full flex items-center justify-center transition-all cursor-pointer" title="Transactions"
+                  style={{ color: "rgba(255,255,255,0.65)" }}
+                  onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.color = "#D5AD68"; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "rgba(255,255,255,0.65)"; }}>
+                  <ArrowLeftRight className="w-5 h-5" />
                 </button>
+                {/* Messages */}
+                <button className="w-10 h-10 rounded-full flex items-center justify-center transition-all cursor-pointer" title="Messages"
+                  style={{ color: "rgba(255,255,255,0.65)" }}
+                  onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.color = "#D5AD68"; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "rgba(255,255,255,0.65)"; }}>
+                  <MessageSquare className="w-5 h-5" />
+                </button>
+                {/* Notifications */}
+                <button className="w-10 h-10 rounded-full flex items-center justify-center transition-all cursor-pointer relative" title="Notifications"
+                  style={{ color: "rgba(255,255,255,0.65)" }}
+                  onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.color = "#D5AD68"; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "rgba(255,255,255,0.65)"; }}>
+                  <Bell className="w-5 h-5" />
+                  <span className="absolute w-2 h-2 rounded-full" style={{ top: "9px", right: "10px", background: "#D5AD68", boxShadow: "0 0 6px rgba(213,173,104,0.8)" }} />
+                </button>
+                {/* Avatar + dropdown */}
+                <div className="relative ml-1">
+                  <button onClick={() => setUserMenuOpen(o => !o)}
+                    className="w-10 h-10 rounded-full flex items-center justify-center text-[13px] font-bold transition-all cursor-pointer"
+                    style={{ background: "rgba(213,173,104,0.18)", border: userMenuOpen ? "2px solid #D5AD68" : "1px solid rgba(213,173,104,0.5)", color: "#D5AD68" }}>
+                    {user.email.slice(0, 2).toUpperCase()}
+                  </button>
+                  {userMenuOpen && (
+                    <div className="absolute right-0 top-full mt-2 rounded-xl overflow-hidden z-50" style={{ minWidth: "220px", background: "#14141f", border: "1px solid rgba(213,173,104,0.3)", boxShadow: "0 16px 48px rgba(0,0,0,0.7)" }}>
+                      <div className="px-4 py-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+                        <p className="text-[13px] font-semibold text-white truncate">{user.email}</p>
+                      </div>
+                      <button onClick={() => { setUserMenuOpen(false); logout(); }}
+                        className="w-full flex items-center gap-2.5 px-4 py-3 text-[13px] font-medium transition-colors cursor-pointer"
+                        style={{ color: "rgba(255,255,255,0.65)" }}
+                        onMouseEnter={e => { e.currentTarget.style.background = "rgba(239,68,68,0.1)"; e.currentTarget.style.color = "#ef4444"; }}
+                        onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "rgba(255,255,255,0.65)"; }}>
+                        <LogOut className="w-4 h-4" /> {t("logout")}
+                      </button>
+                    </div>
+                  )}
+                </div>
               </>
             ) : (
               <button onClick={() => navigate("/login")} className="h-10 px-6 font-semibold text-sm rounded-xl transition-opacity hover:opacity-90 whitespace-nowrap cursor-pointer" style={{ background: "#D5AD68", color: "#1a1100" }}>
@@ -430,13 +471,33 @@ export default function Home() {
             </div>
             {/* Login */}
             {user ? (
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full flex items-center justify-center text-[12px] font-bold" style={{ background: "rgba(213,173,104,0.18)", border: "1px solid rgba(213,173,104,0.5)", color: "#D5AD68" }}>
-                  {user.email.slice(0, 2).toUpperCase()}
-                </div>
-                <button onClick={logout} className="h-8 px-3 text-[12px] font-semibold rounded-lg cursor-pointer" style={{ color: "rgba(255,255,255,0.6)", border: "1px solid rgba(255,255,255,0.15)" }}>
-                  {t("logout")}
+              <div className="flex items-center gap-1" ref={mobileUserMenuRef}>
+                <button className="w-9 h-9 rounded-full flex items-center justify-center cursor-pointer" title="Messages" style={{ color: "rgba(255,255,255,0.65)" }}>
+                  <MessageSquare className="w-[18px] h-[18px]" />
                 </button>
+                <button className="w-9 h-9 rounded-full flex items-center justify-center cursor-pointer relative" title="Notifications" style={{ color: "rgba(255,255,255,0.65)" }}>
+                  <Bell className="w-[18px] h-[18px]" />
+                  <span className="absolute w-1.5 h-1.5 rounded-full" style={{ top: "8px", right: "9px", background: "#D5AD68" }} />
+                </button>
+                <div className="relative ml-0.5">
+                  <button onClick={() => setUserMenuOpen(o => !o)}
+                    className="w-9 h-9 rounded-full flex items-center justify-center text-[12px] font-bold cursor-pointer"
+                    style={{ background: "rgba(213,173,104,0.18)", border: userMenuOpen ? "2px solid #D5AD68" : "1px solid rgba(213,173,104,0.5)", color: "#D5AD68" }}>
+                    {user.email.slice(0, 2).toUpperCase()}
+                  </button>
+                  {userMenuOpen && (
+                    <div className="absolute right-0 top-full mt-2 rounded-xl overflow-hidden z-50" style={{ minWidth: "200px", background: "#14141f", border: "1px solid rgba(213,173,104,0.3)", boxShadow: "0 16px 48px rgba(0,0,0,0.7)" }}>
+                      <div className="px-4 py-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+                        <p className="text-[12px] font-semibold text-white truncate">{user.email}</p>
+                      </div>
+                      <button onClick={() => { setUserMenuOpen(false); logout(); }}
+                        className="w-full flex items-center gap-2.5 px-4 py-3 text-[12px] font-medium cursor-pointer"
+                        style={{ color: "rgba(255,255,255,0.65)" }}>
+                        <LogOut className="w-4 h-4" /> {t("logout")}
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             ) : (
               <button onClick={() => navigate("/login")} className="h-9 px-5 font-bold text-sm rounded-xl whitespace-nowrap cursor-pointer" style={{ background: "#D5AD68", color: "#1a1100" }}>
