@@ -102,7 +102,6 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
   const [, navigate] = useLocation();
   const isSignup = mode === "signup";
 
-  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -137,7 +136,6 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
     e.preventDefault();
     if (submitting || success) return;
     const errs: Record<string, string> = {};
-    if (isSignup && username.trim().length < 3) errs.username = t("authErrUsername");
     if (!/^\S+@\S+\.\S+$/.test(email)) errs.email = t("authErrEmail");
     if (password.length < 8) errs.password = t("authErrPassword");
     if (isSignup && confirm !== password) errs.confirm = t("authErrConfirm");
@@ -302,10 +300,6 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
           </div>
 
           <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
-            {isSignup && (
-              <Field label={t("authUsername")} type="text" placeholder="ShadowStriker" autoComplete="username"
-                value={username} onChange={v => { setUsername(v); clearError("username"); }} error={errors.username} />
-            )}
             <Field label={t("authEmail")} type="email" placeholder="you@example.com" autoComplete="email"
               value={email} onChange={v => { setEmail(v); clearError("email"); }} error={errors.email} />
             <div>
