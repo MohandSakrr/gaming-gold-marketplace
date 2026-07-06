@@ -428,12 +428,13 @@ export default function Home() {
                   <button onClick={() => setUserMenuOpen(o => !o)}
                     className="w-10 h-10 rounded-full flex items-center justify-center text-[13px] font-bold transition-all cursor-pointer"
                     style={{ background: "rgba(213,173,104,0.18)", border: userMenuOpen ? "2px solid #D5AD68" : "1px solid rgba(213,173,104,0.5)", color: "#D5AD68" }}>
-                    {user.email.slice(0, 2).toUpperCase()}
+                    {(user.username ?? user.email).slice(0, 2).toUpperCase()}
                   </button>
                   {userMenuOpen && (
                     <div className="absolute right-0 top-full mt-2 rounded-xl overflow-hidden z-50" style={{ minWidth: "220px", background: "#14141f", border: "1px solid rgba(213,173,104,0.3)", boxShadow: "0 16px 48px rgba(0,0,0,0.7)" }}>
                       <div className="px-4 py-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
-                        <p className="text-[13px] font-semibold text-white truncate">{user.email}</p>
+                        {user.username && <p className="text-[14px] font-bold truncate" style={{ color: "#D5AD68" }}>{user.username}</p>}
+                        <p className="text-[12px] truncate" style={{ color: "rgba(255,255,255,0.5)" }}>{user.email}</p>
                       </div>
                       <button onClick={() => { setUserMenuOpen(false); logout(); }}
                         className="w-full flex items-center gap-2.5 px-4 py-3 text-[13px] font-medium transition-colors cursor-pointer"
@@ -483,12 +484,13 @@ export default function Home() {
                   <button onClick={() => setUserMenuOpen(o => !o)}
                     className="w-9 h-9 rounded-full flex items-center justify-center text-[12px] font-bold cursor-pointer"
                     style={{ background: "rgba(213,173,104,0.18)", border: userMenuOpen ? "2px solid #D5AD68" : "1px solid rgba(213,173,104,0.5)", color: "#D5AD68" }}>
-                    {user.email.slice(0, 2).toUpperCase()}
+                    {(user.username ?? user.email).slice(0, 2).toUpperCase()}
                   </button>
                   {userMenuOpen && (
                     <div className="absolute right-0 top-full mt-2 rounded-xl overflow-hidden z-50" style={{ minWidth: "200px", background: "#14141f", border: "1px solid rgba(213,173,104,0.3)", boxShadow: "0 16px 48px rgba(0,0,0,0.7)" }}>
                       <div className="px-4 py-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
-                        <p className="text-[12px] font-semibold text-white truncate">{user.email}</p>
+                        {user.username && <p className="text-[13px] font-bold truncate" style={{ color: "#D5AD68" }}>{user.username}</p>}
+                        <p className="text-[11px] truncate" style={{ color: "rgba(255,255,255,0.5)" }}>{user.email}</p>
                       </div>
                       <button onClick={() => { setUserMenuOpen(false); logout(); }}
                         className="w-full flex items-center gap-2.5 px-4 py-3 text-[12px] font-medium cursor-pointer"

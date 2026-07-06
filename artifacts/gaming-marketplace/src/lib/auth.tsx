@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
-export type AuthUser = { id: string; email: string; createdAt?: string };
+export type AuthUser = { id: string; email: string; username?: string; createdAt?: string };
 
 // Railway API base. Set VITE_API_URL in Vercel to the deployed API origin;
 // falls back to localhost for local development.
@@ -103,10 +103,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const stored = loadStored();
     if (!stored) return;
     fetch(`${API_URL}/api/auth/me`, { headers: { Authorization: `Bearer ${stored.token}` } })
-      .then(res => {
+      .then(async res => {
         if (res.status === 401) {
           localStorage.removeItem(STORAGE_KEY);
           setAuth(null);
+          return;
+        }
+        if (res.ok) {
+          // Refresh the cached profile (e.g. picks up server-assigned username)
+          const body = (await res.json()) as { user?: AuthUser };
+          if (body.user) {
+            const next = { token: stored.token, user: body.user };
+            setAuth(next);
+            try { localStorage.setItem(STORAGE_KEY, JSON.stringify(next)); } catch { /* storage unavailable */ }
+          }
         }
       })
       .catch(() => { /* offline / API down — keep local session */ });
