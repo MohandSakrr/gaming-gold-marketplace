@@ -6,6 +6,7 @@ import { Search, Star, Crown, ChevronRight, ChevronDown, X, Clock, TrendingUp, L
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useLocale, LANGUAGES, CURRENCIES } from "@/lib/locale";
+import { useAuth } from "@/lib/auth";
 
 const SERVICES = [
   { label: "All Categories", bg: "linear-gradient(135deg,#6366f1,#8b5cf6)", icon: "M4 6h16M4 12h16M4 18h10" },
@@ -168,6 +169,7 @@ export default function Home() {
 
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const { lang, cur, setLocale, language, currency, formatPrice, t, tLabel } = useLocale();
+  const { user, logout } = useAuth();
   const [, navigate] = useLocation();
   const [langCurOpen, setLangCurOpen] = useState(false);
   const [draftLang, setDraftLang] = useState("EN");
@@ -388,10 +390,26 @@ export default function Home() {
             )}
           </div>
 
-          <div className="flex items-center shrink-0">
-            <button onClick={() => navigate("/login")} className="h-10 px-6 font-semibold text-sm rounded-xl transition-opacity hover:opacity-90 whitespace-nowrap cursor-pointer" style={{ background: "#D5AD68", color: "#1a1100" }}>
-              {t("login")}
-            </button>
+          <div className="flex items-center gap-3 shrink-0">
+            {user ? (
+              <>
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-full flex items-center justify-center text-[13px] font-bold" style={{ background: "rgba(213,173,104,0.18)", border: "1px solid rgba(213,173,104,0.5)", color: "#D5AD68" }}>
+                    {user.email.slice(0, 2).toUpperCase()}
+                  </div>
+                  <span className="text-[13px] font-medium text-white/80 max-w-[160px] truncate">{user.email}</span>
+                </div>
+                <button onClick={logout} className="h-9 px-4 text-[13px] font-semibold rounded-xl transition-all cursor-pointer" style={{ color: "rgba(255,255,255,0.6)", border: "1px solid rgba(255,255,255,0.15)" }}
+                  onMouseEnter={e => { e.currentTarget.style.color = "#fff"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.35)"; }}
+                  onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.6)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; }}>
+                  {t("logout")}
+                </button>
+              </>
+            ) : (
+              <button onClick={() => navigate("/login")} className="h-10 px-6 font-semibold text-sm rounded-xl transition-opacity hover:opacity-90 whitespace-nowrap cursor-pointer" style={{ background: "#D5AD68", color: "#1a1100" }}>
+                {t("login")}
+              </button>
+            )}
           </div>
         </div>
 
@@ -411,9 +429,20 @@ export default function Home() {
               <span className="font-heading font-bold text-lg tracking-tight text-white">RaRumble</span>
             </div>
             {/* Login */}
-            <button onClick={() => navigate("/login")} className="h-9 px-5 font-bold text-sm rounded-xl whitespace-nowrap cursor-pointer" style={{ background: "#D5AD68", color: "#1a1100" }}>
-              {t("login")}
-            </button>
+            {user ? (
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full flex items-center justify-center text-[12px] font-bold" style={{ background: "rgba(213,173,104,0.18)", border: "1px solid rgba(213,173,104,0.5)", color: "#D5AD68" }}>
+                  {user.email.slice(0, 2).toUpperCase()}
+                </div>
+                <button onClick={logout} className="h-8 px-3 text-[12px] font-semibold rounded-lg cursor-pointer" style={{ color: "rgba(255,255,255,0.6)", border: "1px solid rgba(255,255,255,0.15)" }}>
+                  {t("logout")}
+                </button>
+              </div>
+            ) : (
+              <button onClick={() => navigate("/login")} className="h-9 px-5 font-bold text-sm rounded-xl whitespace-nowrap cursor-pointer" style={{ background: "#D5AD68", color: "#1a1100" }}>
+                {t("login")}
+              </button>
+            )}
           </div>
 
           {/* Row 2: full-width search bar */}

@@ -116,6 +116,10 @@ const EN = {
   authWelcome: "Welcome to RaRumble",
   authGoogle: "Log in with Google",
   authOrEmail: "or continue with email",
+  authErrExists: "This email is already registered",
+  authErrInvalid: "Incorrect email or password",
+  authErrServer: "Something went wrong — please try again",
+  logout: "Log out",
 };
 
 const ES: Record<TranslationKey, string> = {
@@ -232,6 +236,10 @@ const ES: Record<TranslationKey, string> = {
   authWelcome: "Bienvenido a RaRumble",
   authGoogle: "Iniciar sesión con Google",
   authOrEmail: "o continúa con tu correo",
+  authErrExists: "Este correo ya está registrado",
+  authErrInvalid: "Correo o contraseña incorrectos",
+  authErrServer: "Algo salió mal. Inténtalo de nuevo",
+  logout: "Cerrar sesión",
 };
 
 const DE: Record<TranslationKey, string> = {
@@ -348,6 +356,10 @@ const DE: Record<TranslationKey, string> = {
   authWelcome: "Willkommen bei RaRumble",
   authGoogle: "Mit Google anmelden",
   authOrEmail: "oder weiter mit E-Mail",
+  authErrExists: "Diese E-Mail ist bereits registriert",
+  authErrInvalid: "E-Mail oder Passwort falsch",
+  authErrServer: "Etwas ist schiefgelaufen. Bitte erneut versuchen",
+  logout: "Abmelden",
 };
 
 const FR: Record<TranslationKey, string> = {
@@ -464,6 +476,10 @@ const FR: Record<TranslationKey, string> = {
   authWelcome: "Bienvenue sur RaRumble",
   authGoogle: "Se connecter avec Google",
   authOrEmail: "ou continuez avec votre e-mail",
+  authErrExists: "Cet e-mail est déjà enregistré",
+  authErrInvalid: "E-mail ou mot de passe incorrect",
+  authErrServer: "Une erreur est survenue. Veuillez réessayer",
+  logout: "Se déconnecter",
 };
 
 const IT: Record<TranslationKey, string> = {
@@ -580,6 +596,10 @@ const IT: Record<TranslationKey, string> = {
   authWelcome: "Benvenuto su RaRumble",
   authGoogle: "Accedi con Google",
   authOrEmail: "oppure continua con l'email",
+  authErrExists: "Questa email è già registrata",
+  authErrInvalid: "Email o password errati",
+  authErrServer: "Qualcosa è andato storto. Riprova",
+  logout: "Esci",
 };
 
 const PT: Record<TranslationKey, string> = {
@@ -696,6 +716,10 @@ const PT: Record<TranslationKey, string> = {
   authWelcome: "Bem-vindo ao RaRumble",
   authGoogle: "Entrar com o Google",
   authOrEmail: "ou continue com o e-mail",
+  authErrExists: "Este e-mail já está registrado",
+  authErrInvalid: "E-mail ou senha incorretos",
+  authErrServer: "Algo deu errado. Tente novamente",
+  logout: "Sair",
 };
 
 const NL: Record<TranslationKey, string> = {
@@ -812,6 +836,10 @@ const NL: Record<TranslationKey, string> = {
   authWelcome: "Welkom bij RaRumble",
   authGoogle: "Inloggen met Google",
   authOrEmail: "of ga verder met e-mail",
+  authErrExists: "Dit e-mailadres is al geregistreerd",
+  authErrInvalid: "E-mail of wachtwoord onjuist",
+  authErrServer: "Er ging iets mis. Probeer het opnieuw",
+  logout: "Uitloggen",
 };
 
 const PL: Record<TranslationKey, string> = {
@@ -928,6 +956,10 @@ const PL: Record<TranslationKey, string> = {
   authWelcome: "Witamy w RaRumble",
   authGoogle: "Zaloguj się przez Google",
   authOrEmail: "lub kontynuuj przez e-mail",
+  authErrExists: "Ten e-mail jest już zarejestrowany",
+  authErrInvalid: "Nieprawidłowy e-mail lub hasło",
+  authErrServer: "Coś poszło nie tak. Spróbuj ponownie",
+  logout: "Wyloguj się",
 };
 
 const TR: Record<TranslationKey, string> = {
@@ -1044,6 +1076,10 @@ const TR: Record<TranslationKey, string> = {
   authWelcome: "RaRumble'a hoş geldin",
   authGoogle: "Google ile giriş yap",
   authOrEmail: "veya e-posta ile devam et",
+  authErrExists: "Bu e-posta zaten kayıtlı",
+  authErrInvalid: "E-posta veya şifre hatalı",
+  authErrServer: "Bir şeyler ters gitti. Tekrar dene",
+  logout: "Çıkış yap",
 };
 
 const AR: Record<TranslationKey, string> = {
@@ -1160,6 +1196,10 @@ const AR: Record<TranslationKey, string> = {
   authWelcome: "مرحباً بك في RaRumble",
   authGoogle: "تسجيل الدخول عبر Google",
   authOrEmail: "أو تابع بالبريد الإلكتروني",
+  authErrExists: "هذا البريد الإلكتروني مسجل بالفعل",
+  authErrInvalid: "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+  authErrServer: "حدث خطأ ما. حاول مرة أخرى",
+  logout: "تسجيل الخروج",
 };
 
 export const TRANSLATIONS: Record<string, Record<TranslationKey, string>> = {

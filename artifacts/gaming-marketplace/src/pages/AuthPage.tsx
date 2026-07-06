@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Link, useLocation } from "wouter";
 import { Eye, EyeOff, Loader2, Check, ShieldCheck, BadgeCheck, Headphones, Sun, Moon } from "lucide-react";
 import { useLocale } from "@/lib/locale";
+import { useAuth, AuthError } from "@/lib/auth";
 
 function Field({
   label, type, placeholder, value, onChange, error, toggle, autoComplete, dark,
@@ -102,6 +103,7 @@ function HexMascot({ dark }: { dark: boolean }) {
 
 export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
   const { t } = useLocale();
+  const { login, register } = useAuth();
   const [, navigate] = useLocation();
   const isSignup = mode === "signup";
 
@@ -171,9 +173,12 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
     return next;
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [formError, setFormError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (submitting || success) return;
+    setFormError(null);
     const errs: Record<string, string> = {};
     if (!/^\S+@\S+\.\S+$/.test(email)) errs.email = t("authErrEmail");
     if (password.length < 8) errs.password = t("authErrPassword");
@@ -181,13 +186,20 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
     setErrors(errs);
     if (Object.keys(errs).length > 0) return;
 
-    // No backend yet — simulate the request, then land back home
     setSubmitting(true);
-    setTimeout(() => {
+    try {
+      if (isSignup) await register(email, password);
+      else await login(email, password);
       setSubmitting(false);
       setSuccess(true);
-      setTimeout(() => navigate("/"), 1400);
-    }, 1500);
+      setTimeout(() => navigate("/"), 1200);
+    } catch (err) {
+      setSubmitting(false);
+      const code = err instanceof AuthError ? err.code : "server_error";
+      if (code === "email_exists") setErrors({ email: t("authErrExists") });
+      else if (code === "invalid_credentials") setFormError(t("authErrInvalid"));
+      else setFormError(t("authErrServer"));
+    }
   };
 
   return (
@@ -391,6 +403,14 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
                   {t("authForgot")}
                 </a>
               </div>
+            )}
+
+            {formError && (
+              <motion.div initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }}
+                className="rounded-xl px-4 py-3 text-[13px] font-medium"
+                style={{ background: "rgba(239,68,68,0.10)", border: "1px solid rgba(239,68,68,0.35)", color: "#ef4444" }}>
+                {formError}
+              </motion.div>
             )}
 
             {/* Big pill CTA */}
