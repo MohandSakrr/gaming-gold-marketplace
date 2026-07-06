@@ -76,6 +76,51 @@ function loadStored(): { user: AuthUser; token: string } | null {
   return null;
 }
 
+// ── Demo fallback ────────────────────────────────────────────────────────────
+// When the API is unreachable (not deployed / not configured yet), accounts
+// live in this browser's localStorage so the full sign-up → log-in → homepage
+// flow still works. Real API is always tried first.
+const DEMO_USERS_KEY = "rarumble-demo-users";
+const DEMO_ADJ = ["Swift", "Shadow", "Golden", "Iron", "Mystic", "Turbo", "Silent", "Crimson", "Frost", "Storm", "Neon", "Lucky", "Savage", "Cosmic", "Blazing", "Phantom"];
+const DEMO_NOUN = ["Dragon", "Wolf", "Falcon", "Knight", "Ninja", "Raider", "Hunter", "Wizard", "Titan", "Ghost", "Samurai", "Viper", "Phoenix", "Golem", "Ranger", "Reaper"];
+
+function demoRandomUsername(): string {
+  const adj = DEMO_ADJ[Math.floor(Math.random() * DEMO_ADJ.length)];
+  const noun = DEMO_NOUN[Math.floor(Math.random() * DEMO_NOUN.length)];
+  return `${adj}${noun}${Math.floor(1000 + Math.random() * 9000)}`;
+}
+
+type DemoRecord = { password: string; user: AuthUser };
+
+function loadDemoUsers(): Record<string, DemoRecord> {
+  try {
+    const raw = localStorage.getItem(DEMO_USERS_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch { /* corrupted storage */ }
+  return {};
+}
+
+function saveDemoUsers(users: Record<string, DemoRecord>) {
+  try { localStorage.setItem(DEMO_USERS_KEY, JSON.stringify(users)); } catch { /* storage unavailable */ }
+}
+
+function demoRegister(email: string, password: string): { token: string; user: AuthUser } {
+  const users = loadDemoUsers();
+  const key = email.trim().toLowerCase();
+  if (users[key]) throw new AuthError("email_exists");
+  const user: AuthUser = { id: crypto.randomUUID(), email: key, username: demoRandomUsername(), createdAt: new Date().toISOString() };
+  users[key] = { password, user };
+  saveDemoUsers(users);
+  return { token: `demo-${crypto.randomUUID()}`, user };
+}
+
+function demoLogin(email: string, password: string): { token: string; user: AuthUser } {
+  const users = loadDemoUsers();
+  const record = users[email.trim().toLowerCase()];
+  if (!record || record.password !== password) throw new AuthError("invalid_credentials");
+  return { token: `demo-${crypto.randomUUID()}`, user: record.user };
+}
+
 async function authRequest(path: string, email: string, password: string) {
   let res: Response;
   try {
@@ -99,9 +144,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [auth, setAuth] = useState(loadStored);
 
   // Re-validate the stored session against the API on boot; drop it if stale.
+  // Demo sessions are browser-local — nothing to validate server-side.
   useEffect(() => {
     const stored = loadStored();
-    if (!stored) return;
+    if (!stored || stored.token.startsWith("demo-")) return;
     fetch(`${API_URL}/api/auth/me`, { headers: { Authorization: `Bearer ${stored.token}` } })
       .then(async res => {
         if (res.status === 401) {
@@ -131,11 +177,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const login = async (email: string, password: string) => {
-    persist(await authRequest("/auth/login", email, password));
+    try {
+      persist(await authRequest("/auth/login", email, password));
+    } catch (err) {
+      // API unreachable — fall back to browser-local demo accounts
+      if (err instanceof AuthError && (err.code === "network_error" || err.code === "server_error")) {
+        persist(demoLogin(email, password));
+        return;
+      }
+      throw err;
+    }
   };
 
   const register = async (email: string, password: string) => {
-    persist(await authRequest("/auth/register", email, password));
+    try {
+      persist(await authRequest("/auth/register", email, password));
+    } catch (err) {
+      if (err instanceof AuthError && (err.code === "network_error" || err.code === "server_error")) {
+        persist(demoRegister(email, password));
+        return;
+      }
+      throw err;
+    }
   };
 
   const loginWithGoogle = async () => {
