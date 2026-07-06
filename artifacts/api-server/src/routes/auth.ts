@@ -1,4 +1,5 @@
 import { Router, type IRouter, type Request, type Response, type NextFunction } from "express";
+import crypto from "node:crypto";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
@@ -81,6 +82,67 @@ router.post("/auth/login", async (req, res) => {
   const [user] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
   if (!user || !(await bcrypt.compare(password, user.passwordHash))) {
     res.status(401).json({ error: "invalid_credentials" });
+    return;
+  }
+
+  res.json({ token: signToken(user.id), user: publicUser(user) });
+});
+
+const GOOGLE_CLIENT_ID = process.env["GOOGLE_CLIENT_ID"] ?? "";
+
+router.post("/auth/google", async (req, res) => {
+  if (!GOOGLE_CLIENT_ID) {
+    res.status(501).json({ error: "google_not_configured" });
+    return;
+  }
+  const accessToken =
+    typeof (req.body as { accessToken?: unknown })?.accessToken === "string"
+      ? (req.body as { accessToken: string }).accessToken
+      : "";
+  if (!accessToken) {
+    res.status(400).json({ error: "invalid_input" });
+    return;
+  }
+
+  // Verify the token with Google and confirm it was issued for OUR client id
+  // (prevents tokens minted for other apps from being replayed here).
+  const infoRes = await fetch(
+    `https://oauth2.googleapis.com/tokeninfo?access_token=${encodeURIComponent(accessToken)}`,
+  );
+  if (!infoRes.ok) {
+    res.status(401).json({ error: "invalid_google_token" });
+    return;
+  }
+  const info = (await infoRes.json()) as { aud?: string; azp?: string };
+  if (info.aud !== GOOGLE_CLIENT_ID && info.azp !== GOOGLE_CLIENT_ID) {
+    res.status(401).json({ error: "invalid_google_token" });
+    return;
+  }
+
+  const profileRes = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  if (!profileRes.ok) {
+    res.status(401).json({ error: "invalid_google_token" });
+    return;
+  }
+  const profile = (await profileRes.json()) as { email?: string; email_verified?: boolean };
+  if (!profile.email || profile.email_verified === false) {
+    res.status(401).json({ error: "invalid_google_token" });
+    return;
+  }
+  const email = profile.email.trim().toLowerCase();
+
+  let [user] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
+  if (!user) {
+    // OAuth-only account: store an unguessable random hash so password login
+    // stays impossible until the user sets one via a future reset flow.
+    const placeholderHash = await bcrypt.hash(crypto.randomUUID(), 10);
+    const created = await db.insert(usersTable).values({ email, passwordHash: placeholderHash }).returning();
+    user = created[0];
+  }
+  if (!user) {
+    res.status(500).json({ error: "server_error" });
     return;
   }
 

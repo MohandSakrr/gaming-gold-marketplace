@@ -21,8 +21,48 @@ type AuthContextValue = {
   token: string | null;
   login: (email: string, password: string) => Promise<void>;
   register: (email: string, password: string) => Promise<void>;
+  loginWithGoogle: () => Promise<void>;
   logout: () => void;
 };
+
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID as string | undefined;
+
+// Lazy-load the Google Identity Services script once, on first use
+let gisPromise: Promise<void> | null = null;
+function loadGis(): Promise<void> {
+  const w = window as unknown as { google?: { accounts?: { oauth2?: unknown } } };
+  if (w.google?.accounts?.oauth2) return Promise.resolve();
+  if (!gisPromise) {
+    gisPromise = new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "https://accounts.google.com/gsi/client";
+      script.async = true;
+      script.onload = () => resolve();
+      script.onerror = () => { gisPromise = null; reject(new AuthError("network_error")); };
+      document.head.appendChild(script);
+    });
+  }
+  return gisPromise;
+}
+
+function requestGoogleAccessToken(): Promise<string> {
+  return new Promise((resolve, reject) => {
+    type TokenClient = { requestAccessToken: () => void };
+    const google = (window as unknown as {
+      google: { accounts: { oauth2: { initTokenClient: (cfg: object) => TokenClient } } };
+    }).google;
+    const client = google.accounts.oauth2.initTokenClient({
+      client_id: GOOGLE_CLIENT_ID,
+      scope: "openid email profile",
+      callback: (resp: { access_token?: string }) => {
+        if (resp.access_token) resolve(resp.access_token);
+        else reject(new AuthError("google_cancelled"));
+      },
+      error_callback: () => reject(new AuthError("google_cancelled")),
+    });
+    client.requestAccessToken();
+  });
+}
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
@@ -88,10 +128,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     persist(await authRequest("/auth/register", email, password));
   };
 
+  const loginWithGoogle = async () => {
+    if (!GOOGLE_CLIENT_ID) throw new AuthError("google_not_configured");
+    await loadGis();
+    const accessToken = await requestGoogleAccessToken();
+    let res: Response;
+    try {
+      res = await fetch(`${API_URL}/api/auth/google`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ accessToken }),
+      });
+    } catch {
+      throw new AuthError("network_error");
+    }
+    let body: { error?: string; token?: string; user?: AuthUser } = {};
+    try { body = await res.json(); } catch { /* non-JSON error body */ }
+    if (!res.ok || !body.token || !body.user) {
+      throw new AuthError(body.error ?? "server_error");
+    }
+    persist({ token: body.token, user: body.user });
+  };
+
   const logout = () => persist(null);
 
   return (
-    <AuthContext.Provider value={{ user: auth?.user ?? null, token: auth?.token ?? null, login, register, logout }}>
+    <AuthContext.Provider value={{ user: auth?.user ?? null, token: auth?.token ?? null, login, register, loginWithGoogle, logout }}>
       {children}
     </AuthContext.Provider>
   );

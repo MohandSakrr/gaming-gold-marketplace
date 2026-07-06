@@ -103,7 +103,8 @@ function HexMascot({ dark }: { dark: boolean }) {
 
 export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
   const { t } = useLocale();
-  const { login, register } = useAuth();
+  const { login, register, loginWithGoogle } = useAuth();
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [, navigate] = useLocation();
   const isSignup = mode === "signup";
 
@@ -174,6 +175,23 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
   });
 
   const [formError, setFormError] = useState<string | null>(null);
+
+  const handleGoogle = async () => {
+    if (googleLoading || submitting || success) return;
+    setFormError(null);
+    setGoogleLoading(true);
+    try {
+      await loginWithGoogle();
+      setGoogleLoading(false);
+      setSuccess(true);
+      setTimeout(() => navigate("/"), 1200);
+    } catch (err) {
+      setGoogleLoading(false);
+      const code = err instanceof AuthError ? err.code : "server_error";
+      if (code === "google_cancelled") return; // user closed the popup — not an error
+      setFormError(t("authErrServer"));
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -322,10 +340,12 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
           </p>
 
           {/* Big Google button */}
-          <button className="w-full h-12 rounded-full flex items-center justify-center gap-3 text-[14px] font-semibold transition-all mb-4"
-            style={{ background: c.btnBg, border: `1px solid ${c.btnBorder}`, color: c.heading, boxShadow: darkMode ? "none" : "0 2px 10px rgba(0,0,0,0.05)" }}
+          <button onClick={handleGoogle} disabled={googleLoading}
+            className="w-full h-12 rounded-full flex items-center justify-center gap-3 text-[14px] font-semibold transition-all mb-4 cursor-pointer"
+            style={{ background: c.btnBg, border: `1px solid ${c.btnBorder}`, color: c.heading, boxShadow: darkMode ? "none" : "0 2px 10px rgba(0,0,0,0.05)", opacity: googleLoading ? 0.7 : 1 }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(213,173,104,0.5)"; }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = c.btnBorder; }}>
+            {googleLoading && <Loader2 className="w-4 h-4 animate-spin" style={{ color: "#D5AD68" }} />}
             <svg viewBox="0 0 18 18" className="w-5 h-5">
               <path d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 01-1.8 2.72v2.26h2.92c1.7-1.57 2.68-3.88 2.68-6.62z" fill="#4285F4" />
               <path d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.8.54-1.84.86-3.04.86-2.34 0-4.32-1.58-5.03-3.7H.96v2.33A9 9 0 009 18z" fill="#34A853" />
