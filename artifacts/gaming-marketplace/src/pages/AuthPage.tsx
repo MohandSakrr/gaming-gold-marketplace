@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "wouter";
-import { Eye, EyeOff, Loader2, Check, ShieldCheck, BadgeCheck, Headphones } from "lucide-react";
+import { Eye, EyeOff, Loader2, Check, ShieldCheck, BadgeCheck, Headphones, Sun, Moon } from "lucide-react";
 import { useLocale } from "@/lib/locale";
 
 function Field({
-  label, type, placeholder, value, onChange, error, toggle, autoComplete,
+  label, type, placeholder, value, onChange, error, toggle, autoComplete, dark,
 }: {
   label: string;
   type: string;
@@ -15,11 +15,12 @@ function Field({
   error?: string;
   toggle?: { shown: boolean; onToggle: () => void };
   autoComplete?: string;
+  dark: boolean;
 }) {
-  const borderColor = error ? "#ef4444" : "rgba(255,255,255,0.12)";
+  const borderColor = error ? "#ef4444" : dark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.14)";
   return (
     <label className="block">
-      <span className="block text-[13px] font-semibold mb-1.5" style={{ color: "rgba(255,255,255,0.75)" }}>{label}</span>
+      <span className="block text-[13px] font-semibold mb-1.5" style={{ color: dark ? "rgba(255,255,255,0.75)" : "rgba(0,0,0,0.65)" }}>{label}</span>
       <div className="relative">
         <input
           type={toggle ? (toggle.shown ? "text" : "password") : type}
@@ -27,17 +28,17 @@ function Field({
           onChange={e => onChange(e.target.value)}
           placeholder={placeholder}
           autoComplete={autoComplete}
-          className="w-full h-12 px-4 rounded-xl text-sm text-white outline-none transition-all"
-          style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${borderColor}`, paddingRight: toggle ? "42px" : undefined }}
+          className="w-full h-12 px-4 rounded-xl text-sm outline-none transition-all"
+          style={{ background: dark ? "rgba(255,255,255,0.04)" : "#ffffff", border: `1px solid ${borderColor}`, color: dark ? "#ffffff" : "#1a1a2e", paddingRight: toggle ? "42px" : undefined }}
           onFocus={e => (e.currentTarget.style.borderColor = error ? "#ef4444" : "#D5AD68")}
           onBlur={e => (e.currentTarget.style.borderColor = borderColor)}
         />
         {toggle && (
           <button type="button" onClick={toggle.onToggle} tabIndex={-1}
             className="absolute right-3 top-1/2 -translate-y-1/2 transition-colors"
-            style={{ color: "rgba(255,255,255,0.4)" }}
+            style={{ color: dark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.35)" }}
             onMouseEnter={e => (e.currentTarget.style.color = "#D5AD68")}
-            onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.4)")}>
+            onMouseLeave={e => (e.currentTarget.style.color = dark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.35)")}>
             {toggle.shown ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
           </button>
         )}
@@ -53,7 +54,9 @@ function Field({
 }
 
 // Kawaii hexagon mascot — RaRumble's answer to the competitor's plush toy
-function HexMascot() {
+function HexMascot({ dark }: { dark: boolean }) {
+  const inner = dark ? "#15151f" : "#f5f3ee";
+  const feature = dark ? "#D5AD68" : "#b8924e";
   return (
     <div className="relative" style={{ width: "150px", height: "150px" }}>
       {/* Glow */}
@@ -63,22 +66,22 @@ function HexMascot() {
         animate={{ y: [0, -8, 0], rotate: [0, -3, 0] }}
         transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}>
         <polygon points="50 4 96 27 96 73 50 96 4 73 4 27" fill="#D5AD68" />
-        <polygon points="50 10 90 30 90 70 50 90 10 70 10 30" fill="#15151f" />
+        <polygon points="50 10 90 30 90 70 50 90 10 70 10 30" fill={inner} />
         {/* Eyes — blink via scaleY keyframes */}
         <motion.g
           animate={{ scaleY: [1, 1, 0.08, 1, 1] }}
           transition={{ duration: 3.4, repeat: Infinity, times: [0, 0.42, 0.47, 0.52, 1] }}
           style={{ originY: "48%" as unknown as number, originX: "50%" as unknown as number }}>
-          <circle cx="38" cy="47" r="5.5" fill="#D5AD68" />
-          <circle cx="62" cy="47" r="5.5" fill="#D5AD68" />
-          <circle cx="39.8" cy="45.2" r="1.8" fill="#15151f" />
-          <circle cx="63.8" cy="45.2" r="1.8" fill="#15151f" />
+          <circle cx="38" cy="47" r="5.5" fill={feature} />
+          <circle cx="62" cy="47" r="5.5" fill={feature} />
+          <circle cx="39.8" cy="45.2" r="1.8" fill={inner} />
+          <circle cx="63.8" cy="45.2" r="1.8" fill={inner} />
         </motion.g>
         {/* Smile */}
-        <path d="M40 62 Q50 71 60 62" stroke="#D5AD68" strokeWidth="3.2" strokeLinecap="round" fill="none" />
+        <path d="M40 62 Q50 71 60 62" stroke={feature} strokeWidth="3.2" strokeLinecap="round" fill="none" />
         {/* Blush */}
-        <circle cx="29" cy="57" r="3.4" fill="#D5AD68" opacity="0.28" />
-        <circle cx="71" cy="57" r="3.4" fill="#D5AD68" opacity="0.28" />
+        <circle cx="29" cy="57" r="3.4" fill={feature} opacity="0.28" />
+        <circle cx="71" cy="57" r="3.4" fill={feature} opacity="0.28" />
       </motion.svg>
       {/* Sparkles */}
       {[
@@ -102,6 +105,19 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
   const [, navigate] = useLocation();
   const isSignup = mode === "signup";
 
+  const [darkMode, setDarkMode] = useState(() => {
+    try {
+      const saved = localStorage.getItem("rarumble-theme");
+      if (saved === "light") return false;
+      if (saved === "dark") return true;
+    } catch { /* storage unavailable — default to dark */ }
+    return true;
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("rarumble-theme", darkMode ? "dark" : "light"); } catch { /* storage unavailable */ }
+  }, [darkMode]);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -111,6 +127,29 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  // Theme tokens
+  const c = darkMode ? {
+    pageBg: "#0a0a12",
+    heading: "#ffffff",
+    sub: "rgba(255,255,255,0.5)",
+    faint: "rgba(255,255,255,0.45)",
+    line: "rgba(255,255,255,0.08)",
+    lineText: "rgba(255,255,255,0.35)",
+    btnBg: "rgba(255,255,255,0.04)",
+    btnBorder: "rgba(255,255,255,0.14)",
+    logoInner: "#0a0a12",
+  } : {
+    pageBg: "#f5f3ee",
+    heading: "#1a1a2e",
+    sub: "rgba(0,0,0,0.5)",
+    faint: "rgba(0,0,0,0.45)",
+    line: "rgba(0,0,0,0.10)",
+    lineText: "rgba(0,0,0,0.35)",
+    btnBg: "#ffffff",
+    btnBorder: "rgba(0,0,0,0.12)",
+    logoInner: "#f5f3ee",
+  };
 
   const score = (() => {
     let s = 0;
@@ -152,7 +191,22 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
   };
 
   return (
-    <div className="min-h-screen flex flex-row-reverse relative overflow-hidden" style={{ background: "#0a0a12" }}>
+    <div className="min-h-screen flex flex-row-reverse relative overflow-hidden transition-colors duration-300" style={{ background: c.pageBg }}>
+
+      {/* Theme toggle — top right */}
+      <div className="absolute top-5 right-5 z-20 flex items-center gap-1 p-1 rounded-xl"
+        style={{ background: darkMode ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)" }}>
+        <button onClick={() => setDarkMode(false)}
+          className="w-8 h-8 rounded-lg flex items-center justify-center transition-all cursor-pointer"
+          style={{ background: !darkMode ? "#ffffff" : "transparent", boxShadow: !darkMode ? "0 2px 8px rgba(0,0,0,0.15)" : "none" }}>
+          <Sun className="w-4 h-4" style={{ color: !darkMode ? "#D5AD68" : "rgba(255,255,255,0.45)" }} />
+        </button>
+        <button onClick={() => setDarkMode(true)}
+          className="w-8 h-8 rounded-lg flex items-center justify-center transition-all cursor-pointer"
+          style={{ background: darkMode ? "rgba(255,255,255,0.12)" : "transparent" }}>
+          <Moon className="w-4 h-4" style={{ color: darkMode ? "#D5AD68" : "rgba(0,0,0,0.4)" }} />
+        </button>
+      </div>
 
       {/* Page-wide decorations — seamless, no panel edge */}
       <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(800px 500px at 78% 90%, rgba(213,173,104,0.07), transparent), radial-gradient(700px 400px at 15% 10%, rgba(213,173,104,0.04), transparent)" }} />
@@ -170,16 +224,16 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
             style={{ filter: "drop-shadow(0 0 14px rgba(213,173,104,0.45))" }}>
             <svg viewBox="0 0 100 100" className="w-full h-full" style={{ fill: "#D5AD68" }}>
               <polygon points="50 5 95 27.5 95 72.5 50 95 5 72.5 5 27.5" />
-              <polygon points="50 20 80 37 80 63 50 80 20 63 20 37" style={{ fill: "#101018" }} />
+              <polygon points="50 20 80 37 80 63 50 80 20 63 20 37" style={{ fill: c.logoInner }} />
               <polygon points="50 35 65 45 65 55 50 65 35 55 35 45" style={{ fill: "#D5AD68" }} />
             </svg>
           </div>
           <div>
-            <span className="block font-heading font-bold text-[32px] leading-none tracking-tight text-white"
-              style={{ textShadow: "0 2px 20px rgba(0,0,0,0.6)" }}>
+            <span className="block font-heading font-bold text-[32px] leading-none tracking-tight"
+              style={{ color: c.heading, textShadow: darkMode ? "0 2px 20px rgba(0,0,0,0.6)" : "none" }}>
               Ra<span style={{ color: "#D5AD68" }}>Rumble</span>
             </span>
-            <span className="block text-[10px] font-semibold uppercase mt-1.5" style={{ color: "rgba(213,173,104,0.75)", letterSpacing: "0.32em" }}>
+            <span className="block text-[10px] font-semibold uppercase mt-1.5" style={{ color: darkMode ? "rgba(213,173,104,0.75)" : "#9a7a3a", letterSpacing: "0.32em" }}>
               {t("faqPlatform")}
             </span>
           </div>
@@ -191,15 +245,15 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
             className="flex items-center gap-8 flex-wrap">
             <div>
               <h2 className="font-heading font-black leading-none mb-4"
-                style={{ fontSize: "clamp(56px, 6vw, 88px)", letterSpacing: "-0.02em", backgroundImage: "linear-gradient(120deg, #ffffff 30%, #D5AD68 75%, #f0d9a8 100%)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
+                style={{ fontSize: "clamp(56px, 6vw, 88px)", letterSpacing: "-0.02em", backgroundImage: darkMode ? "linear-gradient(120deg, #ffffff 30%, #D5AD68 75%, #f0d9a8 100%)" : "linear-gradient(120deg, #1a1a2e 30%, #b8924e 75%, #D5AD68 100%)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
                 {t("authHello")}
               </h2>
-              <p className="font-heading font-medium uppercase" style={{ fontSize: "clamp(18px, 2vw, 28px)", color: "rgba(255,255,255,0.85)", letterSpacing: "0.08em" }}>
+              <p className="font-heading font-medium uppercase" style={{ fontSize: "clamp(18px, 2vw, 28px)", color: darkMode ? "rgba(255,255,255,0.85)" : "rgba(26,26,46,0.85)", letterSpacing: "0.08em" }}>
                 {t("authWelcome").toUpperCase()}
               </p>
               <div className="mt-4 h-1 w-24 rounded-full" style={{ background: "linear-gradient(90deg, #D5AD68, transparent)" }} />
             </div>
-            <HexMascot />
+            <HexMascot dark={darkMode} />
           </motion.div>
         </div>
 
@@ -211,8 +265,8 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
             { icon: Headphones, label: t("statSupport") },
           ].map(({ icon: Icon, label }) => (
             <div key={label} className="flex items-center gap-2">
-              <Icon className="w-4 h-4 shrink-0" style={{ color: "rgba(213,173,104,0.7)" }} />
-              <span className="text-[11px] font-medium" style={{ color: "rgba(255,255,255,0.45)" }}>{label}</span>
+              <Icon className="w-4 h-4 shrink-0" style={{ color: darkMode ? "rgba(213,173,104,0.7)" : "#b8924e" }} />
+              <span className="text-[11px] font-medium" style={{ color: c.faint }}>{label}</span>
             </div>
           ))}
         </div>
@@ -220,18 +274,17 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
 
       {/* ── Right: form floats directly on the background ── */}
       <div className="flex-1 flex flex-col items-center justify-center px-4 py-10 relative">
-        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(700px 400px at 70% -10%, rgba(213,173,104,0.05), transparent)" }} />
 
         {/* Mobile logo */}
         <Link href="/" className="flex lg:hidden items-center gap-2.5 mb-8 cursor-pointer relative">
           <div className="w-10 h-10">
             <svg viewBox="0 0 100 100" className="w-full h-full" style={{ fill: "#D5AD68" }}>
               <polygon points="50 5 95 27.5 95 72.5 50 95 5 72.5 5 27.5" />
-              <polygon points="50 20 80 37 80 63 50 80 20 63 20 37" style={{ fill: "#0a0a12" }} />
+              <polygon points="50 20 80 37 80 63 50 80 20 63 20 37" style={{ fill: c.logoInner }} />
               <polygon points="50 35 65 45 65 55 50 65 35 55 35 45" style={{ fill: "#D5AD68" }} />
             </svg>
           </div>
-          <span className="font-heading font-bold text-2xl tracking-tight text-white">
+          <span className="font-heading font-bold text-2xl tracking-tight" style={{ color: c.heading }}>
             Ra<span style={{ color: "#D5AD68" }}>Rumble</span>
           </span>
         </Link>
@@ -245,10 +298,10 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
           style={{ maxWidth: "420px" }}
         >
           {/* Title + switch link */}
-          <h1 className="text-[28px] font-bold text-white mb-1.5 font-heading">
+          <h1 className="text-[28px] font-bold mb-1.5 font-heading" style={{ color: c.heading }}>
             {isSignup ? t("authSignupTitle") : t("authLoginTitle")}
           </h1>
-          <p className="text-[13px] mb-7" style={{ color: "rgba(255,255,255,0.5)" }}>
+          <p className="text-[13px] mb-7" style={{ color: c.sub }}>
             {isSignup ? t("authHaveAccount") : t("authNoAccount")}{" "}
             <button onClick={() => navigate(isSignup ? "/login" : "/signup")}
               className="font-bold transition-opacity hover:opacity-80 cursor-pointer" style={{ color: "#D5AD68" }}>
@@ -257,10 +310,10 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
           </p>
 
           {/* Big Google button */}
-          <button className="w-full h-12 rounded-full flex items-center justify-center gap-3 text-[14px] font-semibold text-white transition-all mb-4"
-            style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.14)" }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(213,173,104,0.5)"; e.currentTarget.style.background = "rgba(213,173,104,0.06)"; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.14)"; e.currentTarget.style.background = "rgba(255,255,255,0.04)"; }}>
+          <button className="w-full h-12 rounded-full flex items-center justify-center gap-3 text-[14px] font-semibold transition-all mb-4"
+            style={{ background: c.btnBg, border: `1px solid ${c.btnBorder}`, color: c.heading, boxShadow: darkMode ? "none" : "0 2px 10px rgba(0,0,0,0.05)" }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(213,173,104,0.5)"; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = c.btnBorder; }}>
             <svg viewBox="0 0 18 18" className="w-5 h-5">
               <path d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 01-1.8 2.72v2.26h2.92c1.7-1.57 2.68-3.88 2.68-6.62z" fill="#4285F4" />
               <path d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.8.54-1.84.86-3.04.86-2.34 0-4.32-1.58-5.03-3.7H.96v2.33A9 9 0 009 18z" fill="#34A853" />
@@ -279,8 +332,8 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
               </svg>
             </button>
             {/* X */}
-            <button className="w-11 h-11 rounded-full flex items-center justify-center transition-transform hover:scale-110" style={{ background: "#ffffff" }} title="X">
-              <svg viewBox="0 0 24 24" className="w-4 h-4" fill="#000000">
+            <button className="w-11 h-11 rounded-full flex items-center justify-center transition-transform hover:scale-110" style={{ background: darkMode ? "#ffffff" : "#000000" }} title="X">
+              <svg viewBox="0 0 24 24" className="w-4 h-4" fill={darkMode ? "#000000" : "#ffffff"}>
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
               </svg>
             </button>
@@ -294,16 +347,16 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
 
           {/* Divider */}
           <div className="flex items-center gap-3 mb-6">
-            <div className="flex-1" style={{ height: "1px", background: "rgba(255,255,255,0.08)" }} />
-            <span className="text-[11px] uppercase tracking-wider" style={{ color: "rgba(255,255,255,0.35)" }}>{t("authOrEmail")}</span>
-            <div className="flex-1" style={{ height: "1px", background: "rgba(255,255,255,0.08)" }} />
+            <div className="flex-1" style={{ height: "1px", background: c.line }} />
+            <span className="text-[11px] uppercase tracking-wider" style={{ color: c.lineText }}>{t("authOrEmail")}</span>
+            <div className="flex-1" style={{ height: "1px", background: c.line }} />
           </div>
 
           <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
-            <Field label={t("authEmail")} type="email" placeholder="you@example.com" autoComplete="email"
+            <Field dark={darkMode} label={t("authEmail")} type="email" placeholder="you@example.com" autoComplete="email"
               value={email} onChange={v => { setEmail(v); clearError("email"); }} error={errors.email} />
             <div>
-              <Field label={t("authPassword")} type="password" placeholder="••••••••"
+              <Field dark={darkMode} label={t("authPassword")} type="password" placeholder="••••••••"
                 autoComplete={isSignup ? "new-password" : "current-password"}
                 value={password} onChange={v => { setPassword(v); clearError("password"); }} error={errors.password}
                 toggle={{ shown: showPw, onToggle: () => setShowPw(s => !s) }} />
@@ -312,7 +365,7 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
                   <div className="flex gap-1 flex-1">
                     {[1, 2, 3].map(bar => (
                       <div key={bar} className="h-1 flex-1 rounded-full transition-all duration-300"
-                        style={{ background: bar <= strength.bars ? strength.color : "rgba(255,255,255,0.1)" }} />
+                        style={{ background: bar <= strength.bars ? strength.color : darkMode ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)" }} />
                     ))}
                   </div>
                   <span className="text-[11px] font-semibold shrink-0" style={{ color: strength.color }}>{strength.label}</span>
@@ -320,7 +373,7 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
               )}
             </div>
             {isSignup && (
-              <Field label={t("authConfirm")} type="password" placeholder="••••••••" autoComplete="new-password"
+              <Field dark={darkMode} label={t("authConfirm")} type="password" placeholder="••••••••" autoComplete="new-password"
                 value={confirm} onChange={v => { setConfirm(v); clearError("confirm"); }} error={errors.confirm}
                 toggle={{ shown: showConfirm, onToggle: () => setShowConfirm(s => !s) }} />
             )}
@@ -329,10 +382,10 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
               <div className="flex items-center justify-between -mt-1">
                 <button type="button" onClick={() => setRemember(r => !r)} className="flex items-center gap-2 cursor-pointer">
                   <div className="rounded flex items-center justify-center transition-all"
-                    style={{ width: "18px", height: "18px", background: remember ? "#D5AD68" : "rgba(255,255,255,0.06)", border: remember ? "1px solid #D5AD68" : "1px solid rgba(255,255,255,0.25)" }}>
+                    style={{ width: "18px", height: "18px", background: remember ? "#D5AD68" : darkMode ? "rgba(255,255,255,0.06)" : "#ffffff", border: remember ? "1px solid #D5AD68" : darkMode ? "1px solid rgba(255,255,255,0.25)" : "1px solid rgba(0,0,0,0.25)" }}>
                     {remember && <Check className="w-3 h-3" style={{ color: "#1a1100" }} strokeWidth={3.5} />}
                   </div>
-                  <span className="text-[12px] font-medium" style={{ color: "rgba(255,255,255,0.6)" }}>{t("authRemember")}</span>
+                  <span className="text-[12px] font-medium" style={{ color: c.sub }}>{t("authRemember")}</span>
                 </button>
                 <a href="#" className="text-[12px] font-semibold transition-opacity hover:opacity-80" style={{ color: "#D5AD68" }}>
                   {t("authForgot")}
@@ -361,7 +414,7 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
           </form>
 
           {isSignup && (
-            <p className="text-[11px] mt-5 leading-relaxed text-center" style={{ color: "rgba(255,255,255,0.4)" }}>
+            <p className="text-[11px] mt-5 leading-relaxed text-center" style={{ color: c.faint }}>
               {t("authTerms")}{" "}
               <a href="#" className="font-semibold underline underline-offset-2" style={{ color: "#D5AD68" }}>{t("linkTerms")}</a>
               {" "}{t("authAnd")}{" "}
