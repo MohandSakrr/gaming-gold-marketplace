@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useLocation } from "wouter";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { Search, Star, Crown, ChevronRight, ChevronDown, X, Clock, TrendingUp, Loader2, BadgeCheck, ArrowLeftRight, MessageSquare, Bell, LogOut } from "lucide-react";
+import { Search, Star, Crown, ChevronRight, ChevronDown, X, Clock, TrendingUp, Loader2, BadgeCheck, ArrowLeftRight, MessageSquare, Bell, LogOut, ArrowUp } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useLocale, LANGUAGES, CURRENCIES } from "@/lib/locale";
@@ -1483,6 +1483,17 @@ export default function Home() {
                   onMouseEnter={e => (e.currentTarget.style.color = "#fff")}
                   onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.45)")}>{tLabel(l)}</a>
               ))}
+              {/* Back to top of homepage */}
+              <button
+                onClick={() => { navigate("/"); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+                className="w-9 h-9 rounded-full flex items-center justify-center transition-all cursor-pointer"
+                title="Back to top"
+                style={{ background: "rgba(213,173,104,0.12)", border: "1px solid rgba(213,173,104,0.4)", color: "#D5AD68" }}
+                onMouseEnter={e => { e.currentTarget.style.background = "#D5AD68"; e.currentTarget.style.color = "#1a1100"; }}
+                onMouseLeave={e => { e.currentTarget.style.background = "rgba(213,173,104,0.12)"; e.currentTarget.style.color = "#D5AD68"; }}
+              >
+                <ArrowUp className="w-4 h-4" />
+              </button>
             </div>
           </div>
         </div>
