@@ -103,7 +103,7 @@ function HexMascot({ dark }: { dark: boolean }) {
 
 export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
   const { t } = useLocale();
-  const { login, register, loginWithGoogle } = useAuth();
+  const { login, register, loginWithGoogle, logout } = useAuth();
   const [googleLoading, setGoogleLoading] = useState(false);
   const [, navigate] = useLocation();
   const isSignup = mode === "signup";
@@ -206,11 +206,19 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
 
     setSubmitting(true);
     try {
-      if (isSignup) await register(email, password);
-      else await login(email, password);
-      setSubmitting(false);
-      setSuccess(true);
-      setTimeout(() => navigate("/"), 1200);
+      if (isSignup) {
+        await register(email, password);
+        // Account created — send the user to the sign-in page to log in themselves
+        logout();
+        setSubmitting(false);
+        setSuccess(true);
+        setTimeout(() => navigate("/login"), 1200);
+      } else {
+        await login(email, password);
+        setSubmitting(false);
+        setSuccess(true);
+        setTimeout(() => navigate("/"), 1200);
+      }
     } catch (err) {
       setSubmitting(false);
       const code = err instanceof AuthError ? err.code : "server_error";
