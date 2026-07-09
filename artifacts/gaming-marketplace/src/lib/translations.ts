@@ -120,6 +120,16 @@ const EN = {
   authErrInvalid: "Incorrect email or password",
   authErrServer: "Something went wrong — please try again",
   logout: "Log out",
+  verifyTitle: "Verify your email",
+  verifySub: "We sent a 4-digit code to",
+  verifyBtn: "Verify",
+  verifyResend: "Didn't get it? Resend code",
+  verifyResent: "A new code has been sent",
+  verifyChangeEmail: "Wrong email? Go back",
+  authErrCode: "Incorrect code — check and try again",
+  authErrExpired: "Code expired — request a new one",
+  authErrNotVerified: "Please verify your email first",
+  verifyDevNote: "Demo mode — your code is",
 };
 
 const ES: Record<TranslationKey, string> = {
@@ -240,6 +250,16 @@ const ES: Record<TranslationKey, string> = {
   authErrInvalid: "Correo o contraseña incorrectos",
   authErrServer: "Algo salió mal. Inténtalo de nuevo",
   logout: "Cerrar sesión",
+  verifyTitle: "Verifica tu correo",
+  verifySub: "Enviamos un código de 4 dígitos a",
+  verifyBtn: "Verificar",
+  verifyResend: "¿No lo recibiste? Reenviar código",
+  verifyResent: "Se ha enviado un nuevo código",
+  verifyChangeEmail: "¿Correo incorrecto? Volver",
+  authErrCode: "Código incorrecto. Revísalo e inténtalo de nuevo",
+  authErrExpired: "El código expiró. Solicita uno nuevo",
+  authErrNotVerified: "Primero verifica tu correo",
+  verifyDevNote: "Modo demo: tu código es",
 };
 
 const DE: Record<TranslationKey, string> = {
@@ -360,6 +380,16 @@ const DE: Record<TranslationKey, string> = {
   authErrInvalid: "E-Mail oder Passwort falsch",
   authErrServer: "Etwas ist schiefgelaufen. Bitte erneut versuchen",
   logout: "Abmelden",
+  verifyTitle: "E-Mail bestätigen",
+  verifySub: "Wir haben einen 4-stelligen Code gesendet an",
+  verifyBtn: "Bestätigen",
+  verifyResend: "Nicht erhalten? Code erneut senden",
+  verifyResent: "Ein neuer Code wurde gesendet",
+  verifyChangeEmail: "Falsche E-Mail? Zurück",
+  authErrCode: "Falscher Code — bitte überprüfen",
+  authErrExpired: "Code abgelaufen — neuen anfordern",
+  authErrNotVerified: "Bitte bestätige zuerst deine E-Mail",
+  verifyDevNote: "Demo-Modus — dein Code ist",
 };
 
 const FR: Record<TranslationKey, string> = {
@@ -480,6 +510,16 @@ const FR: Record<TranslationKey, string> = {
   authErrInvalid: "E-mail ou mot de passe incorrect",
   authErrServer: "Une erreur est survenue. Veuillez réessayer",
   logout: "Se déconnecter",
+  verifyTitle: "Vérifiez votre e-mail",
+  verifySub: "Nous avons envoyé un code à 4 chiffres à",
+  verifyBtn: "Vérifier",
+  verifyResend: "Pas reçu ? Renvoyer le code",
+  verifyResent: "Un nouveau code a été envoyé",
+  verifyChangeEmail: "Mauvais e-mail ? Retour",
+  authErrCode: "Code incorrect — vérifiez et réessayez",
+  authErrExpired: "Code expiré — demandez-en un nouveau",
+  authErrNotVerified: "Veuillez d'abord vérifier votre e-mail",
+  verifyDevNote: "Mode démo — votre code est",
 };
 
 const IT: Record<TranslationKey, string> = {
@@ -600,6 +640,16 @@ const IT: Record<TranslationKey, string> = {
   authErrInvalid: "Email o password errati",
   authErrServer: "Qualcosa è andato storto. Riprova",
   logout: "Esci",
+  verifyTitle: "Verifica la tua email",
+  verifySub: "Abbiamo inviato un codice di 4 cifre a",
+  verifyBtn: "Verifica",
+  verifyResend: "Non l'hai ricevuto? Reinvia il codice",
+  verifyResent: "È stato inviato un nuovo codice",
+  verifyChangeEmail: "Email sbagliata? Torna indietro",
+  authErrCode: "Codice errato — controlla e riprova",
+  authErrExpired: "Codice scaduto — richiedine uno nuovo",
+  authErrNotVerified: "Prima verifica la tua email",
+  verifyDevNote: "Modalità demo — il tuo codice è",
 };
 
 const PT: Record<TranslationKey, string> = {
@@ -720,6 +770,16 @@ const PT: Record<TranslationKey, string> = {
   authErrInvalid: "E-mail ou senha incorretos",
   authErrServer: "Algo deu errado. Tente novamente",
   logout: "Sair",
+  verifyTitle: "Verifique seu e-mail",
+  verifySub: "Enviamos um código de 4 dígitos para",
+  verifyBtn: "Verificar",
+  verifyResend: "Não recebeu? Reenviar código",
+  verifyResent: "Um novo código foi enviado",
+  verifyChangeEmail: "E-mail errado? Voltar",
+  authErrCode: "Código incorreto — verifique e tente novamente",
+  authErrExpired: "Código expirado — solicite um novo",
+  authErrNotVerified: "Verifique seu e-mail primeiro",
+  verifyDevNote: "Modo demo — seu código é",
 };
 
 const NL: Record<TranslationKey, string> = {
@@ -840,6 +900,16 @@ const NL: Record<TranslationKey, string> = {
   authErrInvalid: "E-mail of wachtwoord onjuist",
   authErrServer: "Er ging iets mis. Probeer het opnieuw",
   logout: "Uitloggen",
+  verifyTitle: "Verifieer je e-mail",
+  verifySub: "We hebben een 4-cijferige code gestuurd naar",
+  verifyBtn: "Verifiëren",
+  verifyResend: "Niet ontvangen? Code opnieuw sturen",
+  verifyResent: "Er is een nieuwe code verzonden",
+  verifyChangeEmail: "Verkeerde e-mail? Terug",
+  authErrCode: "Onjuiste code — controleer en probeer opnieuw",
+  authErrExpired: "Code verlopen — vraag een nieuwe aan",
+  authErrNotVerified: "Verifieer eerst je e-mail",
+  verifyDevNote: "Demomodus — je code is",
 };
 
 const PL: Record<TranslationKey, string> = {
@@ -960,6 +1030,16 @@ const PL: Record<TranslationKey, string> = {
   authErrInvalid: "Nieprawidłowy e-mail lub hasło",
   authErrServer: "Coś poszło nie tak. Spróbuj ponownie",
   logout: "Wyloguj się",
+  verifyTitle: "Zweryfikuj swój e-mail",
+  verifySub: "Wysłaliśmy 4-cyfrowy kod na",
+  verifyBtn: "Zweryfikuj",
+  verifyResend: "Nie dotarł? Wyślij kod ponownie",
+  verifyResent: "Wysłano nowy kod",
+  verifyChangeEmail: "Zły e-mail? Wróć",
+  authErrCode: "Nieprawidłowy kod — sprawdź i spróbuj ponownie",
+  authErrExpired: "Kod wygasł — poproś o nowy",
+  authErrNotVerified: "Najpierw zweryfikuj swój e-mail",
+  verifyDevNote: "Tryb demo — twój kod to",
 };
 
 const TR: Record<TranslationKey, string> = {
@@ -1080,6 +1160,16 @@ const TR: Record<TranslationKey, string> = {
   authErrInvalid: "E-posta veya şifre hatalı",
   authErrServer: "Bir şeyler ters gitti. Tekrar dene",
   logout: "Çıkış yap",
+  verifyTitle: "E-postanı doğrula",
+  verifySub: "4 haneli bir kod gönderdik:",
+  verifyBtn: "Doğrula",
+  verifyResend: "Gelmedi mi? Kodu tekrar gönder",
+  verifyResent: "Yeni bir kod gönderildi",
+  verifyChangeEmail: "Yanlış e-posta mı? Geri dön",
+  authErrCode: "Hatalı kod — kontrol edip tekrar dene",
+  authErrExpired: "Kodun süresi doldu — yeni bir tane iste",
+  authErrNotVerified: "Önce e-postanı doğrula",
+  verifyDevNote: "Demo modu — kodun:",
 };
 
 const AR: Record<TranslationKey, string> = {
@@ -1200,6 +1290,16 @@ const AR: Record<TranslationKey, string> = {
   authErrInvalid: "البريد الإلكتروني أو كلمة المرور غير صحيحة",
   authErrServer: "حدث خطأ ما. حاول مرة أخرى",
   logout: "تسجيل الخروج",
+  verifyTitle: "تحقّق من بريدك الإلكتروني",
+  verifySub: "أرسلنا رمزاً من 4 أرقام إلى",
+  verifyBtn: "تحقّق",
+  verifyResend: "لم يصلك؟ إعادة إرسال الرمز",
+  verifyResent: "تم إرسال رمز جديد",
+  verifyChangeEmail: "بريد خاطئ؟ رجوع",
+  authErrCode: "رمز غير صحيح — تحقّق وحاول مجدداً",
+  authErrExpired: "انتهت صلاحية الرمز — اطلب رمزاً جديداً",
+  authErrNotVerified: "يرجى تأكيد بريدك الإلكتروني أولاً",
+  verifyDevNote: "وضع تجريبي — رمزك هو",
 };
 
 export const TRANSLATIONS: Record<string, Record<TranslationKey, string>> = {

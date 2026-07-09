@@ -4,6 +4,7 @@ import { Link, useLocation } from "wouter";
 import { Eye, EyeOff, Loader2, Check, ShieldCheck, BadgeCheck, Headphones, Sun, Moon } from "lucide-react";
 import { useLocale } from "@/lib/locale";
 import { useAuth, AuthError } from "@/lib/auth";
+import { setPendingVerify } from "@/pages/VerifyPage";
 
 function Field({
   label, type, placeholder, value, onChange, error, toggle, autoComplete, dark,
@@ -103,7 +104,7 @@ function HexMascot({ dark }: { dark: boolean }) {
 
 export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
   const { t } = useLocale();
-  const { login, register, loginWithGoogle, logout } = useAuth();
+  const { login, register, loginWithGoogle } = useAuth();
   const [googleLoading, setGoogleLoading] = useState(false);
   const [, navigate] = useLocation();
   const isSignup = mode === "signup";
@@ -207,12 +208,12 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
     setSubmitting(true);
     try {
       if (isSignup) {
-        await register(email, password);
-        // Account created — send the user to the sign-in page to log in themselves
-        logout();
+        const res = await register(email, password);
+        // Account created but not active — go to the email verification page
+        setPendingVerify(res.email, res.devCode);
         setSubmitting(false);
         setSuccess(true);
-        setTimeout(() => navigate("/login"), 1200);
+        setTimeout(() => navigate("/verify"), 900);
       } else {
         await login(email, password);
         setSubmitting(false);
@@ -224,6 +225,11 @@ export default function AuthPage({ mode }: { mode: "login" | "signup" }) {
       const code = err instanceof AuthError ? err.code : "server_error";
       if (code === "email_exists") setErrors({ email: t("authErrExists") });
       else if (code === "invalid_credentials") setFormError(t("authErrInvalid"));
+      else if (code === "not_verified") {
+        // Unverified account tried to log in — send them to verify
+        setPendingVerify(email);
+        navigate("/verify");
+      }
       else setFormError(t("authErrServer"));
     }
   };

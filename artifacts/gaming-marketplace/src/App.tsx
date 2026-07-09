@@ -7,6 +7,7 @@ import { AuthProvider } from "@/lib/auth";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import AuthPage from "@/pages/AuthPage";
+import VerifyPage from "@/pages/VerifyPage";
 
 const queryClient = new QueryClient();
 
@@ -16,6 +17,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/login">{() => <AuthPage mode="login" />}</Route>
       <Route path="/signup">{() => <AuthPage mode="signup" />}</Route>
+      <Route path="/verify" component={VerifyPage} />
       <Route component={NotFound} />
     </Switch>
   );

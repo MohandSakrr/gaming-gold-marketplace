@@ -16,11 +16,15 @@ export class AuthError extends Error {
   }
 }
 
+export type RegisterResult = { needsVerification: true; email: string; devCode?: string };
+
 type AuthContextValue = {
   user: AuthUser | null;
   token: string | null;
   login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string) => Promise<void>;
+  register: (email: string, password: string) => Promise<RegisterResult>;
+  verify: (email: string, code: string) => Promise<void>;
+  resendCode: (email: string) => Promise<{ devCode?: string }>;
   loginWithGoogle: () => Promise<void>;
   logout: () => void;
 };
@@ -90,7 +94,7 @@ function demoRandomUsername(): string {
   return `${adj}${noun}${Math.floor(1000 + Math.random() * 9000)}`;
 }
 
-type DemoRecord = { password: string; user: AuthUser };
+type DemoRecord = { password: string; user: AuthUser; verified: boolean; code?: string };
 
 function loadDemoUsers(): Record<string, DemoRecord> {
   try {
@@ -104,20 +108,52 @@ function saveDemoUsers(users: Record<string, DemoRecord>) {
   try { localStorage.setItem(DEMO_USERS_KEY, JSON.stringify(users)); } catch { /* storage unavailable */ }
 }
 
-function demoRegister(email: string, password: string): { token: string; user: AuthUser } {
+function demoCode(): string {
+  return String(Math.floor(1000 + Math.random() * 9000));
+}
+
+// Demo register: creates an unverified account and returns the code to show
+// on screen (no email service available in the browser).
+function demoRegister(email: string, password: string): RegisterResult {
   const users = loadDemoUsers();
   const key = email.trim().toLowerCase();
-  if (users[key]) throw new AuthError("email_exists");
+  if (users[key]?.verified) throw new AuthError("email_exists");
+  const code = demoCode();
   const user: AuthUser = { id: crypto.randomUUID(), email: key, username: demoRandomUsername(), createdAt: new Date().toISOString() };
-  users[key] = { password, user };
+  users[key] = { password, user, verified: false, code };
   saveDemoUsers(users);
-  return { token: `demo-${crypto.randomUUID()}`, user };
+  return { needsVerification: true, email: key, devCode: code };
+}
+
+function demoVerify(email: string, code: string): { token: string; user: AuthUser } {
+  const users = loadDemoUsers();
+  const key = email.trim().toLowerCase();
+  const record = users[key];
+  if (!record) throw new AuthError("not_found");
+  if (!record.verified && record.code !== code) throw new AuthError("invalid_code");
+  record.verified = true;
+  record.code = undefined;
+  users[key] = record;
+  saveDemoUsers(users);
+  return { token: `demo-${crypto.randomUUID()}`, user: record.user };
+}
+
+function demoResend(email: string): { devCode?: string } {
+  const users = loadDemoUsers();
+  const key = email.trim().toLowerCase();
+  const record = users[key];
+  if (!record || record.verified) return {};
+  record.code = demoCode();
+  users[key] = record;
+  saveDemoUsers(users);
+  return { devCode: record.code };
 }
 
 function demoLogin(email: string, password: string): { token: string; user: AuthUser } {
   const users = loadDemoUsers();
   const record = users[email.trim().toLowerCase()];
   if (!record || record.password !== password) throw new AuthError("invalid_credentials");
+  if (!record.verified) throw new AuthError("not_verified");
   return { token: `demo-${crypto.randomUUID()}`, user: record.user };
 }
 
@@ -176,29 +212,71 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } catch { /* storage unavailable */ }
   };
 
+  const apiUnreachable = (err: unknown) =>
+    err instanceof AuthError && (err.code === "network_error" || err.code === "server_error");
+
   const login = async (email: string, password: string) => {
     try {
       persist(await authRequest("/auth/login", email, password));
     } catch (err) {
-      // API unreachable — fall back to browser-local demo accounts
-      if (err instanceof AuthError && (err.code === "network_error" || err.code === "server_error")) {
-        persist(demoLogin(email, password));
-        return;
-      }
+      if (apiUnreachable(err)) { persist(demoLogin(email, password)); return; }
       throw err;
     }
   };
 
-  const register = async (email: string, password: string) => {
+  // Register creates an unverified account and triggers a verification code.
+  // Does NOT log the user in — they must verify first.
+  const register = async (email: string, password: string): Promise<RegisterResult> => {
+    let res: Response;
     try {
-      persist(await authRequest("/auth/register", email, password));
-    } catch (err) {
-      if (err instanceof AuthError && (err.code === "network_error" || err.code === "server_error")) {
-        persist(demoRegister(email, password));
-        return;
-      }
-      throw err;
+      res = await fetch(`${API_URL}/api/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+    } catch {
+      return demoRegister(email, password); // API unreachable
     }
+    let body: { error?: string; needsVerification?: boolean; devCode?: string } = {};
+    try { body = await res.json(); } catch { /* non-JSON */ }
+    if (res.status >= 500) return demoRegister(email, password);
+    if (!res.ok || !body.needsVerification) throw new AuthError(body.error ?? "server_error");
+    return { needsVerification: true, email: email.trim().toLowerCase(), devCode: body.devCode };
+  };
+
+  const verify = async (email: string, code: string) => {
+    let res: Response;
+    try {
+      res = await fetch(`${API_URL}/api/auth/verify`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, code }),
+      });
+    } catch {
+      persist(demoVerify(email, code)); return;
+    }
+    let body: { error?: string; token?: string; user?: AuthUser } = {};
+    try { body = await res.json(); } catch { /* non-JSON */ }
+    if (res.status >= 500) { persist(demoVerify(email, code)); return; }
+    if (!res.ok || !body.token || !body.user) throw new AuthError(body.error ?? "server_error");
+    persist({ token: body.token, user: body.user });
+  };
+
+  const resendCode = async (email: string): Promise<{ devCode?: string }> => {
+    let res: Response;
+    try {
+      res = await fetch(`${API_URL}/api/auth/resend`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+    } catch {
+      return demoResend(email);
+    }
+    if (res.status >= 500) return demoResend(email);
+    let body: { devCode?: string } = {};
+    try { body = await res.json(); } catch { /* non-JSON */ }
+    return { devCode: body.devCode };
   };
 
   const loginWithGoogle = async () => {
@@ -226,7 +304,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = () => persist(null);
 
   return (
-    <AuthContext.Provider value={{ user: auth?.user ?? null, token: auth?.token ?? null, login, register, loginWithGoogle, logout }}>
+    <AuthContext.Provider value={{ user: auth?.user ?? null, token: auth?.token ?? null, login, register, verify, resendCode, loginWithGoogle, logout }}>
       {children}
     </AuthContext.Provider>
   );
