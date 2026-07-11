@@ -35,6 +35,7 @@ export default function VerifyPage() {
   const [notice, setNotice] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [cooldown, setCooldown] = useState(0);
   const inputs = useRef<(HTMLInputElement | null)[]>([]);
 
   // No pending signup — bounce to signup
@@ -42,6 +43,13 @@ export default function VerifyPage() {
     if (!pending?.email) navigate("/signup");
     else inputs.current[0]?.focus();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Resend cooldown countdown
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const timer = setTimeout(() => setCooldown(c => c - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [cooldown]);
 
   const c = darkMode
     ? { pageBg: "#0a0a12", heading: "#ffffff", sub: "rgba(255,255,255,0.5)", box: "rgba(255,255,255,0.04)", border: "rgba(255,255,255,0.14)" }
@@ -93,8 +101,9 @@ export default function VerifyPage() {
   };
 
   const handleResend = async () => {
-    if (!pending?.email) return;
+    if (!pending?.email || cooldown > 0) return;
     setError(null);
+    setCooldown(60);
     const res = await resendCode(pending.email);
     if (res.devCode) { setDevCode(res.devCode); setPendingVerify(pending.email, res.devCode); }
     setNotice(t("verifyResent"));
@@ -159,8 +168,12 @@ export default function VerifyPage() {
             : t("verifyBtn")}
         </button>
 
-        <button onClick={handleResend} className="text-[13px] font-semibold transition-opacity hover:opacity-80 block mx-auto mb-2" style={{ color: "#D5AD68" }}>
-          {t("verifyResend")}
+        <button onClick={handleResend} disabled={cooldown > 0}
+          className="text-[13px] font-semibold transition-opacity block mx-auto mb-2"
+          style={{ color: cooldown > 0 ? c.sub : "#D5AD68", cursor: cooldown > 0 ? "default" : "pointer", opacity: cooldown > 0 ? 0.7 : 1 }}
+          onMouseEnter={e => { if (cooldown <= 0) e.currentTarget.style.opacity = "0.8"; }}
+          onMouseLeave={e => { if (cooldown <= 0) e.currentTarget.style.opacity = "1"; }}>
+          {cooldown > 0 ? `${t("verifyResend")} (${cooldown}s)` : t("verifyResend")}
         </button>
         <button onClick={() => { try { sessionStorage.removeItem(PENDING_KEY); } catch { /* unavailable */ } navigate("/signup"); }}
           className="text-[12px] transition-opacity hover:opacity-80" style={{ color: c.sub }}>
