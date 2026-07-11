@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
-export type AuthUser = { id: string; email: string; username?: string; createdAt?: string };
+export type AuthUser = { id: string; email: string; username?: string; role?: string; createdAt?: string };
 
 // Railway API base. Set VITE_API_URL in Vercel to the deployed API origin;
 // falls back to localhost for local development.

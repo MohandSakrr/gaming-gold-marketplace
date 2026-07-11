@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useLocation } from "wouter";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { Search, Star, Crown, ChevronRight, ChevronDown, X, Clock, TrendingUp, Loader2, BadgeCheck, ArrowLeftRight, MessageSquare, Bell, LogOut, ArrowUp } from "lucide-react";
+import { Search, Star, Crown, ChevronRight, ChevronDown, X, Clock, TrendingUp, Loader2, BadgeCheck, ArrowLeftRight, MessageSquare, Bell, LogOut, ArrowUp, ShieldCheck } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useLocale, LANGUAGES, CURRENCIES } from "@/lib/locale";
@@ -436,6 +436,15 @@ export default function Home() {
                         {user.username && <p className="text-[14px] font-bold truncate" style={{ color: "#D5AD68" }}>{user.username}</p>}
                         <p className="text-[12px] truncate" style={{ color: "rgba(255,255,255,0.5)" }}>{user.email}</p>
                       </div>
+                      {user.role === "admin" && (
+                        <button onClick={() => { setUserMenuOpen(false); navigate("/admin"); }}
+                          className="w-full flex items-center gap-2.5 px-4 py-3 text-[13px] font-semibold transition-colors cursor-pointer"
+                          style={{ color: "#D5AD68", borderBottom: "1px solid rgba(255,255,255,0.07)" }}
+                          onMouseEnter={e => { e.currentTarget.style.background = "rgba(213,173,104,0.1)"; }}
+                          onMouseLeave={e => { e.currentTarget.style.background = "transparent"; }}>
+                          <ShieldCheck className="w-4 h-4" /> Admin Panel
+                        </button>
+                      )}
                       <button onClick={() => { setUserMenuOpen(false); logout(); }}
                         className="w-full flex items-center gap-2.5 px-4 py-3 text-[13px] font-medium transition-colors cursor-pointer"
                         style={{ color: "rgba(255,255,255,0.65)" }}

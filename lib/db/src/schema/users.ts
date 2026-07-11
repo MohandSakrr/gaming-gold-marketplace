@@ -29,6 +29,13 @@ export const usersTable = pgTable("users", {
   ratingCount: integer("rating_count").notNull().default(0),
   salesCount: integer("sales_count").notNull().default(0),
 
+  // Moderation
+  banned: boolean("banned").notNull().default(false),
+  suspendedUntil: timestamp("suspended_until", { withTimezone: true }),
+  adminNote: text("admin_note"),
+  lastLoginAt: timestamp("last_login_at", { withTimezone: true }),
+  signupIp: text("signup_ip"),
+
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 

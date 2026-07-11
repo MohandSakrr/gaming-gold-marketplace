@@ -49,6 +49,11 @@ export async function ensureSchema() {
     `rating_sum integer NOT NULL DEFAULT 0`,
     `rating_count integer NOT NULL DEFAULT 0`,
     `sales_count integer NOT NULL DEFAULT 0`,
+    `banned boolean NOT NULL DEFAULT false`,
+    `suspended_until timestamptz`,
+    `admin_note text`,
+    `last_login_at timestamptz`,
+    `signup_ip text`,
   ];
   for (const col of userColumns) {
     const colName = col.split(" ")[0];

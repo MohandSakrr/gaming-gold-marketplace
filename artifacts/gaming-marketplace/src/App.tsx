@@ -8,6 +8,7 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import AuthPage from "@/pages/AuthPage";
 import VerifyPage from "@/pages/VerifyPage";
+import AdminPage from "@/pages/AdminPage";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,7 @@ function Router() {
       <Route path="/login">{() => <AuthPage mode="login" />}</Route>
       <Route path="/signup">{() => <AuthPage mode="signup" />}</Route>
       <Route path="/verify" component={VerifyPage} />
+      <Route path="/admin" component={AdminPage} />
       <Route component={NotFound} />
     </Switch>
   );

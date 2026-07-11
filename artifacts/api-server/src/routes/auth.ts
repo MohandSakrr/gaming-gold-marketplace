@@ -120,9 +120,13 @@ function signToken(userId: string): string {
   return jwt.sign({ sub: userId }, SECRET, { expiresIn: TOKEN_TTL });
 }
 
-function publicUser(user: { id: string; email: string; username: string; createdAt: Date }) {
-  return { id: user.id, email: user.email, username: user.username, createdAt: user.createdAt };
+function publicUser(user: { id: string; email: string; username: string; role?: string; createdAt: Date }) {
+  return { id: user.id, email: user.email, username: user.username, role: user.role ?? "user", createdAt: user.createdAt };
 }
+
+// The root admin: only the owner of this env var can be admin initially, and
+// only they can grant admin to others. Set ADMIN_EMAIL in Railway.
+const ADMIN_EMAIL = (process.env["ADMIN_EMAIL"] ?? "").trim().toLowerCase();
 
 // ── Register: create an unverified account and email a 4-digit code ──────────
 router.post("/auth/register", wrap(async (req, res) => {
@@ -234,8 +238,19 @@ router.post("/auth/login", wrap(async (req, res) => {
     res.status(403).json({ error: "not_verified", email: user.email });
     return;
   }
+  if (user.banned) {
+    res.status(403).json({ error: "banned" });
+    return;
+  }
 
-  res.json({ token: signToken(user.id), user: publicUser(user) });
+  // Auto-promote the owner email to admin; record login.
+  const shouldPromote = ADMIN_EMAIL && user.email === ADMIN_EMAIL && user.role !== "admin";
+  await db.update(usersTable)
+    .set({ lastLoginAt: new Date(), ...(shouldPromote ? { role: "admin" as const } : {}) })
+    .where(eq(usersTable.id, user.id));
+  const fresh = shouldPromote ? { ...user, role: "admin" as const } : user;
+
+  res.json({ token: signToken(fresh.id), user: publicUser(fresh) });
 }));
 
 const GOOGLE_CLIENT_ID = process.env["GOOGLE_CLIENT_ID"] ?? "";
@@ -322,11 +337,32 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
   res.status(401).json({ error: "unauthorized" });
 }
 
+// Gate for admin-only endpoints. Runs after requireAuth.
+export async function requireAdmin(req: Request, res: Response, next: NextFunction) {
+  const userId = (req as Request & { userId?: string }).userId;
+  if (!userId) { res.status(401).json({ error: "unauthorized" }); return; }
+  const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+  if (!user || user.banned) { res.status(403).json({ error: "forbidden" }); return; }
+  // Owner email is always admin, even if the DB wasn't updated yet.
+  if (user.role !== "admin" && !(ADMIN_EMAIL && user.email === ADMIN_EMAIL)) {
+    res.status(403).json({ error: "forbidden" });
+    return;
+  }
+  next();
+}
+
 router.get("/auth/me", requireAuth, wrap(async (req, res) => {
   const userId = (req as Request & { userId?: string }).userId!;
   const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
   if (!user) {
     res.status(401).json({ error: "unauthorized" });
+    return;
+  }
+  if (user.banned) { res.status(403).json({ error: "banned" }); return; }
+  // Promote the owner if not already done (e.g. session predates ADMIN_EMAIL).
+  if (ADMIN_EMAIL && user.email === ADMIN_EMAIL && user.role !== "admin") {
+    await db.update(usersTable).set({ role: "admin" }).where(eq(usersTable.id, user.id));
+    res.json({ user: publicUser({ ...user, role: "admin" }) });
     return;
   }
   res.json({ user: publicUser(user) });
