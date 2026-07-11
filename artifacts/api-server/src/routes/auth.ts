@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import { z } from "zod";
 import { eq } from "drizzle-orm";
-import { db, pool, usersTable } from "@workspace/db";
+import { db, usersTable } from "@workspace/db";
 import { logger } from "../lib/logger";
 
 const router: IRouter = Router();
@@ -30,28 +30,8 @@ const wrap = (fn: (req: Request, res: Response) => Promise<void>): RequestHandle
     });
   };
 
-// Create/upgrade the users table on boot so a fresh database works without a
-// separate migration step (drizzle-kit push remains the source of truth).
-async function ensureUsersTable() {
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS users (
-      id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-      email text NOT NULL UNIQUE,
-      username text,
-      password_hash text NOT NULL,
-      created_at timestamptz NOT NULL DEFAULT now()
-    )
-  `);
-  await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS username text`);
-  await pool.query(`UPDATE users SET username = 'Player' || substr(md5(random()::text), 1, 8) WHERE username IS NULL`);
-  await pool.query(`CREATE UNIQUE INDEX IF NOT EXISTS users_username_unique ON users (username)`);
-  await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS verified boolean NOT NULL DEFAULT false`);
-  await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS verification_code text`);
-  await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS verification_expires timestamptz`);
-}
-ensureUsersTable()
-  .then(() => logger.info("users table ready"))
-  .catch((err) => logger.error({ err }, "Failed to ensure users table exists"));
+// The users table (and all other tables) are created on boot by ensureSchema()
+// in index.ts, so no per-route bootstrap is needed here.
 
 // ── Email (SMTP / Gmail) ─────────────────────────────────────────────────────
 const SMTP_USER = process.env["SMTP_USER"] ?? "";
