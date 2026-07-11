@@ -18,3 +18,10 @@
 //   export type Post = typeof postsTable.$inferSelect;
 
 export * from "./users";
+export * from "./games";
+export * from "./listings";
+export * from "./orders";
+export * from "./reviews";
+export * from "./messages";
+export * from "./wallet";
+export * from "./favorites";

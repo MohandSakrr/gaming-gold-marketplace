@@ -1,6 +1,8 @@
-import { pgTable, text, timestamp, uuid, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, uuid, boolean, integer, pgEnum } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
+
+export const userRoleEnum = pgEnum("user_role", ["user", "seller", "admin"]);
 
 export const usersTable = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -10,6 +12,23 @@ export const usersTable = pgTable("users", {
   verified: boolean("verified").notNull().default(false),
   verificationCode: text("verification_code"),
   verificationExpires: timestamp("verification_expires", { withTimezone: true }),
+
+  // Marketplace profile
+  role: userRoleEnum("role").notNull().default("user"),
+  displayName: text("display_name"),
+  avatarUrl: text("avatar_url"),
+  bio: text("bio"),
+  country: text("country"),
+
+  // Wallet balance held on the platform, stored in cents (USD base)
+  balanceCents: integer("balance_cents").notNull().default(0),
+
+  // Aggregated seller rating: avg = ratingSum / ratingCount, on a 0-500 scale
+  // (i.e. 1-5 stars ×100) so we can display an Eldorado-style percentage.
+  ratingSum: integer("rating_sum").notNull().default(0),
+  ratingCount: integer("rating_count").notNull().default(0),
+  salesCount: integer("sales_count").notNull().default(0),
+
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
