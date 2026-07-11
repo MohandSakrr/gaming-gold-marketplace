@@ -47,6 +47,10 @@ const mailer = EMAIL_ENABLED
       port: SMTP_PORT,
       secure: SMTP_PORT === 465,
       auth: { user: SMTP_USER, pass: SMTP_PASS },
+      // Fail fast instead of hanging the request if Gmail is unreachable
+      connectionTimeout: 8000,
+      greetingTimeout: 8000,
+      socketTimeout: 10000,
     })
   : null;
 
@@ -73,6 +77,14 @@ async function sendVerificationEmail(email: string, code: string) {
         </div>
         <p style="color:rgba(255,255,255,0.45);font-size:12px;margin:0">This code expires in 15 minutes. If you didn't sign up, you can ignore this email.</p>
       </div>`,
+  });
+}
+
+// Send the verification email in the background so the HTTP response returns
+// immediately even if the SMTP server is slow or unreachable.
+function fireVerificationEmail(email: string, code: string) {
+  sendVerificationEmail(email, code).catch((err) => {
+    logger.error({ err, email }, "Failed to send verification email");
   });
 }
 
@@ -151,7 +163,7 @@ router.post("/auth/register", wrap(async (req, res) => {
     await db.update(usersTable)
       .set({ passwordHash, verificationCode: code, verificationExpires: expires })
       .where(eq(usersTable.id, existing.id));
-    await sendVerificationEmail(email, code);
+    fireVerificationEmail(email, code);
     res.status(200).json({ needsVerification: true, email, devCode: EMAIL_ENABLED ? undefined : code });
     return;
   }
@@ -161,7 +173,7 @@ router.post("/auth/register", wrap(async (req, res) => {
   await db.insert(usersTable).values({
     email, username, passwordHash, verified: false, verificationCode: code, verificationExpires: expires,
   });
-  await sendVerificationEmail(email, code);
+  fireVerificationEmail(email, code);
   res.status(201).json({ needsVerification: true, email, devCode: EMAIL_ENABLED ? undefined : code });
 }));
 
@@ -234,7 +246,9 @@ router.post("/auth/login", wrap(async (req, res) => {
     res.status(401).json({ error: "invalid_credentials" });
     return;
   }
-  if (!user.verified) {
+  const isOwner = Boolean(ADMIN_EMAIL && user.email === ADMIN_EMAIL);
+  // The owner (ADMIN_EMAIL) is trusted — they skip email verification.
+  if (!user.verified && !isOwner) {
     res.status(403).json({ error: "not_verified", email: user.email });
     return;
   }
@@ -243,12 +257,12 @@ router.post("/auth/login", wrap(async (req, res) => {
     return;
   }
 
-  // Auto-promote the owner email to admin; record login.
-  const shouldPromote = ADMIN_EMAIL && user.email === ADMIN_EMAIL && user.role !== "admin";
-  await db.update(usersTable)
-    .set({ lastLoginAt: new Date(), ...(shouldPromote ? { role: "admin" as const } : {}) })
-    .where(eq(usersTable.id, user.id));
-  const fresh = shouldPromote ? { ...user, role: "admin" as const } : user;
+  // Owner is auto-verified + promoted to admin; everyone records last login.
+  const patch: Record<string, unknown> = { lastLoginAt: new Date() };
+  if (isOwner && !user.verified) patch.verified = true;
+  if (isOwner && user.role !== "admin") patch.role = "admin";
+  await db.update(usersTable).set(patch).where(eq(usersTable.id, user.id));
+  const fresh = isOwner ? { ...user, verified: true, role: "admin" as const } : user;
 
   res.json({ token: signToken(fresh.id), user: publicUser(fresh) });
 }));
