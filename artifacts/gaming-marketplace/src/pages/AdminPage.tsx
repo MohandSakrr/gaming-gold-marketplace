@@ -167,9 +167,9 @@ export default function AdminPage() {
               <div key={g.title} className="mb-0.5">
                 <button onClick={() => setCollapsed(c => ({ ...c, [g.title]: !c[g.title] }))}
                   className="w-full flex items-center gap-2 px-5 py-2 text-[11px] font-bold uppercase tracking-wider transition-colors"
-                  style={{ color: "rgba(255,255,255,0.4)" }}>
+                  style={{ color: "rgba(255,255,255,0.9)" }}>
                   <span>{g.title}</span>
-                  <ChevronDown className={`w-3.5 h-3.5 ml-auto transition-transform ${isCollapsed ? "-rotate-90" : ""}`} />
+                  <ChevronDown className={`w-3.5 h-3.5 ml-auto transition-transform ${isCollapsed ? "-rotate-90" : ""}`} style={{ color: "rgba(255,255,255,0.5)" }} />
                 </button>
                 {!isCollapsed && g.items.map(m => {
                   const on = active === m.key;
