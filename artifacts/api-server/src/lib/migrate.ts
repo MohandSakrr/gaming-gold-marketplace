@@ -8,7 +8,7 @@ import { logger } from "./logger";
 export async function ensureSchema() {
   // ── Enums ──────────────────────────────────────────────────────────────────
   const enums: Array<[string, string[]]> = [
-    ["user_role", ["user", "seller", "admin"]],
+    ["user_role", ["user", "seller", "moderator", "support", "finance", "admin", "super_admin"]],
     ["listing_category", ["currency", "accounts", "items", "boosting", "topup", "giftcards"]],
     ["listing_status", ["active", "paused", "sold_out", "deleted"]],
     ["order_status", ["pending", "paid", "delivered", "completed", "disputed", "refunded", "cancelled"]],
@@ -23,6 +23,10 @@ export async function ensureSchema() {
       EXCEPTION WHEN duplicate_object THEN null;
       END $$;
     `);
+    // Add any values missing from an already-existing enum (upgrade path).
+    for (const v of values) {
+      await pool.query(`ALTER TYPE ${name} ADD VALUE IF NOT EXISTS '${v}'`);
+    }
   }
 
   // ── Users (base + verification + marketplace columns) ───────────────────────

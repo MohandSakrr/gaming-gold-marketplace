@@ -67,19 +67,33 @@ router.get("/admin/users", wrap(async (req, res) => {
 
 // ── User actions ─────────────────────────────────────────────────────────────
 const actionSchema = z.object({
-  action: z.enum(["ban", "unban", "verify", "unverify", "make_admin", "make_seller", "make_user"]),
+  action: z.enum([
+    "ban", "unban", "verify", "unverify",
+    "make_user", "make_seller", "make_moderator", "make_support",
+    "make_finance", "make_admin", "make_super_admin",
+  ]),
 });
+
+const ROLE_ACTIONS = new Set(["make_user", "make_seller", "make_moderator", "make_support", "make_finance", "make_admin", "make_super_admin"]);
 
 router.post("/admin/users/:id", wrap(async (req, res) => {
   const parsed = actionSchema.safeParse(req.body);
   if (!parsed.success) { res.status(400).json({ error: "invalid_input" }); return; }
   const id = String(req.params.id);
+  const action = parsed.data.action;
   const selfId = (req as Request & { userId?: string }).userId;
+  const callerRole = (req as Request & { staffRole?: string }).staffRole;
+
+  // Only super_admin may change roles; other staff can moderate but not grant power.
+  if (ROLE_ACTIONS.has(action) && callerRole !== "super_admin") {
+    res.status(403).json({ error: "only_super_admin" });
+    return;
+  }
 
   const [target] = await db.select().from(usersTable).where(eq(usersTable.id, id)).limit(1);
   if (!target) { res.status(404).json({ error: "not_found" }); return; }
-  // Guardrail: an admin cannot ban or demote themselves.
-  if (id === selfId && (parsed.data.action === "ban" || parsed.data.action === "make_user" || parsed.data.action === "make_seller")) {
+  // Guardrail: you cannot ban or demote yourself.
+  if (id === selfId && (action === "ban" || (ROLE_ACTIONS.has(action) && action !== "make_super_admin"))) {
     res.status(400).json({ error: "cannot_modify_self" });
     return;
   }
@@ -89,13 +103,17 @@ router.post("/admin/users/:id", wrap(async (req, res) => {
     unban: { banned: false },
     verify: { verified: true },
     unverify: { verified: false },
-    make_admin: { role: "admin" as const },
-    make_seller: { role: "seller" as const },
     make_user: { role: "user" as const },
-  }[parsed.data.action];
+    make_seller: { role: "seller" as const },
+    make_moderator: { role: "moderator" as const },
+    make_support: { role: "support" as const },
+    make_finance: { role: "finance" as const },
+    make_admin: { role: "admin" as const },
+    make_super_admin: { role: "super_admin" as const },
+  }[action];
 
   await db.update(usersTable).set(patch).where(eq(usersTable.id, id));
-  logger.info({ adminId: selfId, targetId: id, action: parsed.data.action }, "admin action");
+  logger.info({ adminId: selfId, targetId: id, action }, "admin action");
   res.json({ ok: true });
 }));
 

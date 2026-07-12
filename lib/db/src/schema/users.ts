@@ -2,7 +2,16 @@ import { pgTable, text, timestamp, uuid, boolean, integer, pgEnum } from "drizzl
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
 
-export const userRoleEnum = pgEnum("user_role", ["user", "seller", "admin"]);
+// Staff tiers (super_admin has access to everything) plus regular user/seller.
+export const userRoleEnum = pgEnum("user_role", [
+  "user",
+  "seller",
+  "moderator",
+  "support",
+  "finance",
+  "admin",
+  "super_admin",
+]);
 
 export const usersTable = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom(),

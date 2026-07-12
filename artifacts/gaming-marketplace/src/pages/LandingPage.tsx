@@ -436,7 +436,7 @@ export default function Home() {
                         {user.username && <p className="text-[14px] font-bold truncate" style={{ color: "#D5AD68" }}>{user.username}</p>}
                         <p className="text-[12px] truncate" style={{ color: "rgba(255,255,255,0.5)" }}>{user.email}</p>
                       </div>
-                      {user.role === "admin" && (
+                      {["super_admin", "admin", "moderator", "support", "finance"].includes(user.role ?? "") && (
                         <button onClick={() => { setUserMenuOpen(false); navigate("/admin"); }}
                           className="w-full flex items-center gap-2.5 px-4 py-3 text-[13px] font-semibold transition-colors cursor-pointer"
                           style={{ color: "#D5AD68", borderBottom: "1px solid rgba(255,255,255,0.07)" }}

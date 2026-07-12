@@ -136,9 +136,13 @@ function publicUser(user: { id: string; email: string; username: string; role?: 
   return { id: user.id, email: user.email, username: user.username, role: user.role ?? "user", createdAt: user.createdAt };
 }
 
-// The root admin: only the owner of this env var can be admin initially, and
-// only they can grant admin to others. Set ADMIN_EMAIL in Railway.
+// The root super-admin: only the owner of this env var gets full access
+// initially, and only they can grant staff roles. Set ADMIN_EMAIL in Railway.
 const ADMIN_EMAIL = (process.env["ADMIN_EMAIL"] ?? "").trim().toLowerCase();
+
+// Every staff tier (all can reach the admin panel; each sees a scoped subset).
+export const STAFF_ROLES = ["moderator", "support", "finance", "admin", "super_admin"] as const;
+export type StaffRole = (typeof STAFF_ROLES)[number];
 
 // ── Register: create an unverified account and email a 4-digit code ──────────
 router.post("/auth/register", wrap(async (req, res) => {
@@ -257,12 +261,12 @@ router.post("/auth/login", wrap(async (req, res) => {
     return;
   }
 
-  // Owner is auto-verified + promoted to admin; everyone records last login.
+  // Owner is auto-verified + promoted to SUPER ADMIN; everyone records last login.
   const patch: Record<string, unknown> = { lastLoginAt: new Date() };
   if (isOwner && !user.verified) patch.verified = true;
-  if (isOwner && user.role !== "admin") patch.role = "admin";
+  if (isOwner && user.role !== "super_admin") patch.role = "super_admin";
   await db.update(usersTable).set(patch).where(eq(usersTable.id, user.id));
-  const fresh = isOwner ? { ...user, verified: true, role: "admin" as const } : user;
+  const fresh = isOwner ? { ...user, verified: true, role: "super_admin" as const } : user;
 
   res.json({ token: signToken(fresh.id), user: publicUser(fresh) });
 }));
@@ -351,14 +355,30 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
   res.status(401).json({ error: "unauthorized" });
 }
 
-// Gate for admin-only endpoints. Runs after requireAuth.
+// Gate for any staff member (any admin tier). Runs after requireAuth.
 export async function requireAdmin(req: Request, res: Response, next: NextFunction) {
   const userId = (req as Request & { userId?: string }).userId;
   if (!userId) { res.status(401).json({ error: "unauthorized" }); return; }
   const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
   if (!user || user.banned) { res.status(403).json({ error: "forbidden" }); return; }
-  // Owner email is always admin, even if the DB wasn't updated yet.
-  if (user.role !== "admin" && !(ADMIN_EMAIL && user.email === ADMIN_EMAIL)) {
+  const isOwner = Boolean(ADMIN_EMAIL && user.email === ADMIN_EMAIL);
+  if (!isOwner && !STAFF_ROLES.includes(user.role as StaffRole)) {
+    res.status(403).json({ error: "forbidden" });
+    return;
+  }
+  // Expose the caller's role to downstream handlers
+  (req as Request & { staffRole?: string }).staffRole = isOwner ? "super_admin" : user.role;
+  next();
+}
+
+// Stricter gate — only super_admin (or the owner) may pass.
+export async function requireSuperAdmin(req: Request, res: Response, next: NextFunction) {
+  const userId = (req as Request & { userId?: string }).userId;
+  if (!userId) { res.status(401).json({ error: "unauthorized" }); return; }
+  const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+  if (!user || user.banned) { res.status(403).json({ error: "forbidden" }); return; }
+  const isOwner = Boolean(ADMIN_EMAIL && user.email === ADMIN_EMAIL);
+  if (!isOwner && user.role !== "super_admin") {
     res.status(403).json({ error: "forbidden" });
     return;
   }
@@ -374,9 +394,9 @@ router.get("/auth/me", requireAuth, wrap(async (req, res) => {
   }
   if (user.banned) { res.status(403).json({ error: "banned" }); return; }
   // Promote the owner if not already done (e.g. session predates ADMIN_EMAIL).
-  if (ADMIN_EMAIL && user.email === ADMIN_EMAIL && user.role !== "admin") {
-    await db.update(usersTable).set({ role: "admin" }).where(eq(usersTable.id, user.id));
-    res.json({ user: publicUser({ ...user, role: "admin" }) });
+  if (ADMIN_EMAIL && user.email === ADMIN_EMAIL && user.role !== "super_admin") {
+    await db.update(usersTable).set({ role: "super_admin" }).where(eq(usersTable.id, user.id));
+    res.json({ user: publicUser({ ...user, role: "super_admin" }) });
     return;
   }
   res.json({ user: publicUser(user) });

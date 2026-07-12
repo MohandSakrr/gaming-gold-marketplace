@@ -4,7 +4,7 @@ import {
   LayoutDashboard, Users, Store, Package, Gamepad2, ShoppingCart, Scale,
   CreditCard, Wallet, Percent, ShieldAlert, Star, MessageSquare, LifeBuoy,
   Megaphone, FileText, Bell, UserCog, ScrollText, BarChart3, Settings,
-  Search, Loader2, Ban, Check, ShieldCheck, LogOut, X, Menu,
+  Search, Loader2, Ban, Check, ShieldCheck, LogOut, X, Menu, ChevronDown, Crown,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 
@@ -16,29 +16,76 @@ type ModuleKey =
   | "chat" | "support" | "promos" | "cms" | "notifications" | "staff"
   | "audit" | "reports" | "settings";
 
-const MODULES: { key: ModuleKey; label: string; icon: typeof Users; live?: boolean }[] = [
-  { key: "dashboard", label: "Dashboard", icon: LayoutDashboard, live: true },
-  { key: "users", label: "Users", icon: Users, live: true },
-  { key: "sellers", label: "Sellers", icon: Store },
-  { key: "listings", label: "Listings", icon: Package, live: true },
-  { key: "catalog", label: "Games & Catalog", icon: Gamepad2 },
-  { key: "orders", label: "Orders", icon: ShoppingCart, live: true },
-  { key: "disputes", label: "Disputes", icon: Scale },
-  { key: "payments", label: "Payments & Finance", icon: CreditCard },
-  { key: "wallet", label: "Wallet & Payouts", icon: Wallet },
-  { key: "fees", label: "Fees & Commission", icon: Percent },
-  { key: "fraud", label: "Fraud & Risk", icon: ShieldAlert },
-  { key: "reviews", label: "Reviews", icon: Star },
-  { key: "chat", label: "Chat Moderation", icon: MessageSquare },
-  { key: "support", label: "Support Tickets", icon: LifeBuoy },
-  { key: "promos", label: "Promotions", icon: Megaphone },
-  { key: "cms", label: "Content (CMS)", icon: FileText },
-  { key: "notifications", label: "Notifications", icon: Bell },
-  { key: "staff", label: "Staff & Roles", icon: UserCog },
-  { key: "audit", label: "Audit & Security", icon: ScrollText },
-  { key: "reports", label: "Reports & Exports", icon: BarChart3 },
-  { key: "settings", label: "System Settings", icon: Settings },
+// Staff roles, from most to least powerful
+type Role = "super_admin" | "admin" | "moderator" | "support" | "finance";
+const ALL: Role[] = ["super_admin", "admin", "moderator", "support", "finance"];
+
+const ROLE_LABELS: Record<Role, string> = {
+  super_admin: "Super Admin",
+  admin: "Admin",
+  moderator: "Moderator",
+  support: "Support",
+  finance: "Finance",
+};
+
+type Mod = { key: ModuleKey; label: string; icon: typeof Users; live?: boolean; roles: Role[] };
+type Group = { title: string; icon: typeof Users; items: Mod[] };
+
+// Modules organized into collapsible categories, each tagged with the roles
+// allowed to see it. super_admin implicitly sees everything.
+const GROUPS: Group[] = [
+  {
+    title: "Overview", icon: LayoutDashboard, items: [
+      { key: "dashboard", label: "Dashboard", icon: LayoutDashboard, live: true, roles: ALL },
+    ],
+  },
+  {
+    title: "Commerce", icon: ShoppingCart, items: [
+      { key: "orders", label: "Orders", icon: ShoppingCart, live: true, roles: ["super_admin", "admin", "support"] },
+      { key: "listings", label: "Listings / Offers", icon: Package, live: true, roles: ["super_admin", "admin", "moderator"] },
+      { key: "catalog", label: "Games & Catalog", icon: Gamepad2, roles: ["super_admin", "admin"] },
+      { key: "disputes", label: "Disputes", icon: Scale, roles: ["super_admin", "admin", "support"] },
+    ],
+  },
+  {
+    title: "People", icon: Users, items: [
+      { key: "users", label: "Users", icon: Users, live: true, roles: ["super_admin", "admin", "support"] },
+      { key: "sellers", label: "Sellers & KYC", icon: Store, roles: ["super_admin", "admin"] },
+      { key: "staff", label: "Staff & Roles", icon: UserCog, roles: ["super_admin"] },
+    ],
+  },
+  {
+    title: "Finance", icon: Wallet, items: [
+      { key: "payments", label: "Payments", icon: CreditCard, roles: ["super_admin", "admin", "finance"] },
+      { key: "wallet", label: "Wallet & Payouts", icon: Wallet, roles: ["super_admin", "admin", "finance"] },
+      { key: "fees", label: "Fees & Commission", icon: Percent, roles: ["super_admin", "admin", "finance"] },
+    ],
+  },
+  {
+    title: "Trust & Safety", icon: ShieldAlert, items: [
+      { key: "fraud", label: "Fraud & Risk", icon: ShieldAlert, roles: ["super_admin", "admin"] },
+      { key: "reviews", label: "Reviews", icon: Star, roles: ["super_admin", "admin", "moderator"] },
+      { key: "chat", label: "Chat Moderation", icon: MessageSquare, roles: ["super_admin", "admin", "moderator", "support"] },
+      { key: "support", label: "Support Tickets", icon: LifeBuoy, roles: ["super_admin", "admin", "support"] },
+    ],
+  },
+  {
+    title: "Growth", icon: Megaphone, items: [
+      { key: "promos", label: "Promotions", icon: Megaphone, roles: ["super_admin", "admin"] },
+      { key: "cms", label: "Content (CMS)", icon: FileText, roles: ["super_admin", "admin"] },
+      { key: "notifications", label: "Notifications", icon: Bell, roles: ["super_admin", "admin"] },
+    ],
+  },
+  {
+    title: "System", icon: Settings, items: [
+      { key: "reports", label: "Reports & Exports", icon: BarChart3, roles: ["super_admin", "admin", "finance"] },
+      { key: "audit", label: "Audit & Security", icon: ScrollText, roles: ["super_admin"] },
+      { key: "settings", label: "System Settings", icon: Settings, roles: ["super_admin"] },
+    ],
+  },
 ];
+
+const STAFF_ROLES: Role[] = ["super_admin", "admin", "moderator", "support", "finance"];
 
 const money = (cents: number) => `$${(cents / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
@@ -50,11 +97,16 @@ export default function AdminPage() {
   const [, navigate] = useLocation();
   const [active, setActive] = useState<ModuleKey>("dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
 
-  // Access guard — only admins may view this page
+  const role = (user?.role ?? "") as Role;
+  const isStaff = STAFF_ROLES.includes(role);
+  const isSuper = role === "super_admin";
+
+  // Access guard — only staff may view this page
   useEffect(() => {
     if (user === null) navigate("/login");
-    else if (user && user.role !== "admin") navigate("/");
+    else if (user && !STAFF_ROLES.includes(user.role as Role)) navigate("/");
   }, [user, navigate]);
 
   const api = useCallback(async (path: string, init?: RequestInit) => {
@@ -66,11 +118,17 @@ export default function AdminPage() {
     return res.json();
   }, [token]);
 
-  if (!user || user.role !== "admin") {
+  if (!user || !isStaff) {
     return <div className="min-h-screen flex items-center justify-center" style={{ background: "#0a0a12", color: "#fff" }}><Loader2 className="w-6 h-6 animate-spin" /></div>;
   }
 
-  const activeModule = MODULES.find(m => m.key === active)!;
+  // Only groups/items this role can access
+  const visibleGroups = GROUPS
+    .map(g => ({ ...g, items: g.items.filter(m => isSuper || m.roles.includes(role)) }))
+    .filter(g => g.items.length > 0);
+
+  const allItems = visibleGroups.flatMap(g => g.items);
+  const activeModule = allItems.find(m => m.key === active) ?? allItems[0];
 
   return (
     <div className="min-h-screen flex" style={{ background: "#0a0a12", color: "#fff" }}>
@@ -90,18 +148,43 @@ export default function AdminPage() {
           </div>
           <button className="lg:hidden" onClick={() => setSidebarOpen(false)}><X className="w-5 h-5" /></button>
         </div>
-        <nav className="flex-1 overflow-y-auto py-3" style={{ scrollbarWidth: "thin" }}>
-          {MODULES.map(m => {
-            const on = active === m.key;
-            const Icon = m.icon;
+
+        {/* Role badge */}
+        <div className="px-5 py-3 shrink-0" style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+          <div className="flex items-center gap-2 px-3 py-2 rounded-lg" style={{ background: isSuper ? "rgba(213,173,104,0.14)" : "rgba(255,255,255,0.04)", border: isSuper ? "1px solid rgba(213,173,104,0.4)" : "1px solid rgba(255,255,255,0.08)" }}>
+            {isSuper ? <Crown className="w-4 h-4 shrink-0" style={{ color: "#D5AD68" }} /> : <ShieldCheck className="w-4 h-4 shrink-0" style={{ color: "rgba(255,255,255,0.6)" }} />}
+            <div className="min-w-0">
+              <p className="text-[12px] font-bold truncate" style={{ color: isSuper ? "#D5AD68" : "#fff" }}>{ROLE_LABELS[role] ?? role}</p>
+              <p className="text-[10px] truncate" style={{ color: "rgba(255,255,255,0.4)" }}>{user.username ?? user.email}</p>
+            </div>
+          </div>
+        </div>
+
+        <nav className="flex-1 overflow-y-auto py-2" style={{ scrollbarWidth: "thin" }}>
+          {visibleGroups.map(g => {
+            const isCollapsed = collapsed[g.title];
             return (
-              <button key={m.key} onClick={() => { setActive(m.key); setSidebarOpen(false); }}
-                className="w-full flex items-center gap-3 px-5 py-2.5 text-[13px] font-medium transition-colors"
-                style={{ background: on ? "rgba(213,173,104,0.12)" : "transparent", color: on ? "#D5AD68" : "rgba(255,255,255,0.65)", borderLeft: on ? "2px solid #D5AD68" : "2px solid transparent" }}>
-                <Icon className="w-[18px] h-[18px] shrink-0" />
-                <span className="truncate">{m.label}</span>
-                {m.live && <span className="ml-auto w-1.5 h-1.5 rounded-full shrink-0" style={{ background: "#22c55e" }} />}
-              </button>
+              <div key={g.title} className="mb-0.5">
+                <button onClick={() => setCollapsed(c => ({ ...c, [g.title]: !c[g.title] }))}
+                  className="w-full flex items-center gap-2 px-5 py-2 text-[11px] font-bold uppercase tracking-wider transition-colors"
+                  style={{ color: "rgba(255,255,255,0.4)" }}>
+                  <span>{g.title}</span>
+                  <ChevronDown className={`w-3.5 h-3.5 ml-auto transition-transform ${isCollapsed ? "-rotate-90" : ""}`} />
+                </button>
+                {!isCollapsed && g.items.map(m => {
+                  const on = active === m.key;
+                  const Icon = m.icon;
+                  return (
+                    <button key={m.key} onClick={() => { setActive(m.key); setSidebarOpen(false); }}
+                      className="w-full flex items-center gap-3 px-5 py-2 text-[13px] font-medium transition-colors"
+                      style={{ background: on ? "rgba(213,173,104,0.12)" : "transparent", color: on ? "#D5AD68" : "rgba(255,255,255,0.65)", borderLeft: on ? "2px solid #D5AD68" : "2px solid transparent" }}>
+                      <Icon className="w-[17px] h-[17px] shrink-0" />
+                      <span className="truncate">{m.label}</span>
+                      {m.live && <span className="ml-auto w-1.5 h-1.5 rounded-full shrink-0" style={{ background: "#22c55e" }} />}
+                    </button>
+                  );
+                })}
+              </div>
             );
           })}
         </nav>
@@ -112,7 +195,7 @@ export default function AdminPage() {
       <div className="flex-1 flex flex-col min-w-0">
         <header className="flex items-center gap-3 px-4 md:px-6 h-16 shrink-0" style={{ borderBottom: "1px solid rgba(255,255,255,0.07)", background: "#0c0c16" }}>
           <button className="lg:hidden" onClick={() => setSidebarOpen(true)}><Menu className="w-5 h-5" /></button>
-          <h1 className="text-[17px] font-bold">{activeModule.label}</h1>
+          <h1 className="text-[17px] font-bold">{activeModule?.label}</h1>
           <div className="ml-auto flex items-center gap-3">
             <button onClick={() => navigate("/")} className="text-[13px] px-3 py-1.5 rounded-lg" style={{ border: "1px solid rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.7)" }}>View site</button>
             <div className="w-9 h-9 rounded-full flex items-center justify-center text-[12px] font-bold" style={{ background: "rgba(213,173,104,0.18)", border: "1px solid rgba(213,173,104,0.5)", color: "#D5AD68" }}>
@@ -124,9 +207,9 @@ export default function AdminPage() {
 
         <main className="flex-1 overflow-y-auto p-4 md:p-6">
           {active === "dashboard" && <Dashboard api={api} />}
-          {active === "users" && <UsersModule api={api} />}
-          {active !== "dashboard" && active !== "users" && !activeModule.live && <Placeholder label={activeModule.label} />}
+          {active === "users" && <UsersModule api={api} canManageRoles={isSuper} />}
           {(active === "listings" || active === "orders") && <SimpleTable api={api} kind={active} />}
+          {activeModule && !activeModule.live && <Placeholder label={activeModule.label} />}
         </main>
       </div>
     </div>
@@ -167,11 +250,22 @@ function Dashboard({ api }: { api: (p: string, i?: RequestInit) => Promise<any> 
   );
 }
 
-function UsersModule({ api }: { api: (p: string, i?: RequestInit) => Promise<any> }) {
+const ROLE_PICK: { action: string; label: string }[] = [
+  { action: "make_user", label: "User" },
+  { action: "make_seller", label: "Seller" },
+  { action: "make_moderator", label: "Moderator" },
+  { action: "make_support", label: "Support" },
+  { action: "make_finance", label: "Finance" },
+  { action: "make_admin", label: "Admin" },
+  { action: "make_super_admin", label: "Super Admin" },
+];
+
+function UsersModule({ api, canManageRoles }: { api: (p: string, i?: RequestInit) => Promise<any>; canManageRoles: boolean }) {
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [q, setQ] = useState("");
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState<string | null>(null);
+  const [roleMenu, setRoleMenu] = useState<string | null>(null);
 
   const load = useCallback((query = "") => {
     setLoading(true);
@@ -214,7 +308,12 @@ function UsersModule({ api }: { api: (p: string, i?: RequestInit) => Promise<any
                     <p className="font-semibold">{u.username}</p>
                     <p style={{ color: "rgba(255,255,255,0.45)" }}>{u.email}</p>
                   </td>
-                  <td className="px-4 py-3"><span className="px-2 py-0.5 rounded text-[11px] font-semibold" style={{ background: u.role === "admin" ? "rgba(213,173,104,0.15)" : "rgba(255,255,255,0.07)", color: u.role === "admin" ? "#D5AD68" : "rgba(255,255,255,0.7)" }}>{u.role}</span></td>
+                  <td className="px-4 py-3">
+                    {(() => {
+                      const isStaffRole = ["super_admin", "admin", "moderator", "support", "finance"].includes(u.role);
+                      return <span className="px-2 py-0.5 rounded text-[11px] font-semibold whitespace-nowrap" style={{ background: isStaffRole ? "rgba(213,173,104,0.15)" : "rgba(255,255,255,0.07)", color: isStaffRole ? "#D5AD68" : "rgba(255,255,255,0.7)" }}>{(ROLE_LABELS as Record<string, string>)[u.role] ?? u.role}</span>;
+                    })()}
+                  </td>
                   <td className="px-4 py-3">
                     {u.banned ? <span style={{ color: "#ef4444" }}>Banned</span> : u.verified ? <span style={{ color: "#22c55e" }}>Verified</span> : <span style={{ color: "#eab308" }}>Unverified</span>}
                   </td>
@@ -226,9 +325,22 @@ function UsersModule({ api }: { api: (p: string, i?: RequestInit) => Promise<any
                         ? <IconBtn title="Unban" color="#22c55e" busy={busy === u.id + "unban"} onClick={() => act(u.id, "unban")}><Check className="w-3.5 h-3.5" /></IconBtn>
                         : <IconBtn title="Ban" color="#ef4444" busy={busy === u.id + "ban"} onClick={() => act(u.id, "ban")}><Ban className="w-3.5 h-3.5" /></IconBtn>}
                       {!u.verified && <IconBtn title="Verify" color="#22c55e" busy={busy === u.id + "verify"} onClick={() => act(u.id, "verify")}><ShieldCheck className="w-3.5 h-3.5" /></IconBtn>}
-                      {u.role !== "admin"
-                        ? <IconBtn title="Make admin" color="#D5AD68" busy={busy === u.id + "make_admin"} onClick={() => { if (confirm(`Grant ADMIN access to ${u.email}?`)) act(u.id, "make_admin"); }}>Admin</IconBtn>
-                        : <IconBtn title="Remove admin" color="rgba(255,255,255,0.6)" busy={busy === u.id + "make_user"} onClick={() => act(u.id, "make_user")}>Revoke</IconBtn>}
+                      {canManageRoles && (
+                        <div className="relative">
+                          <IconBtn title="Change role" color="#D5AD68" onClick={() => setRoleMenu(roleMenu === u.id ? null : u.id)}>Role</IconBtn>
+                          {roleMenu === u.id && (
+                            <div className="absolute right-0 top-full mt-1 rounded-lg overflow-hidden z-20" style={{ minWidth: "140px", background: "#1a1a26", border: "1px solid rgba(213,173,104,0.3)", boxShadow: "0 12px 32px rgba(0,0,0,0.6)" }}>
+                              {ROLE_PICK.map(r => (
+                                <button key={r.action} onClick={() => { setRoleMenu(null); if (r.action === "make_super_admin" ? confirm(`Make ${u.email} a SUPER ADMIN (full access)?`) : true) act(u.id, r.action); }}
+                                  className="w-full text-left px-3 py-2 text-[12px] font-medium transition-colors"
+                                  style={{ color: u.role === r.action.replace("make_", "") ? "#D5AD68" : "rgba(255,255,255,0.75)", background: u.role === r.action.replace("make_", "") ? "rgba(213,173,104,0.1)" : "transparent" }}>
+                                  {r.label}
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </td>
                 </tr>
