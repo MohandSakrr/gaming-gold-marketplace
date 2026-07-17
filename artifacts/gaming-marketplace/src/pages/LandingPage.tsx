@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useLocation } from "wouter";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { Search, Star, Crown, ChevronRight, ChevronDown, X, Clock, TrendingUp, Loader2, BadgeCheck, ArrowLeftRight, MessageSquare, Bell, LogOut, ArrowUp, ShieldCheck } from "lucide-react";
+import { Search, Star, Crown, ChevronRight, ChevronDown, X, Clock, TrendingUp, Loader2, BadgeCheck, ArrowLeftRight, MessageSquare, Bell, LogOut, ArrowUp, ShieldCheck, LineChart, Newspaper, ShoppingCart, Tag, ChevronsUp, Truck, Wallet, Settings, Moon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useLocale, LANGUAGES, CURRENCIES } from "@/lib/locale";
@@ -138,6 +138,21 @@ const CATEGORY_DATA: Record<string, { popular: string[]; all: string[] }> = {
   },
 };
 
+// A row in the profile dropdown menu
+function ProfileItem({ icon: Icon, label, badge, accent, onClick }: { icon: typeof Wallet; label: string; badge?: string; accent?: boolean; onClick: () => void }) {
+  return (
+    <button onClick={onClick}
+      className="w-full flex items-center gap-3 px-4 py-2.5 text-[13px] font-medium transition-colors cursor-pointer"
+      style={{ color: accent ? "#D5AD68" : "rgba(255,255,255,0.75)" }}
+      onMouseEnter={e => (e.currentTarget.style.background = accent ? "rgba(213,173,104,0.1)" : "rgba(255,255,255,0.04)")}
+      onMouseLeave={e => (e.currentTarget.style.background = "transparent")}>
+      <Icon className="w-[18px] h-[18px] shrink-0" style={{ color: accent ? "#D5AD68" : "rgba(255,255,255,0.55)" }} />
+      <span>{label}</span>
+      {badge && <span className="ml-auto text-[9px] font-bold px-1.5 py-0.5 rounded" style={{ background: "rgba(34,197,94,0.15)", color: "#22c55e", letterSpacing: "0.05em" }}>{badge}</span>}
+    </button>
+  );
+}
+
 export default function Home() {
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 500], [0, 150]);
@@ -167,6 +182,7 @@ export default function Home() {
   const mobileSearchRef = useRef<HTMLDivElement>(null);
   const mobileDropdownRef = useRef<HTMLDivElement>(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [offlineMode, setOfflineMode] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
   const mobileUserMenuRef = useRef<HTMLDivElement>(null);
 
@@ -431,27 +447,60 @@ export default function Home() {
                     {(user.username ?? user.email).slice(0, 2).toUpperCase()}
                   </button>
                   {userMenuOpen && (
-                    <div className="absolute right-0 top-full mt-2 rounded-xl overflow-hidden z-50" style={{ minWidth: "220px", background: "#14141f", border: "1px solid rgba(213,173,104,0.3)", boxShadow: "0 16px 48px rgba(0,0,0,0.7)" }}>
-                      <div className="px-4 py-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
-                        {user.username && <p className="text-[14px] font-bold truncate" style={{ color: "#D5AD68" }}>{user.username}</p>}
-                        <p className="text-[12px] truncate" style={{ color: "rgba(255,255,255,0.5)" }}>{user.email}</p>
+                    <div className="absolute right-0 top-full mt-2 rounded-2xl overflow-hidden z-50" style={{ width: "300px", background: "#14141f", border: "1px solid rgba(213,173,104,0.3)", boxShadow: "0 20px 56px rgba(0,0,0,0.75)" }}>
+                      {/* Header: avatar, balance, rank + Sell */}
+                      <div className="flex items-center gap-3 px-4 py-4" style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+                        <div className="w-12 h-12 rounded-full flex items-center justify-center text-[15px] font-bold shrink-0" style={{ background: "rgba(213,173,104,0.2)", border: "1px solid rgba(213,173,104,0.5)", color: "#D5AD68" }}>
+                          {(user.username ?? user.email).slice(0, 2).toUpperCase()}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-[14px] font-bold truncate text-white">{user.username ?? user.email}</p>
+                          <p className="text-[13px] font-semibold" style={{ color: "#D5AD68" }}>$0.00</p>
+                          <div className="flex items-center gap-1 mt-0.5">
+                            <Crown className="w-3 h-3" style={{ color: "#D5AD68" }} />
+                            <span className="text-[11px]" style={{ color: "rgba(255,255,255,0.5)" }}>Rookie Rank</span>
+                          </div>
+                        </div>
+                        <button onClick={() => setUserMenuOpen(false)} className="h-9 px-4 text-[13px] font-bold rounded-xl shrink-0 cursor-pointer transition-opacity hover:opacity-90" style={{ background: "#D5AD68", color: "#1a1100" }}>Sell</button>
                       </div>
-                      {["super_admin", "admin", "moderator", "support", "finance"].includes(user.role ?? "") && (
-                        <button onClick={() => { setUserMenuOpen(false); navigate("/admin"); }}
-                          className="w-full flex items-center gap-2.5 px-4 py-3 text-[13px] font-semibold transition-colors cursor-pointer"
-                          style={{ color: "#D5AD68", borderBottom: "1px solid rgba(255,255,255,0.07)" }}
-                          onMouseEnter={e => { e.currentTarget.style.background = "rgba(213,173,104,0.1)"; }}
-                          onMouseLeave={e => { e.currentTarget.style.background = "transparent"; }}>
-                          <ShieldCheck className="w-4 h-4" /> Admin Panel
+
+                      {/* Menu */}
+                      <div className="py-1.5">
+                        {["super_admin", "admin", "moderator", "support", "finance"].includes(user.role ?? "") && (
+                          <ProfileItem icon={ShieldCheck} label="Admin Panel" accent onClick={() => { setUserMenuOpen(false); navigate("/admin"); }} />
+                        )}
+                        <ProfileItem icon={LineChart} label="Analytics" badge="BETA" onClick={() => setUserMenuOpen(false)} />
+                        <ProfileItem icon={Newspaper} label="Newsletter" onClick={() => setUserMenuOpen(false)} />
+                        <ProfileItem icon={ShoppingCart} label="Orders" onClick={() => setUserMenuOpen(false)} />
+                        <ProfileItem icon={Tag} label="Offers" onClick={() => setUserMenuOpen(false)} />
+                        <ProfileItem icon={ChevronsUp} label="Boosting" onClick={() => setUserMenuOpen(false)} />
+                        <div className="my-1.5 mx-4" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }} />
+                        <ProfileItem icon={Truck} label="Automated delivery" onClick={() => setUserMenuOpen(false)} />
+                        <ProfileItem icon={Crown} label="Loyalty" onClick={() => setUserMenuOpen(false)} />
+                        <ProfileItem icon={Wallet} label="Wallet" onClick={() => setUserMenuOpen(false)} />
+                        <ProfileItem icon={MessageSquare} label="Messages" onClick={() => setUserMenuOpen(false)} />
+                        <ProfileItem icon={Bell} label="Notifications" onClick={() => setUserMenuOpen(false)} />
+                        <ProfileItem icon={Star} label="Feedback" onClick={() => setUserMenuOpen(false)} />
+                        <ProfileItem icon={Settings} label="Account settings" onClick={() => setUserMenuOpen(false)} />
+                        <div className="my-1.5 mx-4" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }} />
+                        {/* Offline mode toggle */}
+                        <button onClick={() => setOfflineMode(o => !o)} className="w-full flex items-center gap-3 px-4 py-2.5 text-[13px] font-medium transition-colors cursor-pointer" style={{ color: "rgba(255,255,255,0.75)" }}
+                          onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.04)")} onMouseLeave={e => (e.currentTarget.style.background = "transparent")}>
+                          <Moon className="w-[18px] h-[18px] shrink-0" style={{ color: "rgba(255,255,255,0.55)" }} />
+                          <span>Offline mode</span>
+                          <div className="ml-auto relative shrink-0" style={{ width: "36px", height: "20px" }}>
+                            <div className="absolute inset-0 rounded-full transition-colors" style={{ background: offlineMode ? "#D5AD68" : "rgba(255,255,255,0.18)" }} />
+                            <div className="absolute top-[3px] rounded-full transition-all" style={{ width: "14px", height: "14px", background: "#fff", left: offlineMode ? "19px" : "3px" }} />
+                          </div>
                         </button>
-                      )}
-                      <button onClick={() => { setUserMenuOpen(false); logout(); }}
-                        className="w-full flex items-center gap-2.5 px-4 py-3 text-[13px] font-medium transition-colors cursor-pointer"
-                        style={{ color: "rgba(255,255,255,0.65)" }}
-                        onMouseEnter={e => { e.currentTarget.style.background = "rgba(239,68,68,0.1)"; e.currentTarget.style.color = "#ef4444"; }}
-                        onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "rgba(255,255,255,0.65)"; }}>
-                        <LogOut className="w-4 h-4" /> {t("logout")}
-                      </button>
+                        <button onClick={() => { setUserMenuOpen(false); logout(); }}
+                          className="w-full flex items-center gap-3 px-4 py-2.5 text-[13px] font-medium transition-colors cursor-pointer"
+                          style={{ color: "rgba(255,255,255,0.75)" }}
+                          onMouseEnter={e => { e.currentTarget.style.background = "rgba(239,68,68,0.1)"; e.currentTarget.style.color = "#ef4444"; }}
+                          onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "rgba(255,255,255,0.75)"; }}>
+                          <LogOut className="w-[18px] h-[18px] shrink-0" /> {t("logout")}
+                        </button>
+                      </div>
                     </div>
                   )}
                 </div>
