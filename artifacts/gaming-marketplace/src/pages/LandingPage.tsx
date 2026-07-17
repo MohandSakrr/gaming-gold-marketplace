@@ -448,20 +448,29 @@ export default function Home() {
                   </button>
                   {userMenuOpen && (
                     <div className="absolute right-0 top-full mt-2 rounded-2xl overflow-hidden z-50" style={{ width: "300px", background: "#14141f", border: "1px solid rgba(213,173,104,0.3)", boxShadow: "0 20px 56px rgba(0,0,0,0.75)" }}>
-                      {/* Header: avatar, balance, rank + Sell */}
-                      <div className="flex items-center gap-3 px-4 py-4" style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
-                        <div className="w-12 h-12 rounded-full flex items-center justify-center text-[15px] font-bold shrink-0" style={{ background: "rgba(213,173,104,0.2)", border: "1px solid rgba(213,173,104,0.5)", color: "#D5AD68" }}>
-                          {(user.username ?? user.email).slice(0, 2).toUpperCase()}
+                      {/* Header: avatar + username + ID, Sell button */}
+                      <div className="px-4 pt-4 pb-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+                        <div className="flex items-center gap-3">
+                          <div className="w-12 h-12 rounded-full flex items-center justify-center text-[15px] font-bold shrink-0" style={{ background: "rgba(213,173,104,0.2)", border: "1px solid rgba(213,173,104,0.5)", color: "#D5AD68" }}>
+                            {(user.username ?? user.email).slice(0, 2).toUpperCase()}
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <p className="text-[14px] font-bold truncate text-white">{user.username ?? user.email}</p>
+                            <p className="text-[11px] truncate" style={{ color: "rgba(255,255,255,0.4)" }}>ID: {user.id.replace(/-/g, "").slice(0, 16)}</p>
+                          </div>
+                          <button onClick={() => setUserMenuOpen(false)} className="h-9 px-4 text-[13px] font-bold rounded-xl shrink-0 cursor-pointer transition-opacity hover:opacity-90" style={{ background: "#D5AD68", color: "#1a1100" }}>Sell</button>
                         </div>
-                        <div className="min-w-0 flex-1">
-                          <p className="text-[14px] font-bold truncate text-white">{user.username ?? user.email}</p>
-                          <p className="text-[13px] font-semibold" style={{ color: "#D5AD68" }}>$0.00</p>
-                          <div className="flex items-center gap-1 mt-0.5">
-                            <Crown className="w-3 h-3" style={{ color: "#D5AD68" }} />
-                            <span className="text-[11px]" style={{ color: "rgba(255,255,255,0.5)" }}>Rookie Rank</span>
+                        {/* Balance | Points row */}
+                        <div className="grid grid-cols-2 mt-3.5">
+                          <div className="text-center">
+                            <p className="text-[15px] font-bold" style={{ color: "#D5AD68" }}>$ 0.00 <span className="text-[11px] font-medium" style={{ color: "rgba(255,255,255,0.4)" }}>USD</span></p>
+                            <p className="text-[11px]" style={{ color: "rgba(255,255,255,0.45)" }}>Balance</p>
+                          </div>
+                          <div className="text-center" style={{ borderLeft: "1px solid rgba(255,255,255,0.1)" }}>
+                            <p className="text-[15px] font-bold text-white">0</p>
+                            <p className="text-[11px]" style={{ color: "rgba(255,255,255,0.45)" }}>Points</p>
                           </div>
                         </div>
-                        <button onClick={() => setUserMenuOpen(false)} className="h-9 px-4 text-[13px] font-bold rounded-xl shrink-0 cursor-pointer transition-opacity hover:opacity-90" style={{ background: "#D5AD68", color: "#1a1100" }}>Sell</button>
                       </div>
 
                       {/* Menu */}
