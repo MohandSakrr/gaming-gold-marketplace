@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useLocation } from "wouter";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { Search, Star, Crown, ChevronRight, ChevronDown, X, Clock, TrendingUp, Loader2, BadgeCheck, ArrowLeftRight, MessageSquare, Bell, LogOut, ArrowUp, ShieldCheck, LineChart, Newspaper, ShoppingCart, Tag, ChevronsUp, Truck, Wallet, Settings, Moon } from "lucide-react";
+import { Search, Star, Crown, ChevronRight, ChevronDown, X, Clock, TrendingUp, Loader2, BadgeCheck, ArrowLeftRight, MessageSquare, Bell, LogOut, ArrowUp, ShieldCheck, ShoppingCart, Tag, ChevronsUp, Truck, Wallet, Settings, Moon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useLocale, LANGUAGES, CURRENCIES } from "@/lib/locale";
@@ -478,8 +478,6 @@ export default function Home() {
                         {["super_admin", "admin", "moderator", "support", "finance"].includes(user.role ?? "") && (
                           <ProfileItem icon={ShieldCheck} label="Admin Panel" accent onClick={() => { setUserMenuOpen(false); navigate("/admin"); }} />
                         )}
-                        <ProfileItem icon={LineChart} label="Analytics" badge="BETA" onClick={() => setUserMenuOpen(false)} />
-                        <ProfileItem icon={Newspaper} label="Newsletter" onClick={() => setUserMenuOpen(false)} />
                         <ProfileItem icon={ShoppingCart} label="Orders" onClick={() => setUserMenuOpen(false)} />
                         <ProfileItem icon={Tag} label="Offers" onClick={() => setUserMenuOpen(false)} />
                         <ProfileItem icon={ChevronsUp} label="Boosting" onClick={() => setUserMenuOpen(false)} />
