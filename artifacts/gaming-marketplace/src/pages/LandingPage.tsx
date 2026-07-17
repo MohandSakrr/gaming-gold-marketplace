@@ -422,21 +422,21 @@ export default function Home() {
                   style={{ color: "rgba(255,255,255,0.65)" }}
                   onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.color = "#D5AD68"; }}
                   onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "rgba(255,255,255,0.65)"; }}>
-                  <ArrowLeftRight className="w-5 h-5" />
+                  <ArrowLeftRight className="w-[18px] h-[18px]" />
                 </button>
                 {/* Messages */}
                 <button className="w-10 h-10 rounded-full flex items-center justify-center transition-all cursor-pointer" title="Messages"
                   style={{ color: "rgba(255,255,255,0.65)" }}
                   onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.color = "#D5AD68"; }}
                   onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "rgba(255,255,255,0.65)"; }}>
-                  <MessageSquare className="w-5 h-5" />
+                  <MessageSquare className="w-[18px] h-[18px]" />
                 </button>
                 {/* Notifications */}
                 <button className="w-10 h-10 rounded-full flex items-center justify-center transition-all cursor-pointer relative" title="Notifications"
                   style={{ color: "rgba(255,255,255,0.65)" }}
                   onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.color = "#D5AD68"; }}
                   onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "rgba(255,255,255,0.65)"; }}>
-                  <Bell className="w-5 h-5" />
+                  <Bell className="w-[18px] h-[18px]" />
                   <span className="absolute w-2 h-2 rounded-full" style={{ top: "9px", right: "10px", background: "#D5AD68", boxShadow: "0 0 6px rgba(213,173,104,0.8)" }} />
                 </button>
                 {/* Avatar + dropdown */}
